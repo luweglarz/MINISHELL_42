@@ -4,7 +4,7 @@ NAME = minishell
 
 FLAGS = -Wall -Wextra -Werror
 
-SRCS  =   
+SRCS  =   main.c
 
 RM	= rm -f
 
@@ -18,7 +18,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@ranlib $(NAME)
-	@$(CC) main.c -o minishell $(NAME)
+	@$(CC) -lreadline main.c -o minishell $(NAME)
 
 clean:
 	$(RM) $(OBJS)
