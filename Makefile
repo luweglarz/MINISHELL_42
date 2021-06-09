@@ -1,10 +1,10 @@
 CC = clang
 
-NAME = minishell
+NAME = minishell.a
 
 FLAGS = -Wall -Wextra -Werror
 
-SRCS  =   main.c srcs/lib/lib_utils.c srcs/lib/lst_utils.c srcs/parsing_line.c srcs/builtin/echo.c
+SRCS  =   main.c srcs/lib/lib_utils.c srcs/lib/lst_utils.c srcs/parsing_line.c srcs/builtins/echo.c srcs/builtins/pwd.c
 
 RM	= rm -f
 

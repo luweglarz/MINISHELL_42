@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/09 14:30:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/09 17:01:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int main(void)
 	{
 		cmd_init(&cmd);
         line = get_line();
-		parse_line(line);
+		//parse_line(line);
+		if (strncmp(line, "pwd", 3) == 0)
+		{
+			cmd.builtin = ft_strdup("pwd");
+			builtin_pwd(cmd);
+		}
 	}
 }
