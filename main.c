@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/08 14:53:39 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/09 14:30:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,22 @@ char    *get_line()
     return (line);
 }
 
+void	cmd_init(t_cmd *cmd)
+{
+	cmd->arg = NULL;
+	cmd->builtin = NULL;
+	cmd->option = NULL;
+}
+
 int main(void)
 {
-    char *line;
+	t_cmd 	cmd;
+    char 	*line;
 
     while (1)
+	{
+		cmd_init(&cmd);
         line = get_line();
+		parse_line(line);
+	}
 }

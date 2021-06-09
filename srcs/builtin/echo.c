@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_line.c                                     :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/08 15:08:08 by ugtheven         ###   ########.fr       */
+/*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
+/*   Updated: 2021/06/09 16:18:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int		parse_line(char *line)
+char	*echo(t_cmd cmd)
 {
-	if (line)
-		printf("Test\n");
-	else
-		printf("Test\n");
-	return (1);
+
+	
 }
