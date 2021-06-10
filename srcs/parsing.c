@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/10 15:00:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/10 15:37:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,25 @@ int	check_sep(const char *line)
 	return (1);
 }
 
+int	not_only_space(const char *line)
+{
+	int i;
+	int others;
+
+	i = 0;
+	others = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ')
+			others++;
+		i++;
+	}
+	if (others == 0)
+		return (-1);
+	else
+		return (1);
+}
+
 int	count_command(const char *line)
 {
 	int i;
@@ -87,20 +106,24 @@ int	count_command(const char *line)
 		//si il y a un separateur et que inquote == 0, on compte une commande
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
+			// si cmd_started == 1 cest quune commande est commencer donc que l'on peut la terminer.
 			if (cmd_started == 1)
 			{
 				nb_cmd++;
-				cmd_started == 0;
+				cmd_started = 0;
 			}
 		}
+		//si on arrive a la fin de la string et qu'une commande est commencer, on peut la terminer
 		else if (i + 1 == ft_strlen(line) && cmd_started == 1)
+		{
 			nb_cmd++;
-		else if (inquote == 0 && i < ft_strlen(line))
+			break ;
+		}
+		else if (cmd_started == 0 && i < ft_strlen(line) && not_only_space(&line[i]) == 1)
 			cmd_started = 1;
 		//si il ny a pas de separateur on avance
 		i++;
 	}
-	if (i > 0 && nb_cmd)
 	return (nb_cmd);
 }
 
@@ -110,8 +133,8 @@ void	parse_command(const char *line)
 	t_cmd *cmd;
 	int cmd_index;
 
-	//je recupere le nombre de commande
 	nb_cmd = count_command(line);
+	cmd_index = 0;
 	//si il y a une erreur de separateur, je quitte.
 	if (nb_cmd == -1)
 	{
@@ -120,12 +143,12 @@ void	parse_command(const char *line)
 	}
 	//je malloc ma structure si on a une commande
 	else if (nb_cmd != 0)
-	{
 		cmd = malloc(sizeof(t_cmd) * nb_cmd);
-		cmd_index = 0;
-	}
 	//print test;
 	printf("Il y a %d commandes\n", nb_cmd);
+	//si il ma structure est malloc je la free
+	if (nb_cmd > 0)
+		free(cmd);
 }
 
 int	main(int ac, char **av)
