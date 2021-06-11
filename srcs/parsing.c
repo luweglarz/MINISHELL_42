@@ -6,21 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/10 15:37:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/10 16:47:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_strlen(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 int	check_sep(const char *line)
 {
@@ -33,13 +23,13 @@ int	check_sep(const char *line)
 	{
 		//check si on se trouve dans une simple ou double quote
 		if (line[i] == '\'' && inquote == 0)
-			inquote == 1;
+			inquote = 1;
 		else if (line[i] == '"' && inquote == 0)
-			inquote == 2;
+			inquote = 2;
 		else if (line[i] == '\'' && inquote == 1)
-			inquote == 0;
+			inquote = 0;
 		else if (line[i] == '"' && inquote == 2)
-			inquote == 0;
+			inquote = 0;
 		//si on est sur un sep, on verifie qu'il n'y en ai pas un deuxieme sep derriere sans instruction entre
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
@@ -96,13 +86,13 @@ int	count_command(const char *line)
 	{
 		//check si on se trouve dans une simple ou double quote
 		if (line[i] == '\'' && inquote == 0)
-			inquote == 1;
+			inquote = 1;
 		else if (line[i] == '"' && inquote == 0)
-			inquote == 2;
+			inquote = 2;
 		else if (line[i] == '\'' && inquote == 1)
-			inquote == 0;
+			inquote = 0;
 		else if (line[i] == '"' && inquote == 2)
-			inquote == 0;
+			inquote = 0;
 		//si il y a un separateur et que inquote == 0, on compte une commande
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
@@ -127,33 +117,26 @@ int	count_command(const char *line)
 	return (nb_cmd);
 }
 
-void	parse_command(const char *line)
+t_cmd	*parse_command(const char *line)
 {
-	int	nb_cmd;
 	t_cmd *cmd;
+	int	nb_cmd;
 	int cmd_index;
 
 	nb_cmd = count_command(line);
 	cmd_index = 0;
 	//si il y a une erreur de separateur, je quitte.
-	if (nb_cmd == -1)
-	{
+	if (nb_cmd > 0)
+		cmd = malloc(sizeof(t_cmd) * nb_cmd);
+	//je malloc ma structure si on a une commande
+	else 
+	{		
 		printf("Erreur de separateur\n");
 		exit(0);
 	}
-	//je malloc ma structure si on a une commande
-	else if (nb_cmd != 0)
-		cmd = malloc(sizeof(t_cmd) * nb_cmd);
-	//print test;
 	printf("Il y a %d commandes\n", nb_cmd);
 	//si il ma structure est malloc je la free
-	if (nb_cmd > 0)
-		free(cmd);
-}
-
-int	main(int ac, char **av)
-{
-	(void)ac;
-	parse_command(av[1]);
-	return (0);
+	//if (nb_cmd > 0)
+	//	free(cmd);
+	return (cmd);
 }

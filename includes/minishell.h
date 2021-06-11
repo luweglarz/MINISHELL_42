@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/09 16:56:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/10 22:22:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_cmd
 {
 		char			*builtin;
 		char			*arg;
 		char			*option;
+		bool			error;
+		int				cmd_index
 }				t_cmd;
 
 typedef	struct s_list
@@ -40,6 +43,8 @@ int		parse_line(const char *line);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **alst, t_list *new);
 
-char	*builtin_pwd(t_cmd cmd);
+t_cmd	*parse_command(const char *line);
+
+int		builtin_pwd();
 
 #endif
