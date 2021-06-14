@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 16:53:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 15:10:04 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])

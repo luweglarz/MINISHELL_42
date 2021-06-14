@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/10 16:47:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 15:11:44 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,12 @@ int	count_command(const char *line)
 			}
 		}
 		//si on arrive a la fin de la string et qu'une commande est commencer, on peut la terminer
-		else if (i + 1 == ft_strlen(line) && cmd_started == 1)
+		else if ((size_t)i + 1 == ft_strlen(line) && cmd_started == 1)
 		{
 			nb_cmd++;
 			break ;
 		}
-		else if (cmd_started == 0 && i < ft_strlen(line) && not_only_space(&line[i]) == 1)
+		else if (cmd_started == 0 && (size_t)i < ft_strlen(line) && not_only_space(&line[i]) == 1)
 			cmd_started = 1;
 		//si il ny a pas de separateur on avance
 		i++;

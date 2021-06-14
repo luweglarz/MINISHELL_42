@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/10 22:43:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 15:27:03 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+
+int	ft_isascii(int c)
+{
+	if (c > 0 && c <= 127)
+		return (1);
+	return (0);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	if (!(str = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s[start] && i < len)
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
+}
 
 char    *get_line()
 {
@@ -37,43 +65,61 @@ void	cmd_init(t_cmd *cmd)
 	cmd->cmd_index = 0;
 }
 
-char	*fill_builtin(const char *line)
+void	do_builtin(const char *builtin)
 {
-	if (ft_strncmp(line, "echo", 4) == 0)
-		return (ft_strdup("echo"));
-	else if (ft_strncmp(line, "cd", 4) == 0)
-		return (ft_strdup("cd"));
-	else if (ft_strncmp(line, "pwd", 3) == 0)
-		return (ft_strdup("pwd"));
-	else if (ft_strncmp(line, "export", 6) == 0)
-		return (ft_strdup("export"));
-	else if (ft_strncmp(line, "unset", 5) == 0)
-		return (ft_strdup("unset"));
-	else if (ft_strncmp(line, "env", 3) == 0)
-		return (ft_strdup("env"));
+	if (ft_strncmp(builtin, "echo", 4) == 0)
+		builtin_echo(1);
+	else if (ft_strncmp(builtin, "cd", 4) == 0)
+		builtin_echo(1);
+	else if (ft_strncmp(builtin, "pwd", 3) == 0)
+		builtin_echo(1);
+	else if (ft_strncmp(builtin, "export", 6) == 0)
+		builtin_echo(1);
+	else if (ft_strncmp(builtin, "unset", 5) == 0)
+		builtin_echo(1);
+	else if (ft_strncmp(builtin, "env", 3) == 0)
+		builtin_echo(1);
+}
+
+char    *fill_builtin(const char *line)
+{
+    int     i;
+    char    *ret;
+
+    i = 0;
+    while (ft_isascii(line[i]) == 1)
+        i++;
+    ret = malloc(sizeof(char) * i + 1);
+    if (!ret)
+        return (NULL);
+    ret = ft_substr(line, 0, i);
+    return (ret);
 }
 
 void	fill_cmd_array(const char *line, t_cmd *cmd)
 {
 	int	size;
 	int	index;
+
+    index = 0;
 	while (*line)
 	{
-		if (*line == " ")
-			*line++;
+        printf("index %d\n", index);
+        cmd_init(&cmd[index]);
+		while (*line == ' ')
+			line++;
 		cmd[index].builtin = fill_builtin(line);
-		size = ft_strlen(cmd[index].builtin);
+        printf("builtin dans la func %s\n", cmd[index].builtin);
+        if (cmd[index].builtin)
+		    size = ft_strlen(cmd[index].builtin);
 		while (size--)
-			*line++;
-		if (*line == " ")
-			*line++;
-		if (ft_strncmp(cmd[index].builtin, "echo", 4) == 0)
-
+			line++;
+		while (*line == ' ')
+			line++;
 		cmd[index].cmd_index = index;
 		index++;
-		//*line++;
-	}
-	
+		line++;
+	}	
 }
 
 int main(void)
@@ -84,15 +130,10 @@ int main(void)
 	cmd = NULL;
     while (1)
 	{
-		cmd_init(cmd);
         line = get_line();
 		cmd = parse_command(line);
 		fill_cmd_array(line, cmd);
-		if (strncmp(line, "pwd", 3) == 0)
-		{
-			cmd[0].builtin = ft_strdup("pwd");
-			builtin_pwd(cmd);
-		}
+        printf("%s\n", cmd[0].builtin);
 		if (cmd)
 			free(cmd);
 	}
