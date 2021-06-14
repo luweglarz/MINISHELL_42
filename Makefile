@@ -4,7 +4,7 @@ NAME = minishell.a
 
 FLAGS = -Wall -Wextra -Werror
 
-SRCS  =   main.c srcs/lib/lib_utils.c srcs/lib/lst_utils.c srcs/parsing.c srcs/builtins/echo.c srcs/builtins/pwd.c
+SRCS  =   main.c srcs/lib/lib_utils.c srcs/parsing.c srcs/builtins/echo.c srcs/builtins/pwd.c srcs/cmd/cmd_utils.c srcs/cmd/cmd_funcs.c
 
 RM	= rm -f
 

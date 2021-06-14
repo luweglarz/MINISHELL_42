@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/14 15:10:04 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/14 21:01:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int	ft_isascii(int c)
+{
+	if (c > 0 && c <= 127)
+		return (1);
+	return (0);
 }
 
 char	*ft_strdup(const char *s)
@@ -55,4 +62,24 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	if (!(str = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s[start] && i < len)
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
 }
