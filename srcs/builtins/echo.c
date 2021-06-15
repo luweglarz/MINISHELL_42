@@ -6,15 +6,17 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/06/10 16:44:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 16:52:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		builtin_echo(int option)
+int		builtin_echo(t_cmd cmd)
 {
-	(void)option;
+	(void)cmd;
+	//if (ft_strncmp(cmd.option, "-n", 2))
+		//blablabla
 	//if (strncmp(cmd.option, "-n", 2))
 	//	printf("%s",cmd.arg);
 	//else

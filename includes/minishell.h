@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/14 21:02:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 16:52:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_cmd		*parse_command(const char *line);
 void		cmd_init(t_cmd *cmd);
 void		fill_cmd_array(const char *line, t_cmd *cmd);
 
-int			builtin_echo(int option);
+int			builtin_echo(t_cmd cmd);
 
 
 
