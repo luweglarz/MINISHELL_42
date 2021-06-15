@@ -6,29 +6,46 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 17:18:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 17:29:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	do_builtin(t_cmd cmd)
+void		do_builtin(t_cmd cmd)
 {
-	if (ft_strncmp(cmd.builtin, "echo", 4) == 0)
+	if (ft_strncmp(cmd.builtin, "echo", 4) == 0 && cmd.error == false)
 		builtin_echo(cmd);
-	else if (ft_strncmp(cmd.builtin, "cd", 4) == 0)
+	else if (ft_strncmp(cmd.builtin, "cd", 4) == 0 && cmd.error == false)
 		builtin_echo(cmd);
-	else if (ft_strncmp(cmd.builtin, "pwd", 3) == 0)
+	else if (ft_strncmp(cmd.builtin, "pwd", 3) == 0 && cmd.error == false)
 		builtin_echo(cmd);
-	else if (ft_strncmp(cmd.builtin, "export", 6) == 0)
+	else if (ft_strncmp(cmd.builtin, "export", 6) == 0 && cmd.error == false)
 		builtin_echo(cmd);
-	else if (ft_strncmp(cmd.builtin, "unset", 5) == 0)
+	else if (ft_strncmp(cmd.builtin, "unset", 5) == 0 && cmd.error == false)
 		builtin_echo(cmd);
-	else if (ft_strncmp(cmd.builtin, "env", 3) == 0)
+	else if (ft_strncmp(cmd.builtin, "env", 3) == 0 && cmd.error == false)
 		builtin_echo(cmd);
 }
 
-const char    	*fill_builtin(const char *line, t_cmd *cmd)
+bool		check_builtin(const char *builtin)
+{
+	if (ft_strncmp(builtin, "echo", 4) == 0)
+		return (false);
+	else if (ft_strncmp(builtin, "cd", 4) == 0)
+		return (false);
+	else if (ft_strncmp(builtin, "pwd", 3) == 0 )
+		return (false);
+	else if (ft_strncmp(builtin, "export", 6) == 0)
+		return (false);
+	else if (ft_strncmp(builtin, "unset", 5) == 0)
+		return (false);
+	else if (ft_strncmp(builtin, "env", 3) == 0)
+		return (false);
+	return (true);
+}
+
+const char	*fill_builtin(const char *line, t_cmd *cmd)
 {
     int     i;
 
@@ -36,6 +53,7 @@ const char    	*fill_builtin(const char *line, t_cmd *cmd)
     while (ft_isascii(line[i]) == 1)
         i++;
     cmd->builtin = ft_substr(line, 0, i);
+	cmd->error = check_builtin(cmd->builtin);
 	i = 0;
 	while ((size_t)i++ < ft_strlen(cmd->builtin))
 		line++;
@@ -62,7 +80,7 @@ const char		*fill_arg(const char *line, t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	while (ft_isascii(line[i]) == 1)
+	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
 		i++;
 	cmd->arg = ft_substr(line, 0, i);
 	i = 0;
