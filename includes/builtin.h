@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/16 22:12:16 by user42           ###   ########.fr       */
+/*   Created: 2021/06/16 21:58:19 by user42            #+#    #+#             */
+/*   Updated: 2021/06/16 22:11:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-# include <stdbool.h>
-# include "cmd.h"
-# include "builtin.h"
-# include "parsing.h"
-# include "lib.h"
+# include "minishell.h"
+
+void		execpath(t_cmd cmd);
+void		builtin_echo(t_cmd cmd);
+void		builtin_cd(t_cmd cmd);
+void		builtin_pwd();
+void		builtin_export(t_cmd cmd);
+void		builtin_unset(t_cmd cmd);
+void		builtin_env(t_cmd cmd);
+void		builtin_exit(t_cmd cmd);
 
 #endif
