@@ -21,7 +21,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@ranlib $(NAME)
-	@$(CC) minishell.c -o minishell -lreadline $(NAME)
+	@$(CC) -g -fsanitize=address main.c -o minishell -lreadline $(NAME)
 
 clean:
 	$(RM) $(OBJS)

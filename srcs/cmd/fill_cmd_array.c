@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/16 22:20:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 00:16:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 static const char	*fill_option(const char *line, t_cmd *cmd)
 {
 	int		i;
+	int		j;
 
 	i = 0;
-	if (ft_strncmp(line, "-n ", 3) == 0)
+	line++;
+	while (line[i] == 'n')
+		i++;
+	if (i > 0 && (line[i] == ' ' || line[i] == '\0'))
 	{
-		cmd->option = ft_substr(line, 0, 2);
-		i = 0;
-		while ((size_t)i++ < ft_strlen(cmd->option))
+		cmd->option = ft_strdup("-n");
+		j = 0;
+		while (j++ < i)
 			line++;
 	}
 	return (line);
@@ -66,19 +70,29 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 	index = 0;
 	while (*line)
 	{
+		printf("index %d\n", index);
 		cmd_init(&cmd[index]);
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
+		if (*line++ == ';')
+		{	
+			index++;
+			continue ;
+		}
+		printf("Builtin: %s\n", cmd[index].builtin);
 		while (*line == ' ')
 			line++;
-		if (ft_strncmp(cmd[index].builtin, "echo", 4) == 0)
+		if (ft_strncmp(cmd[index].builtin, "echo", 4) == 0 && *line == '-')
 			line = fill_option(line, &cmd[index]);
+		printf("Option: %s\n", cmd[index].option);
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-		if (*line == ';' || *line == '|')
-			cmd[index].sep = *line;
+		printf("Arg: %s\n", cmd[index].arg);
+		if (*line++ == '|')
+			cmd[index].pipe = true;
+		printf("Sep: %d\n", cmd[index].pipe);
 		index++;
 	}	
 }
