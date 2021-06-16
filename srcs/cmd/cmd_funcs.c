@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_funcs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 17:29:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 13:28:37 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void		do_builtin(t_cmd cmd)
 		builtin_echo(cmd);
 	else if (ft_strncmp(cmd.builtin, "env", 3) == 0 && cmd.error == false)
 		builtin_echo(cmd);
+	//else if (check_path())
+
+//	else
+//		return ;
 }
 
 bool		check_builtin(const char *builtin)
@@ -53,7 +57,6 @@ const char	*fill_builtin(const char *line, t_cmd *cmd)
     while (ft_isascii(line[i]) == 1)
         i++;
     cmd->builtin = ft_substr(line, 0, i);
-	cmd->error = check_builtin(cmd->builtin);
 	i = 0;
 	while ((size_t)i++ < ft_strlen(cmd->builtin))
 		line++;
@@ -81,7 +84,10 @@ const char		*fill_arg(const char *line, t_cmd *cmd)
 
 	i = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
+	{
+		//if sep ou pipe do un truc
 		i++;
+	}
 	cmd->arg = ft_substr(line, 0, i);
 	i = 0;
 	while ((size_t)i++ < ft_strlen(cmd->arg))
@@ -111,8 +117,9 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 			line++;
 		line = fill_arg(line, &cmd[index]);
 		printf("arg: %s\n", cmd[index].arg);
-		while (*line == ' ')
-			line++;
+		//while (*line == ' ')
+		//	line++;
+		
 		cmd[index].cmd_index = index;
 		index++;
 	}	
