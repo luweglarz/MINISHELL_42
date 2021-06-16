@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 16:39:25 by user42            #+#    #+#             */
-/*   Updated: 2021/06/16 21:55:17 by user42           ###   ########.fr       */
+/*   Created: 2021/06/16 21:57:24 by user42            #+#    #+#             */
+/*   Updated: 2021/06/16 21:57:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_pwd()
+void		builtin_env(t_cmd cmd)
 {
-	int		size;
-	char	*buff;
-
-	size = 0;
-	buff = NULL;
-	while (getcwd(buff, size) == NULL)
-		size++;
-	printf("%s\n", getcwd(buff, size));
+	(void)cmd;
 }
