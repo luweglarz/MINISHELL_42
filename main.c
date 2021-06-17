@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/17 18:44:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 18:54:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,10 +215,12 @@ char	*replace_env_var(const char *line, char **env_list)
 	char *expanded;
 	int i;
 	int inquote;
+	int ctoprint;
 
 	expanded = NULL;
 	i = 0;
 	inquote = 0;
+	ctoprint = 0;
 	while (line[i])
 	{
 		inquote = check_inquote(line, i, inquote);
@@ -245,8 +247,9 @@ char	*replace_env_var(const char *line, char **env_list)
 					expanded = del_dollar(&line[i], '"');
 				return (expanded);
 			}
-			i++;
 		}
+		else
+			ctoprint++;
 		i++;
 	}
 	return (expanded);
@@ -286,7 +289,6 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = get_line();
-		//test
 		tmp = replace_env_var(line, env_list);
 		printf("TMP(expanded) = %s\n", tmp);
 		cmd = parse_command(line);
