@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/17 17:45:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 18:44:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,23 @@ char	*strdup_without_space(char *tmp)
 	return (str);
 }
 
-char	*expand_var_content(const char *line, int space)
+char	*ft_getenv(char *var_name, char **env_list)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = ft_strlen(var_name);
+	while (env_list[i] != NULL)
+	{
+		if (env_list[i] && ft_strncmp(env_list[i], var_name, len) == 0 && env_list[i][len] == '=')
+			return (ft_substr(env_list[i], len + 1, ft_strlen(env_list[i])));
+		i++;
+	}
+	return (NULL);
+}
+
+char	*expand_var_content(const char *line, char **env_list, int space)
 {
 	char *var_name;
 	char *var_content;
@@ -127,7 +143,7 @@ char	*expand_var_content(const char *line, int space)
 	tmp = NULL;
 	printf("DEBUG : var_name = %s | len = %zu\n", var_name, ft_strlen(var_name));
 	if (getenv(var_name) != NULL)
-		tmp = ft_strdup(getenv(var_name));
+		tmp = ft_getenv(var_name, env_list);
 	printf("DEBUG : var_content = %s | tmp = %s\n", var_content, tmp);
 	if (var_name)
 		free(var_name);
@@ -194,7 +210,7 @@ char	*del_dollar(const char *line, char quote)
 	return (expanded);
 }
 
-char	*replace_env_var(const char *line)
+char	*replace_env_var(const char *line, char **env_list)
 {
 	char *expanded;
 	int i;
@@ -210,7 +226,10 @@ char	*replace_env_var(const char *line)
 		{
 			//si le $ est dans des doubles guillemets on expand le contenu de la variable dans sa totalite si elle existe
 			if (inquote == 2)
-				expanded = expand_var_content(&line[i], 1);
+			{
+				expanded = expand_var_content(&line[i], env_list, 1);
+				return (expanded);
+			}
 			//si il n'y a pas de guillemet avant le $ je passe au caractere suivant
 			else if (i < (int)ft_strlen(line))
 			{
@@ -218,17 +237,15 @@ char	*replace_env_var(const char *line)
 				//si le $ n'est dans aucun guillemet on expand le contenu de la variable sans les espaces aux extremites si elle existe
 				//et on met un espace a la suite.
 				if (inquote == 0)
-				{
-					expanded = expand_var_content(&line[i], 0);
-				}
+					expanded = expand_var_content(&line[i], env_list, 0);
 				//si le $ est suivi d'une string entre guillement simple ou double, on enleve le dollar
 				else if (inquote == 1)
 					expanded = del_dollar(&line[i], '\'');
 				else
 					expanded = del_dollar(&line[i], '"');
+				return (expanded);
 			}
 			i++;
-			printf("EXPANDED = %s\n", expanded);
 		}
 		i++;
 	}
@@ -241,15 +258,16 @@ char	**init_env(char **envp)
 	int i;
 
 	i = 0;
-	while (envp[i])
+	while (envp[i] != NULL)
 		i++;
-	env_list = malloc(sizeof(char *) * i);
+	env_list = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		env_list[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	env_list[i] = NULL;
 	return (env_list);
 }
 
@@ -258,20 +276,21 @@ int	main(int ac, char **av, char **envp)
 	t_cmd	*cmd;
 	char	*line;
 	char	*tmp;
-	//char	**env_list;
+	char	**env_list;
 
 	cmd = NULL;
 	(void)ac;
 	(void)av;
-	(void)envp;
-	//env_list = init_env(envp);
+	env_list = init_env(envp);
 	signal(SIGINT, sig_handler);
 	while (1)
 	{
-		tmp = get_line();
-		line = replace_env_var(tmp);
-		cmd = parse_command(tmp);
-		fill_cmd_array(tmp, cmd);
+		line = get_line();
+		//test
+		tmp = replace_env_var(line, env_list);
+		printf("TMP(expanded) = %s\n", tmp);
+		cmd = parse_command(line);
+		fill_cmd_array(line, cmd);
 		parse_cmd_array(cmd);
 		if (cmd)
 		{
