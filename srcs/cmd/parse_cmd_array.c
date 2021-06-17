@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 17:30:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 18:37:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	do_builtin(t_cmd cmd)
 		builtin_env(cmd);
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
 		builtin_exit(cmd);
-	else if (check_path(cmd.builtin))
+	else
 		execpath(cmd);
 }
 
@@ -53,12 +53,17 @@ int	create_pipe(int *i, t_cmd *cmd)
 		return (-1);
 	if (pid == 0)
 	{
+		close (fds[1]);
+		dup2(fds[0], 0);
 		do_builtin(cmd[*i++]);
-
+		exit(1);
 	}
 	else
 	{
+		close (fds[0]);
+		dup2(fds[0], 1);
 		do_builtin(cmd[*i]);
+		return (3);
 	}
 	
 	

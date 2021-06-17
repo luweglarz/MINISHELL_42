@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 00:42:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 18:11:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		printf("Arg: %s\n", cmd[index].arg);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
-		printf("Sep: %d\n", cmd[index].pipe);
+		printf("Pipe: %d\n", cmd[index].pipe);
 		index++;
 	}	
 }
