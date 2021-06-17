@@ -6,11 +6,25 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/17 00:37:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 17:41:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_inquote(const char *line, int i, int inquote)
+{
+	if (line[i] == '\'' && inquote == 0)
+		return (1);
+	else if (line[i] == '"' && inquote == 0)
+		return (2);
+	else if (line[i] == '\'' && inquote == 1)
+		return (0);
+	else if (line[i] == '"' && inquote == 2)
+		return (0);
+	else 
+		return (inquote);
+}
 
 int	check_sep(const char *line)
 {
@@ -85,14 +99,7 @@ int	count_command(const char *line)
 	while (line[i])
 	{
 		//check si on se trouve dans une simple ou double quote
-		if (line[i] == '\'' && inquote == 0)
-			inquote = 1;
-		else if (line[i] == '"' && inquote == 0)
-			inquote = 2;
-		else if (line[i] == '\'' && inquote == 1)
-			inquote = 0;
-		else if (line[i] == '"' && inquote == 2)
-			inquote = 0;
+		inquote = check_inquote(line, i, inquote);
 		//si il y a un separateur et que inquote == 0, on compte une commande
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
@@ -127,7 +134,7 @@ t_cmd	*parse_command(const char *line)
 	cmd_index = 0;
 	//si il y a une erreur de separateur, je quitte.
 	if (nb_cmd > 0)
-		cmd = malloc(sizeof(t_cmd ) * nb_cmd);
+		cmd = malloc(sizeof(t_cmd) * nb_cmd);
 	//je malloc ma structure si on a une commande
 	else 
 	{		
