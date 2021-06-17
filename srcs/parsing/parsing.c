@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/16 22:03:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 00:37:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_cmd	*parse_command(const char *line)
 	cmd_index = 0;
 	//si il y a une erreur de separateur, je quitte.
 	if (nb_cmd > 0)
-		cmd = malloc(sizeof(t_cmd) * nb_cmd);
+		cmd = malloc(sizeof(t_cmd ) * nb_cmd);
 	//je malloc ma structure si on a une commande
 	else 
 	{		

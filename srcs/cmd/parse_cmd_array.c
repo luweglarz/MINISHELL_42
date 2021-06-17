@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 00:15:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 17:30:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,43 @@ static void	do_builtin(t_cmd cmd)
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0 && cmd.error == false)
 		builtin_echo(cmd);
 	else if (ft_strncmp(cmd.builtin, "cd", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_cd(cmd);
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_pwd(cmd);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_export(cmd);
 	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_unset(cmd);
 	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_env(cmd);
+	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
+		builtin_exit(cmd);
 	else if (check_path(cmd.builtin))
 		execpath(cmd);
 }
 
-void	create_pipe(void)
+int	create_pipe(int *i, t_cmd *cmd)
 {
+	int			fds[2];
+	__pid_t 	pid;
 
+	if (pipe(fds) != 0)
+		return (-1);
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	if (pid == 0)
+	{
+		do_builtin(cmd[*i++]);
+
+	}
+	else
+	{
+		do_builtin(cmd[*i]);
+	}
 	
+	
+	return (1);
 }
 
 void	parse_cmd_array(t_cmd *cmd)
@@ -53,7 +73,7 @@ void	parse_cmd_array(t_cmd *cmd)
 	while (cmd[i].builtin)
 	{
 		if (cmd[i].pipe == true)
-			create_pipe();
+			create_pipe(&i, cmd);
 		do_builtin(cmd[i]);
 		i++;
 	}

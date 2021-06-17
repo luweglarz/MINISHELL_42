@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 00:16:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 00:42:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static const char	*fill_option(const char *line, t_cmd *cmd)
 	line++;
 	while (line[i] == 'n')
 		i++;
-	if (i > 0 && (line[i] == ' ' || line[i] == '\0'))
+	if (i > 0 && (line[i] == ' ' || line[i] == '\0' || line[i] == ';'))
 	{
 		cmd->option = ft_strdup("-n");
 		j = 0;

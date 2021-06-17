@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 00:14:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 00:28:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cmd_init(t_cmd *cmd)
 	cmd->arg = NULL;
 	cmd->builtin = NULL;
 	cmd->option = NULL;
-	cmd->error = NULL;
+	cmd->error = false;
 	cmd->pipe = false;
 	cmd->cmd_index = 0;
 }
