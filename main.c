@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/17 23:52:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/19 17:35:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ char	*replace_env_var(const char *line, char **env_list)
 			if (inquote == 2)
 				expanded = expand_var_content(line, &i, env_list, 1);
 			//si il n'y a pas de guillemet avant le $ je passe au caractere suivant
-			else if (i < (int)ft_strlen(line) && line[i + 1] && line[1 + 1] != ' ')
+			else if (i < (int)ft_strlen(line) && line[i] != ';' && line[i + 1] && line[1 + 1] != ' ')
 			{
 				inquote = check_inquote(line, i, inquote);
 				//si le $ n'est dans aucun guillemet on expand le contenu de la variable sans les espaces aux extremites si elle existe
@@ -269,6 +269,10 @@ char	*replace_env_var(const char *line, char **env_list)
 			{
 				tmp = ft_strdup(res);
 				free(res);
+				printf("[1]Le leak se trouve ici\n");
+				printf("[DEBUG]tmp  = '%s'\n", tmp);
+				printf("[DEBUG]tmp2 = '%s'\n", tmp2);
+				printf("[DEBUG]res  = '%s'\n", res);
 				res = ft_strjoin(tmp, tmp2);
 				printf("[JOINopt]second passage : tmp = '%s' | tmp2 = '%s'\n", tmp, tmp2);
 				free(tmp);
