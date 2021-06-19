@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/19 17:35:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/19 18:55:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ char	*get_var_name(const char *line, int *index)
 
 	len = 0;
 	i = *index;
-	while (line[*index] && line[*index] != ' ' && line[*index] != '\'' && line[*index] != '"' && line[*index] != ';' && line[*index] != '|')
+	while (line[*index] && line[*index] != ' ' && line[*index] != '\'' && line[*index] != '"' && line[*index] != ';' && line[*index] != '|' && line[*index] != '$')
 	{
 		*index = *index + 1;
 		len++;
 	}
 	var_name = malloc(sizeof(char) * len + 1);
 	j = 0;
-	while (line[i] && line[i] != ' ' && line[i] != '\'' && line[i] != '"' && line[i] != ';' && line[i] != '|')
+	while (line[i] && line[i] != ' ' && line[i] != '\'' && line[i] != '"' && line[i] != ';' && line[i] != '|' && line[i] != '$')
 	{
 		var_name[j] = line[i];
 		i++;
@@ -236,7 +236,7 @@ char	*replace_env_var(const char *line, char **env_list)
 				res = ft_substr(line, 0, i);
 				printf("DEBUT : res = '%s'\n", res);
 			}
-			else
+			else if (tmp2)
 			{
 				tmp2 = ft_substr(line, stop, i - stop);
 				printf("[DEBUT 2EME APPEL] tmp2 = '%s'\n", tmp2);
@@ -261,7 +261,9 @@ char	*replace_env_var(const char *line, char **env_list)
 			}
 			else
 				expanded = ft_strdup("$");
+			//sauf si deux colle
 			stop = i;
+			printf("&line[stop] = %s\n", &line[stop]);
 		}
 		if (expanded || tmp2)
 		{
@@ -269,14 +271,12 @@ char	*replace_env_var(const char *line, char **env_list)
 			{
 				tmp = ft_strdup(res);
 				free(res);
-				printf("[1]Le leak se trouve ici\n");
-				printf("[DEBUG]tmp  = '%s'\n", tmp);
-				printf("[DEBUG]tmp2 = '%s'\n", tmp2);
-				printf("[DEBUG]res  = '%s'\n", res);
 				res = ft_strjoin(tmp, tmp2);
 				printf("[JOINopt]second passage : tmp = '%s' | tmp2 = '%s'\n", tmp, tmp2);
 				free(tmp);
+				tmp = NULL;
 				free(tmp2);
+				tmp2 = NULL;
 				printf("[JOINopt]second passage : res = '%s'\n", res);
 			}
 			if (expanded)
@@ -287,6 +287,7 @@ char	*replace_env_var(const char *line, char **env_list)
 				res = ft_strjoin(tmp, expanded);
 				printf("[JOIN] res = '%s'\n", res);
 				free(tmp);
+				tmp = NULL;
 				free(expanded);
 				expanded = NULL;
 			}
@@ -294,9 +295,10 @@ char	*replace_env_var(const char *line, char **env_list)
 		if (i < (int)ft_strlen(line))
 			i++;
 	}
-	if (stop != i)
+	if (res == NULL)
+		res = ft_substr(line, 0, i);
+	else if (stop != i)
 	{
-		printf("DEBUUUG\n");
 		tmp = ft_strdup(res);
 		tmp2 = ft_substr(line, stop, i - stop);
 		free(res);
