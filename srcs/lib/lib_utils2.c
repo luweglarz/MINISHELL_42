@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.h                                              :+:      :+:    :+:   */
+/*   lib_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 19:55:22 by user42           ###   ########.fr       */
+/*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
+/*   Updated: 2021/06/20 21:45:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_H
-# define CMD_H
+#include "../../includes/minishell.h"
 
-# include "minishell.h"
-
-typedef struct s_cmd
+char	*ft_strchr(const char *s, int c)
 {
-		char			*builtin;
-		char			**arg;
-		char			*option;
-		bool			error;
-		bool			pipe;
-		int				cmd_index;
-}				t_cmd;
+	int	i;
 
-void		cmd_init(t_cmd *cmd);
-void		fill_cmd_array(const char *line, t_cmd *cmd);
-void		parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd);
-
-#endif
+	i = 1;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i + 1);
+		i++;
+	}
+	if (s[i] == '\0' && c == '\0')
+		return ((char *)s + i);
+	return (NULL);
+}

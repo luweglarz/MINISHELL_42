@@ -6,19 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 18:37:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/19 23:05:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	check_path(const char *builtin)
-{
-	(void)builtin;
-	return (false);
-}
-
-static void	do_builtin(t_cmd cmd)
+static void	do_builtin(t_cmd cmd, char **env_list)
 {
 	int		len;
 
@@ -38,10 +32,10 @@ static void	do_builtin(t_cmd cmd)
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
 		builtin_exit(cmd);
 	else
-		execpath(cmd);
+		execpath(cmd, env_list);
 }
 
-int	create_pipe(int *i, t_cmd *cmd)
+static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 {
 	int			fds[2];
 	__pid_t 	pid;
@@ -55,14 +49,19 @@ int	create_pipe(int *i, t_cmd *cmd)
 	{
 		close (fds[1]);
 		dup2(fds[0], 0);
-		do_builtin(cmd[*i++]);
+		close (fds[0]);
+		i++;
+		printf("le builtin1 %s\n", cmd[*i].builtin);
+		do_builtin(cmd[*i], env_list);
 		exit(1);
 	}
 	else
 	{
 		close (fds[0]);
-		dup2(fds[0], 1);
-		do_builtin(cmd[*i]);
+		dup2(fds[1], 1);
+		close (fds[1]);
+		printf("le builtin2 %s\n", cmd[*i].builtin);
+		do_builtin(cmd[*i], env_list);
 		return (3);
 	}
 	
@@ -70,16 +69,20 @@ int	create_pipe(int *i, t_cmd *cmd)
 	return (1);
 }
 
-void	parse_cmd_array(t_cmd *cmd)
+void	parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd)
 {
 	int		i;
 
 	i = 0;
-	while (cmd[i].builtin)
+	while (i < nb_cmd)
 	{
 		if (cmd[i].pipe == true)
-			create_pipe(&i, cmd);
-		do_builtin(cmd[i]);
-		i++;
+		{
+			printf("cmdi %s\n", cmd[i].builtin);
+			create_pipe(&i, cmd, env_list);
+			i++;
+		}
+		do_builtin(cmd[i], env_list);
+		i++;	
 	}
 }

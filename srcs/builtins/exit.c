@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 17:31:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/17 19:16:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void		builtin_exit(t_cmd cmd)
 {
 	// cas particulié quand on envoi des char etc
 	printf("%s\n", cmd.builtin);
-	exit(ft_atoi(cmd.arg));
+	exit(ft_atoi(cmd.arg[0]));
 }
