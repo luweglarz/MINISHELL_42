@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/21 14:16:35 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/21 22:54:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,33 @@ static void	do_builtin(t_cmd cmd, char **env_list)
 static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 {
 	int			fds[2];
-	pid_t 	pid;
+	int			k;
+	pid_t 		pid1;
 
 	if (pipe(fds) != 0)
 		return (-1);
-	pid = fork();
-	if (pid < 0)
+	pid1 = fork();
+	if (pid1 < 0)
 		return (-1);
-	if (pid == 0)
+	k = *i + 1;
+	if (pid1 == 0)
 	{
-		printf("test\n");
+
 		close (fds[1]);
 		dup2(fds[0], 0);
 		close (fds[0]);
-		i++;
-		printf("le builtin1 %s\n", cmd[*i].builtin);
-		do_builtin(cmd[*i], env_list);
-		return (2);
+	//	printf("le builtin2 %s\n", cmd[k].builtin);
+		do_builtin(cmd[k], env_list);
 	}
 	else
 	{
 		close (fds[0]);
 		dup2(fds[1], 1);
 		close (fds[1]);
-		printf("le builtin2 %s\n", cmd[*i].builtin);
+	//	printf("le builtin1 %s\n", cmd[*i].builtin);
 		do_builtin(cmd[*i], env_list);
-		return (3);
+		return 3;
 	}
-	
-	
 	return (1);
 }
 
@@ -79,10 +77,11 @@ void	parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd)
 	{
 		if (cmd[i].pipe == true)
 		{
-			printf("cmdi %s\n", cmd[i].builtin);
 			create_pipe(&i, cmd, env_list);
-			i++;
+			i = i + 2;
 		}
+		if (i >= nb_cmd)
+			break;
 		do_builtin(cmd[i], env_list);
 		i++;	
 	}

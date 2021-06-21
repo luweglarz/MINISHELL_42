@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/06/20 21:42:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/21 21:35:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			ft_isascii(int c);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strchr(const char *s, int c);
+char		*ft_strschr(const char *s, int c, int start);
 char		**ft_split(char const *s, char c);
 
 #endif
