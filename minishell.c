@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/21 13:51:21 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/21 14:17:48 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_line(void)
 	return (line);
 }
 
-void	sig_handler(int signum)
+/*void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -37,7 +37,7 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
+}*/
 
 /*#########################################################*/
 /*#########################  UGO  #########################*/
@@ -70,20 +70,23 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (join);
 }
 
-char	*get_var_name(const char *line)
+char	*get_var_name(const char *line, int *index)
 {
 	char *var_name;
 	int len;
 	int i;
 	int j;
 
-	len = 1;
-	while (line[len] && line[len] != ' ' && line[len] != '\'' && line[len] != '"')
+	len = 0;
+	i = *index;
+	while (line[*index] && line[*index] != ' ' && line[*index] != '\'' && line[*index] != '"' && line[*index] != ';' && line[*index] != '|' && line[*index] != '$')
+	{
+		*index = *index + 1;
 		len++;
-	var_name = malloc(sizeof(char) * len);
-	i = 1;
+	}
+	var_name = malloc(sizeof(char) * len + 1);
 	j = 0;
-	while (line[i] && line[i] != ' ' && line[i] != '\'' && line[i] != '"')
+	while (line[i] && line[i] != ' ' && line[i] != '\'' && line[i] != '"' && line[i] != ';' && line[i] != '|' && line[i] != '$')
 	{
 		var_name[j] = line[i];
 		i++;
@@ -130,33 +133,28 @@ char	*ft_getenv(char *var_name, char **env_list)
 	return (NULL);
 }
 
-char	*expand_var_content(const char *line, char **env_list, int space)
+char	*expand_var_content(const char *line, int *index, char **env_list, int space)
 {
+	char *res;
 	char *var_name;
 	char *var_content;
 	char *tmp;
 	int i;
 	int j;
 
-	var_name = get_var_name(line);
+	var_name = get_var_name(line, index);
 	var_content = NULL;
 	tmp = NULL;
-	printf("DEBUG : var_name = %s | len = %zu\n", var_name, ft_strlen(var_name));
-	if (getenv(var_name) != NULL)
-		tmp = ft_getenv(var_name, env_list);
-	printf("DEBUG : var_content = %s | tmp = %s\n", var_content, tmp);
-	if (var_name)
-		free(var_name);
+	res = NULL;
 	i = 0;
 	j = 0;
+	if (getenv(var_name) != NULL)
+		tmp = ft_getenv(var_name, env_list);
+	if (var_name)
+		free(var_name);
 	//si je dois enlever les espaces, je les enleve et je mets la string entre guillement
 	if (tmp && space == 0)
-	{
 		var_content = strdup_without_space(tmp);
-		if (tmp)
-			free(tmp);
-		return (var_content);
-	}
 	//si je dois conserver les espaces et je mets la string entre guillement
 	else if (tmp && space == 1)
 	{
@@ -169,16 +167,11 @@ char	*expand_var_content(const char *line, char **env_list, int space)
 		}
 		var_content[ft_strlen(tmp) + 1] = '"';
 		var_content[ft_strlen(tmp) + 2] = '\0';
-		if (tmp)
-			free(tmp);
-		return (var_content);
+		
 	}
-	else
-	{
-		if (tmp)
-			free(tmp);
-		return (NULL);
-	}
+	if (tmp)
+		free(tmp);
+	return(var_content);
 }
 
 char	*del_dollar(const char *line, char quote)
@@ -215,44 +208,106 @@ char	*replace_env_var(const char *line, char **env_list)
 	char *expanded;
 	int i;
 	int inquote;
-	int ctoprint;
+	char *res;
+	char *tmp;
+	char *tmp2;
+	int stop;
 
 	expanded = NULL;
 	i = 0;
 	inquote = 0;
-	ctoprint = 0;
+	res = NULL;
+	tmp = NULL;
+	tmp2 = NULL;
+	stop = 0;
 	while (line[i])
 	{
 		inquote = check_inquote(line, i, inquote);
 		if (line[i] == '$' && (inquote == 0 || inquote == 2))
 		{
-			//si le $ est dans des doubles guillemets on expand le contenu de la variable dans sa totalite si elle existe
-			if (inquote == 2)
+			//Si cest la premiere fois on save tout ce qui est avant le dollars (ou "$ ) dans res
+			if (res == NULL && inquote == 2)
 			{
-				expanded = expand_var_content(&line[i], env_list, 1);
-				return (expanded);
+				res = ft_substr(line, 0, i - 1);
+				printf("DEBUT : res = '%s'\n", res);
 			}
-			//si il n'y a pas de guillemet avant le $ je passe au caractere suivant
-			else if (i < (int)ft_strlen(line))
+			else if (res == NULL)
 			{
-				inquote = check_inquote(line, i + 1, inquote);
+				res = ft_substr(line, 0, i);
+				printf("DEBUT : res = '%s'\n", res);
+			}
+			else if (line[stop + i - stop])
+			{
+				tmp2 = ft_substr(line, stop, i - stop);
+				printf("[DEBUT 2EME APPEL] tmp2 = '%s'\n", tmp2);
+			}
+			//si le $ est dans des doubles guillemets on expand le contenu de la variable dans sa totalite si elle existe
+			i++;
+			if (inquote == 2)
+				expanded = expand_var_content(line, &i, env_list, 1);
+			//si il n'y a pas de guillemet avant le $ je passe au caractere suivant
+			else if (i < (int)ft_strlen(line) && line[i] != ';' && line[i + 1] && line[1 + 1] != ' ')
+			{
+				inquote = check_inquote(line, i, inquote);
 				//si le $ n'est dans aucun guillemet on expand le contenu de la variable sans les espaces aux extremites si elle existe
 				//et on met un espace a la suite.
 				if (inquote == 0)
-					expanded = expand_var_content(&line[i], env_list, 0);
+					expanded = expand_var_content(line, &i, env_list, 0);
 				//si le $ est suivi d'une string entre guillement simple ou double, on enleve le dollar
 				else if (inquote == 1)
 					expanded = del_dollar(&line[i], '\'');
 				else
 					expanded = del_dollar(&line[i], '"');
-				return (expanded);
+			}
+			else
+				expanded = ft_strdup("$");
+			//sauf si deux colle
+			stop = i;
+			printf("&line[stop] = '%s'\n", &line[stop]);
+		}
+		if (expanded || tmp2)
+		{
+			if (tmp2)
+			{
+				tmp = ft_strdup(res);
+				free(res);
+				res = NULL;
+				res = ft_strjoin(tmp, tmp2);
+				printf("[JOINopt]second passage : tmp = '%s' | tmp2 = '%s'\n", tmp, tmp2);
+				free(tmp);
+				tmp = NULL;
+				free(tmp2);
+				tmp2 = NULL;
+				printf("[JOINopt]second passage : res = '%s'\n", res);
+			}
+			if (expanded)
+			{
+				tmp = ft_strdup(res);
+				free(res);
+				printf("[JOIN] tmp = '%s' + expanded = '%s'\n", tmp, expanded);
+				res = ft_strjoin(tmp, expanded);
+				printf("[JOIN] res = '%s'\n", res);
+				free(tmp);
+				tmp = NULL;
+				free(expanded);
+				expanded = NULL;
 			}
 		}
-		else
-			ctoprint++;
-		i++;
+		if (i < (int)ft_strlen(line))
+			i++;
 	}
-	return (expanded);
+	if (res == NULL)
+		res = ft_substr(line, 0, i);
+	else if (stop != i)
+	{
+		tmp = ft_strdup(res);
+		tmp2 = ft_substr(line, stop, i - stop);
+		free(res);
+		res = ft_strjoin(tmp, tmp2);
+		free(tmp);
+		free(tmp2);
+	}
+	return (res);
 }
 
 char	**init_env(char **envp)
@@ -286,13 +341,15 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	signal(SIGINT, sig_handler);
+	//signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	while (1)
 	{
 		line = get_line();
 		tmp = replace_env_var(line, env_list);
-		printf("TMP(expanded) = %s\n", tmp);
+		free(line);
+		line = ft_strdup(tmp);
+		free(tmp);
 		nb_cmd = parse_command(line);
 		cmd = malloc(sizeof(t_cmd) * nb_cmd);
 		fill_cmd_array(line, cmd);
