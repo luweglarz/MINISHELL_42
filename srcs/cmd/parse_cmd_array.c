@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/19 23:05:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/21 14:07:44 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	do_builtin(t_cmd cmd, char **env_list)
 static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 {
 	int			fds[2];
-	__pid_t 	pid;
+	pid_t 	pid;
 
 	if (pipe(fds) != 0)
 		return (-1);
@@ -47,13 +47,14 @@ static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 		return (-1);
 	if (pid == 0)
 	{
+		printf("test\n");
 		close (fds[1]);
 		dup2(fds[0], 0);
 		close (fds[0]);
 		i++;
 		printf("le builtin1 %s\n", cmd[*i].builtin);
 		do_builtin(cmd[*i], env_list);
-		exit(1);
+		return (2);
 	}
 	else
 	{
