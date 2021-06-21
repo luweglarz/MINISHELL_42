@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/21 11:28:52 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:21:33 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ char	*replace_env_var(const char *line, char **env_list)
 				expanded = ft_strdup("$");
 			//sauf si deux colle
 			stop = i;
-			printf("&line[stop] = %s\n", &line[stop]);
+			printf("&line[stop] = '%s'\n", &line[stop]);
 		}
 		if (expanded || tmp2)
 		{
