@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/19 18:55:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/21 11:28:52 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_line(void)
 	return (line);
 }
 
-void	sig_handler(int signum)
+/*void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -37,7 +37,7 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
+}*/
 
 /*#########################################################*/
 /*#########################  UGO  #########################*/
@@ -339,7 +339,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	signal(SIGINT, sig_handler);
+	//signal(SIGINT, sig_handler);
 	while (1)
 	{
 		line = get_line();

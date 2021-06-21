@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 17:30:41 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/21 11:29:24 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	do_builtin(t_cmd cmd)
 int	create_pipe(int *i, t_cmd *cmd)
 {
 	int			fds[2];
-	__pid_t 	pid;
+	pid_t 	pid;
 
 	if (pipe(fds) != 0)
 		return (-1);

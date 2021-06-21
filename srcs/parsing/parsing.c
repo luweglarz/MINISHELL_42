@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/17 17:41:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/21 11:37:28 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,12 @@ t_cmd	*parse_command(const char *line)
 
 	nb_cmd = count_command(line);
 	cmd_index = 0;
+	cmd = NULL;
 	//si il y a une erreur de separateur, je quitte.
 	if (nb_cmd > 0)
 		cmd = malloc(sizeof(t_cmd) * nb_cmd);
 	//je malloc ma structure si on a une commande
-	else 
+	else if (nb_cmd < 0)
 	{		
 		printf("Erreur de separateur\n");
 		exit(0);
