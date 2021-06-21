@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 17:46:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/18 00:02:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static const char	*fill_option(const char *line, t_cmd *cmd)
 static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
+	char	*args;
 
 	i = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
@@ -56,9 +57,16 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 			break ;
 		i++;
 	}
-	cmd->arg = ft_substr(line, 0, i);
+	args = ft_substr(line, 0, i);
+	if (ft_strncmp(cmd->builtin, "echo", 4) == 0)
+	{
+		cmd->arg = malloc(sizeof(char*) * 1);
+		cmd->arg[0] = args;
+	}
+	else
+		cmd->arg = ft_split(args, ' ');
 	i = 0;
-	while ((size_t)i++ < ft_strlen(cmd->arg))
+	while ((size_t)i++ < ft_strlen(args))
 		line++;
 	return (line);
 }
@@ -89,10 +97,11 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-		printf("Arg: %s\n", cmd[index].arg);
+		for (int i = 0; cmd[index].arg[i]; i++)
+			printf("Arg: %s\n", cmd[index].arg[i]);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
-		printf("Sep: %d\n\n", cmd[index].pipe);
+		printf("Pipe: %d\n", cmd[index].pipe);
 		index++;
 	}	
 }

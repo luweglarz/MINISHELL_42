@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/21 12:21:33 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:35:34 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,20 +334,23 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	char	*tmp;
 	char	**env_list;
+	int		nb_cmd;
 
 	cmd = NULL;
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
 	//signal(SIGINT, sig_handler);
+	nb_cmd = 0;
 	while (1)
 	{
 		line = get_line();
 		tmp = replace_env_var(line, env_list);
-		printf("\n[MAIN]TMP(res) = '%s'\n", tmp);
-		cmd = parse_command(line);
-		//fill_cmd_array(line, cmd);
-		//parse_cmd_array(cmd);
+		printf("TMP(expanded) = %s\n", tmp);
+		nb_cmd = parse_command(line);
+		cmd = malloc(sizeof(t_cmd) * nb_cmd);
+		fill_cmd_array(line, cmd);
+		parse_cmd_array(cmd, env_list, nb_cmd);
 		if (cmd)
 		{
 			free(cmd);

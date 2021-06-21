@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/21 11:37:28 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:32:01 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,27 +124,19 @@ int	count_command(const char *line)
 	return (nb_cmd);
 }
 
-t_cmd	*parse_command(const char *line)
+int	parse_command(const char *line)
 {
-	t_cmd *cmd;
 	int	nb_cmd;
 	int cmd_index;
 
 	nb_cmd = count_command(line);
 	cmd_index = 0;
-	cmd = NULL;
 	//si il y a une erreur de separateur, je quitte.
-	if (nb_cmd > 0)
-		cmd = malloc(sizeof(t_cmd) * nb_cmd);
-	//je malloc ma structure si on a une commande
-	else if (nb_cmd < 0)
+	if (nb_cmd < 0)
 	{		
 		printf("Erreur de separateur\n");
 		exit(0);
 	}
 	printf("Il y a %d commandes\n", nb_cmd);
-	//si il ma structure est malloc je la free
-	//if (nb_cmd > 0)
-	//	free(cmd);
-	return (cmd);
+	return (nb_cmd);
 }
