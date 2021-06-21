@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/21 12:35:34 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/21 14:02:29 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ char	*replace_env_var(const char *line, char **env_list)
 				res = ft_substr(line, 0, i);
 				printf("DEBUT : res = '%s'\n", res);
 			}
-			else if (tmp2)
+			else if (line[stop + i - stop])
 			{
 				tmp2 = ft_substr(line, stop, i - stop);
 				printf("[DEBUT 2EME APPEL] tmp2 = '%s'\n", tmp2);
@@ -271,6 +271,7 @@ char	*replace_env_var(const char *line, char **env_list)
 			{
 				tmp = ft_strdup(res);
 				free(res);
+				res = NULL;
 				res = ft_strjoin(tmp, tmp2);
 				printf("[JOINopt]second passage : tmp = '%s' | tmp2 = '%s'\n", tmp, tmp2);
 				free(tmp);
@@ -346,7 +347,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		line = get_line();
 		tmp = replace_env_var(line, env_list);
-		printf("TMP(expanded) = %s\n", tmp);
+		free(line);
+		line = ft_strdup(tmp);
+		free(tmp);
 		nb_cmd = parse_command(line);
 		cmd = malloc(sizeof(t_cmd) * nb_cmd);
 		fill_cmd_array(line, cmd);
