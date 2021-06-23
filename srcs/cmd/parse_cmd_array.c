@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/21 22:54:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/23 23:44:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,30 @@ static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 	if (pipe(fds) != 0)
 		return (-1);
 	pid1 = fork();
-	if (pid1 < 0)
+	if (pid1 == -1)
 		return (-1);
 	k = *i + 1;
 	if (pid1 == 0)
 	{
-
+		usleep(700);
 		close (fds[1]);
 		dup2(fds[0], 0);
 		close (fds[0]);
-	//	printf("le builtin2 %s\n", cmd[k].builtin);
-		do_builtin(cmd[k], env_list);
+		if (!cmd[k].arg[0])
+			cmd[k].arg[0] = ft_strschr(cmd[k].builtin, '/', 1);
+		execve(cmd[k].builtin, &cmd[k].arg[0], env_list);
 	}
 	else
 	{
 		close (fds[0]);
 		dup2(fds[1], 1);
 		close (fds[1]);
-	//	printf("le builtin1 %s\n", cmd[*i].builtin);
-		do_builtin(cmd[*i], env_list);
-		return 3;
+		if (!cmd[*i].arg[0])
+			cmd[*i].arg[0] = ft_strschr(cmd[*i].builtin, '/', 1);
+		execve(cmd[*i].builtin, &cmd[*i].arg[0], env_list);
 	}
+	printf("test\n");
+	waitpid(pid1, NULL, 0);
 	return (1);
 }
 
