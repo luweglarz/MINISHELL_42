@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/23 15:56:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/24 12:11:17 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,10 +341,12 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	signal(SIGINT, sig_handler);
+	//signal(SIGINT, sig_handler);
 	nb_cmd = 0;
+	int i = 0;
 	while (1)
 	{
+		printf("i: %d\n", i);
 		line = get_line();
 		tmp = replace_env_var(line, env_list);
 		free(line);
@@ -364,6 +366,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			line = NULL;
 		}
+		i++;
 	}
 	return (1);
 }
