@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/21 14:02:29 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/25 16:21:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ char	*replace_env_var(const char *line, char **env_list)
 				expanded = NULL;
 			}
 		}
-		if (i < (int)ft_strlen(line))
+		if (i < (int)ft_strlen(line) && line[i] != '$')
 			i++;
 	}
 	if (res == NULL)

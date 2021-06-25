@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/21 12:33:29 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/25 16:31:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void	do_builtin(t_cmd cmd, char **env_list)
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
 		builtin_pwd(cmd);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
-		builtin_export(cmd);
+		builtin_export(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
-		builtin_unset(cmd);
+		builtin_unset(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
-		builtin_env(cmd);
+		builtin_env(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
 		builtin_exit(cmd);
 	else
