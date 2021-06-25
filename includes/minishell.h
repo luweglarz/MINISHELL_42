@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/20 21:51:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/25 17:23:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@
 # include "builtin.h"
 # include "parsing.h"
 # include "lib.h"
+# include "env.h"
 
 #endif
