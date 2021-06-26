@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/24 14:27:58 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/25 22:49:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	do_builtin(t_cmd cmd, char **env_list)
+static void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 {
 	int		len;
 
@@ -32,7 +32,7 @@ static void	do_builtin(t_cmd cmd, char **env_list)
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
 		builtin_exit(cmd);
 	else
-		execpath(cmd, env_list);
+		execpath(cmd, env_list, pipe);
 }
 
 static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
@@ -53,10 +53,7 @@ static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 		close (fds[1]);
 		dup2(fds[0], 0);
 		close (fds[0]);
-		if (!cmd[k].arg[0])
-			cmd[k].arg[0] = ft_strschr(cmd[k].builtin, '/', 1);
-		execve(cmd[k].builtin, &cmd[k].arg[0], env_list);
-		exit(-1);
+		do_builtin(cmd[k], env_list, true);
 	}
 	pid2 = fork();
 	if (pid2 == -1)
@@ -66,10 +63,7 @@ static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 		close (fds[0]);
 		dup2(fds[1], 1);
 		close (fds[1]);
-		if (!cmd[*i].arg[0])
-			cmd[*i].arg[0] = ft_strschr(cmd[*i].builtin, '/', 1);
-		execve(cmd[*i].builtin, &cmd[*i].arg[0], env_list);
-		exit(-1);
+		do_builtin(cmd[*i], env_list, true);
 	}
    	close(fds[0]);
     close(fds[1]);
@@ -88,10 +82,11 @@ void	parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd)
 		{
 			create_pipe(&i, cmd, env_list);
 			i = i + 2;
-		}
-		if (i >= nb_cmd)
+			if (i >= nb_cmd)
 			break;
-		do_builtin(cmd[i], env_list);
+		}
+		printf("buil %s\n",cmd[i].builtin);
+		do_builtin(cmd[i], env_list, false);
 		i++;	
 	}
 }

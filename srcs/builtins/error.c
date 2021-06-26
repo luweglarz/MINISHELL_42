@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 21:38:58 by user42           ###   ########.fr       */
+/*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
+/*   Updated: 2021/06/25 22:52:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "../../includes/minishell.h"
 
-# include "minishell.h"
-
-size_t		ft_strlen(const char *str);
-
-int			ft_strcmp(char *s1, char *s2);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_isascii(int c);
-
-char		*ft_strdup(const char *s);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strschr(char *s, int c);
-char		**ft_split(char const *s, char c);
-
-#endif
+void	error(t_cmd *cmd, int error)
+{
+	printf("errorrrrr %d\n", error);
+	if (error = EXECVE_ERROR)
+		write (2, "Execve couldn't execute your command", 36);
+	if (cmd->arg)
+		free(cmd->arg);
+	if (cmd->builtin)
+		free(cmd->builtin);
+	exit(error);
+}
