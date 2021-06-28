@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 22:49:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:02:03 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,39 @@ static void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 
 	len = ft_strlen(cmd.builtin);
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0 && cmd.error == false)
-		builtin_echo(cmd);
+		builtin_echo(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "cd", len) == 0 && cmd.error == false)
-		builtin_cd(cmd);
+		builtin_cd(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
-		builtin_pwd(cmd);
+		builtin_pwd(pipe);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
-		builtin_export(cmd);
+		builtin_export(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
-		builtin_unset(cmd);
+		builtin_unset(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
-		builtin_env(cmd);
+		builtin_env(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
-		builtin_exit(cmd);
+		builtin_exit(cmd, pipe);
 	else
 		execpath(cmd, env_list, pipe);
+}
+
+static void	pipe_ends(int end, t_cmd cmd, int *fds, char **env_list)
+{
+	if (end == STDIN_FILENO)
+	{
+		close (fds[1]);
+		dup2(fds[0], 0);
+		close (fds[0]);
+		do_builtin(cmd, env_list, true);
+	}
+	else if (end == STDOUT_FILENO)
+	{
+		close (fds[0]);
+		dup2(fds[1], 1);
+		close (fds[1]);
+		do_builtin(cmd, env_list, true);
+	}
 }
 
 static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
@@ -49,22 +67,12 @@ static int	create_pipe(int *i, t_cmd *cmd, char **env_list)
 	if (pid1 == -1)
 		return (-1);
 	if (pid1 == 0)
-	{	
-		close (fds[1]);
-		dup2(fds[0], 0);
-		close (fds[0]);
-		do_builtin(cmd[k], env_list, true);
-	}
+	pipe_ends(STDIN_FILENO, cmd[k], fds, env_list);
 	pid2 = fork();
 	if (pid2 == -1)
 		return (-1);
 	if (pid2 == 0)
-	{
-		close (fds[0]);
-		dup2(fds[1], 1);
-		close (fds[1]);
-		do_builtin(cmd[*i], env_list, true);
-	}
+		pipe_ends(STDOUT_FILENO, cmd[*i], fds, env_list);
    	close(fds[0]);
     close(fds[1]);
 	waitpid(pid1, NULL, 0);

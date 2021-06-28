@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:39:25 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 00:57:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/28 15:01:47 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_pwd()
+void	builtin_pwd(bool pipe)
 {
 	int		size;
 	char	*buff;

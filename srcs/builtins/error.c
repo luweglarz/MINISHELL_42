@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 22:52:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/28 14:57:18 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	error(t_cmd *cmd, int error)
+void	error(t_cmd *cmd, int error_code)
 {
-	printf("errorrrrr %d\n", error);
-	if (error = EXECVE_ERROR)
-		write (2, "Execve couldn't execute your command", 36);
+	char	*error_msg;
+
+	error_msg = strerror(error_code);
+	write (2, error_msg, ft_strlen(error_msg));
+	write(2, "\n", 1);
 	if (cmd->arg)
 		free(cmd->arg);
 	if (cmd->builtin)
 		free(cmd->builtin);
-	exit(error);
+	exit(error_code);
 }
