@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:21:19 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 17:24:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/29 12:20:59 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,6 @@ char	**envdup(int nb_env, char **env_list)
 		i++;
 	}
 	env_list[i] = NULL;
-	return (tmp);
-}
-
-char	**envdup_without(int nb_env, char **env_list, char *without)
-{
-	char **tmp;
-	int i;
-	int j;
-
-	if (getenv(without) == NULL)
-		return (envdup(nb_env, env_list));
-	tmp = malloc(sizeof(char *) * nb_env);
-	i = 0;
-	j = 0;
-	if (tmp == NULL)
-		return (NULL);
-	while (env_list[i])
-	{
-		if (ft_strcmp(getenv(without), env_list[j]) == 0)
-			j++;
-		else
-		{
-			tmp[i] = ft_strdup(env_list[j]);
-			i++;
-			j++;
-		}
-	}
-	tmp[i] = NULL;
 	return (tmp);
 }
 
