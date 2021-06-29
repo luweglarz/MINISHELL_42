@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 22:02:59 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/29 17:00:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		if (*line++ == '|')
 			cmd[index].pipe = true;
 		index++;
-	}	
+	}
 }

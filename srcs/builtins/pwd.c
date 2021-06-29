@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:39:25 by user42            #+#    #+#             */
-/*   Updated: 2021/06/28 15:01:47 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/28 16:30:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	builtin_pwd(bool pipe)
 
 	size = 0;
 	buff = NULL;
+	(void)pipe;
 	while (getcwd(buff, size) == NULL)
 		size++;
 	printf("%s\n", getcwd(buff, size));

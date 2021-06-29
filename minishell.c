@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/25 22:49:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/29 17:13:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,12 +336,12 @@ int	main(int ac, char **av, char **envp)
 	char	*tmp;
 	char	**env_list;
 	int		nb_cmd;
-
+	int k = 0;
 	cmd = NULL;
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	//signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	while (1)
 	{

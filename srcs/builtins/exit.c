@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/06/28 15:01:35 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/06/28 16:30:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_atoi(const char *nptr)
 void		builtin_exit(t_cmd cmd, bool pipe)
 {
 	// cas particulié quand on envoi des char etc
+	(void)pipe;
 	printf("%s\n", cmd.builtin);
 	exit(ft_atoi(cmd.arg[0]));
 }

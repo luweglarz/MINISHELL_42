@@ -6,13 +6,14 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/06/16 21:56:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/28 16:29:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		builtin_cd(t_cmd cmd)
+void		builtin_cd(t_cmd cmd, bool pipe)
 {
 	(void)cmd;
+	(void)pipe;
 }
