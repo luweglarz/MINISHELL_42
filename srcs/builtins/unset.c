@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/29 12:58:05 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/29 14:11:42 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	var_exist(t_cmd cmd, char **env_list)
 	else if (i == 1)
 	{
 		env_names = get_env_names(env_list);
-		i = 0;
+		/*i = 0;
 		while (env_names[i])
 		{
 			if (ft_strcmp(cmd.arg[0], env_names[i]) == 0)
@@ -64,7 +64,7 @@ int	var_exist(t_cmd cmd, char **env_list)
 		{
 			free_env(nb_env(env_list), env_list);
 			return (i);
-		}
+		}*/
 	}
 	return (-1);
 }
