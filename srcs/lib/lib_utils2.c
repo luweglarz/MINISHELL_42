@@ -6,35 +6,39 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/06/25 21:38:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 17:50:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*ft_strschr(char *s, int c)
+int	ft_isascii(int c)
+{
+	if (c > 32 && c <= 127 && c != 59)
+		return (1);
+	return (0);
+}
+
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
-	int	count;
 
 	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			count++;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 		i++;
-	}
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
 	i = 0;
-	while (s[i])
+	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
 	{
-		if (s[i] == c)
-			count--;
-		if (s[i] == (char)c && count == 0)
-			return ((char *)s + i + 1);
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	if (s[i] == '\0' && c == '\0')
-		return ((char *)s + i);
-	return (s);
+	return (0);
 }
