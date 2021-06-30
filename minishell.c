@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/29 17:13:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 23:09:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,6 @@ void	sig_handler(int signum)
 /*#########################################################*/
 /*#########################  UGO  #########################*/
 /*#########################################################*/
-
-char	*ft_strjoin(const char *s1, const char *s2)
-{
-	int		len;
-	char	*join;
-	int		i;
-	int		j;
-
-	len = ft_strlen(s1) + ft_strlen(s2);
-	join = malloc(sizeof(char) * (len + 1));
-	if (join == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-	{
-		join[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		join[i + j] = s2[j];
-		j++;
-	}
-	join[i + j] = '\0';
-	return (join);
-}
 
 char	*get_var_name(const char *line, int *index)
 {

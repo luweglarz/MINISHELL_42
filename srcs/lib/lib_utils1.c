@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 17:50:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 23:07:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,31 @@ char	*ft_strschr(char *s, int c)
 	if (s[i] == '\0' && c == '\0')
 		return ((char *)s + i);
 	return (s);
+}
+
+char		*ft_strjoin(char const *s1, char const *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			*str;
+
+	i = 0;
+	j = 0;
+	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	while (s1[i])
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		str[j] = s2[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }

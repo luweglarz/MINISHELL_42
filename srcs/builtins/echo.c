@@ -6,11 +6,38 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/06/28 16:29:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 23:09:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	display_echo(t_cmd cmd)
+{
+	int	i;
+
+	i = 1;
+	if (cmd.arg && ft_strncmp(cmd.arg[1], "-n", 2) == 0 && cmd.arg[1][2] == '\0')
+	{
+		i++;
+		while (cmd.arg[i])
+		{
+			printf("%s",cmd.arg[i]);
+			printf(" ");
+				i++;
+		}
+	}
+	else
+	{
+		while (cmd.arg[i] != NULL)
+		{
+			printf("%s", cmd.arg[i]);
+			printf(" ");
+			i++;
+		}
+		printf("\n");
+	}
+}
 
 void	builtin_echo(t_cmd cmd, bool pipe)
 {
@@ -18,25 +45,18 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 	int			i;
 
 	i = 0;
-	pid = fork();
-	if (pid < 0)
-		return ;
-	if (pid == 0)
+	if (pipe == false)
 	{
-		if (cmd.arg && ft_strncmp(cmd.arg[1], "-n", 2) == 0)
+		pid = fork();
+		if (pid < 0)
+			return ;
+		if (pid == 0)
 		{
-			cmd.arg[1] +=  2;
-			if (cmd.arg[1])
-				printf("%s",cmd.arg[1]);
+			display_echo(cmd);
+			exit(1);
 		}
-		else if (cmd.error == false)
-		{
-			if (cmd.arg[1])
-				printf("%s", cmd.arg[1]);
-			printf("\n");
-		}
-		exit(1);
+		waitpid(pid, NULL, 0);
 	}
-	waitpid(pid, NULL, 0);
-	(void)pipe;
+	else if (pipe == true)
+		display_echo(cmd);
 }

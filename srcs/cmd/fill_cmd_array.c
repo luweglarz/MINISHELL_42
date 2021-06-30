@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/29 17:00:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 23:11:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,35 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
+char		*ft_strjoinzarb(char const *s1, char const *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			*str;
+
+	i = 0;
+	j = 0;
+	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1 + 1))))
+		return (NULL);
+	while (s1[i])
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	str[j] = ' ';
+	j++;
+	while (s2[i])
+	{
+		str[j] = s2[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
 static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
@@ -38,13 +67,15 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 			break ;
 		i++;
 	}
-	cmd->arg = malloc(sizeof(char *) * 2);
-	cmd->arg[0] = ft_strschr(cmd->builtin, '/');
 	args = ft_substr(line, 0, i);
 	if (!args || ft_strlen(args) == 0)
+	{
+		cmd->arg = malloc(sizeof(char *) * 2);
+		cmd->arg[0] = ft_strschr(cmd->builtin, '/');
 		cmd->arg[1] = NULL;
+	}
 	else
-		cmd->arg[1] = ft_strdup(args);
+		cmd->arg = ft_split(ft_strjoinzarb(cmd->builtin, args), ' ');
 	i = 0;
 	while ((size_t)i++ < ft_strlen(args))
 		line++;

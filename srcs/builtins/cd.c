@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 17:48:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 22:08:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char		*go_back(char *pwd)
+static char		*go_back(char *pwd)
 {
 	int	i;
 	int	count;
@@ -35,7 +35,7 @@ void		builtin_cd(t_cmd cmd, bool pipe)
 
 	size = 0;
 	(void)pipe;
-	if (ft_strncmp(cmd.arg[1], "..", 2) == 0)
+	if (ft_strncmp(cmd.arg[1], "..", 2) == 0 && cmd.arg[1][2] == '\0')
 	{
 		while (getcwd(pwd, size) == NULL)
 			size++;
