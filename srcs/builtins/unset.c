@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 00:49:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 13:46:28 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	ft_strclen(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == (char)c)
-			return (i);
-		i++;
-	}
-	if (str[i] == (char)c)
-		return (i);
-	return (-1);
-}
 
 char	**get_env_names(char **env_list)
 {
@@ -52,10 +36,8 @@ int	var_exist(t_cmd cmd, char **env_list)
 	i = 0;
 	while (cmd.arg[i])
 		i++;
-	//si on a plus d'un argument -> on sort
 	if (i > 1)
 		return (-2);
-	//si on en a 1 -> on continue
 	else if (i == 1)
 	{
 		env_names = get_env_names(env_list);
@@ -79,24 +61,30 @@ void		builtin_unset(t_cmd cmd, char **env_list)
 	char **tmp;
 	int	to_del;
 	int i;
+	int len;
 
 	i = 0;
 	to_del = var_exist(cmd, env_list);
+	len = nb_env(env_list);
 	if (to_del > 0)
 	{
-		tmp = malloc(sizeof(char *) * (nb_env(env_list)));
+		//je malloc tmp;
+		tmp = malloc(sizeof(char *) * len);
+		//je copy dans tmp les variables avant celle a supprimer.
 		while (i < to_del)
 		{
 			tmp[i] = ft_strdup(env_list[i]);
 			i++;
 		}
 		printf("La ligne a delete est : %s\n", env_list[i]);
+		//je copy dans tmp les variables apres celle a supprimer.
 		while (env_list[i + 1])
 		{
 			tmp[i] = ft_strdup(env_list[i + 1]);
 			i++;
 		}
 		tmp[i] = NULL;
+		//je free env_list
 		i = 0;
 		while (env_list[i])
 		{
@@ -107,14 +95,17 @@ void		builtin_unset(t_cmd cmd, char **env_list)
 			}
 			i++;
 		}
-		free(env_list);
+		free(*env_list);
+		*env_list = malloc(sizeof(char *) * len);
+		//je duplique tmp dans env_list;
 		i = 0;
-		while (i < nb_env(tmp))
+		while (tmp[i])
 		{
 			env_list[i] = ft_strdup(tmp[i]);
 			i++;
 		}
 		env_list[i] = NULL;
+		//je free tmp;
 		i = 0;
 		while (tmp[i])
 		{
