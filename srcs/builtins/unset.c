@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 15:52:25 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:50:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**get_env_names(char **env_list)
 {
-	int i;
-	char **env_names;
+	int		i;
+	char	**env_names;
 
 	i = 0;
 	env_names = malloc(sizeof(char *) * (nb_env(env_list) + 1));
@@ -30,8 +30,8 @@ char	**get_env_names(char **env_list)
 
 int	var_exist(t_cmd cmd, char **env_list)
 {
-	int i;
-	char **env_names;
+	int		i;
+	char	**env_names;
 
 	i = 0;
 	while (cmd.arg[i])
@@ -58,7 +58,7 @@ int	var_exist(t_cmd cmd, char **env_list)
 
 void	del_env_var(char **env_list, int len, int to_del)
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = malloc(sizeof(char *) * len);
 	envdup_without(env_list, tmp, to_del);
@@ -68,11 +68,11 @@ void	del_env_var(char **env_list, int len, int to_del)
 	free_env(len - 1, tmp);
 }
 
-void		builtin_unset(t_cmd cmd, char **env_list)
+void	builtin_unset(t_cmd cmd, char **env_list)
 {
 	int	to_del;
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	to_del = var_exist(cmd, env_list);

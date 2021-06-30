@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 15:59:42 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:49:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	count_arg(t_cmd cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd.arg[i])
@@ -24,9 +24,9 @@ int	count_arg(t_cmd cmd)
 
 int	var_already_exist(t_cmd cmd, char **env_list)
 {
-	int i;
-	char **env_names;
-	char *tmp;
+	int		i;
+	char	**env_names;
+	char	*tmp;
 
 	i = 0;
 	if (count_arg(cmd) > 1)
@@ -53,7 +53,7 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 
 void	add_env_var(char **env_list, int len, char *add)
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = malloc(sizeof(char *) * len + 2);
 	envdup_plus(tmp, env_list, add);
@@ -65,7 +65,7 @@ void	add_env_var(char **env_list, int len, char *add)
 
 void	change_env_var(char **env_list, int len, int exist, char *change)
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = malloc(sizeof(char *) * len + 1);
 	envdup_n_change(tmp, env_list, change, exist);
@@ -75,12 +75,12 @@ void	change_env_var(char **env_list, int len, int exist, char *change)
 	free_env(len, tmp);
 }
 
-void		builtin_export(t_cmd cmd, char **env_list)
+void	builtin_export(t_cmd cmd, char **env_list)
 {
-	char **tmp;
-	int	exist;
-	int i;
-	int len;
+	char	**tmp;
+	int		exist;
+	int		i;
+	int		len;
 
 	i = 0;
 	tmp = NULL;

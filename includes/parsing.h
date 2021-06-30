@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/06/17 19:59:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 20:56:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 
 # include "minishell.h"
 
-int			parse_line(const char *line);
-int			parse_command(const char *line);
-int			check_inquote(const char *line, int i, int inquote);
+void	close_command(int *cmd_started, int *nb_cmd);
+int		count_command(const char *line, int i);
+int		parse_command(const char *line);
+
+int		check_inquote(const char *line, int i, int inquote);
+int		check_sep(const char *line);
+int		not_only_space(const char *line);
 
 #endif

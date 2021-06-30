@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:21:19 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 15:54:43 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:48:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	nb_env(char **env_list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env_list[i])
@@ -22,9 +22,9 @@ int	nb_env(char **env_list)
 	return (i);
 }
 
-void		free_env(int nb_env, char **env_list)
+void	free_env(int nb_env, char **env_list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < nb_env)
@@ -39,9 +39,9 @@ void		free_env(int nb_env, char **env_list)
 	free(env_list);
 }
 
-void		free_env_list(int nb_env, char **env_list)
+void	free_env_list(int nb_env, char **env_list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < nb_env)

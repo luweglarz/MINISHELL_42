@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:54:32 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/30 15:54:43 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:47:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	envdup(char **env_list, char **tmp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tmp[i])
@@ -27,7 +27,7 @@ void	envdup(char **env_list, char **tmp)
 
 void	envdup_plus(char **env_list, char **tmp, char *plus)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tmp[i])
@@ -42,7 +42,7 @@ void	envdup_plus(char **env_list, char **tmp, char *plus)
 
 void	envdup_n_change(char **tmp, char **env_list, char *change, int exist)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < exist)
@@ -62,7 +62,7 @@ void	envdup_n_change(char **tmp, char **env_list, char *change, int exist)
 
 void	envdup_without(char **env_list, char **tmp, int without)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < without)
