@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 13:47:42 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 15:37:24 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,78 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	return (-1);
 }
 
+void	envdup(char **env_list, char **tmp)
+{
+	int i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		env_list[i] = ft_strdup(tmp[i]);
+		i++;
+	}
+	env_list[i] = NULL;
+}
+
+void	envdup_plus(char **env_list, char **tmp, char *plus)
+{
+	int i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		env_list[i] = ft_strdup(tmp[i]);
+		i++;
+	}
+	env_list[i] = ft_strdup(plus);
+	i++;
+	env_list[i] = NULL;
+}
+
+void	envdup_n_change(char **tmp, char **env_list, char *change, int exist)
+{
+	int i;
+
+	i = 0;
+	while (i < exist)
+	{
+		tmp[i] = ft_strdup(env_list[i]);
+		i++;
+	}
+	tmp[i] = ft_strdup(change);
+	i++;
+	while (env_list[i])
+	{
+		tmp[i] = ft_strdup(env_list[i]);
+		i++;
+	}
+	tmp[i] = NULL;
+}
+
+void	add_env_var(char **env_list, int len, char *add)
+{
+	char **tmp;
+
+	tmp = malloc(sizeof(char *) * len + 2);
+	envdup_plus(tmp, env_list, add);
+	free_env_list(len, env_list);
+	*env_list = malloc(sizeof(char *) * len + 2);
+	envdup(env_list, tmp);
+	free_env(len, tmp);
+}
+
+void	change_env_var(char **env_list, int len, int exist, char *change)
+{
+	char **tmp;
+
+	tmp = malloc(sizeof(char *) * len + 1);
+	envdup_n_change(tmp, env_list, change, exist);
+	free_env_list(len, env_list);
+	*env_list = malloc(sizeof(char *) * len + 1);
+	envdup(env_list, tmp);
+	free_env(len, tmp);
+}
+
 void		builtin_export(t_cmd cmd, char **env_list)
 {
 	char **tmp;
@@ -53,117 +125,13 @@ void		builtin_export(t_cmd cmd, char **env_list)
 	int len;
 
 	i = 0;
+	tmp = NULL;
 	exist = var_already_exist(cmd, env_list);
-	printf("exist = %d\n", exist);
 	len = nb_env(env_list);
-	//si je dois modifier une var
 	if (exist > 0)
-	{
-		//je malloc tmp;
-		tmp = malloc(sizeof(char *) * len + 1);
-		//je copy dans tmp les variables avant celle a supprimer.
-		while (i < exist)
-		{
-			tmp[i] = ft_strdup(env_list[i]);
-			i++;
-		}
-		tmp[i] = ft_strdup(cmd.arg[0]);
-		printf("La ligne a modifier est : %s\n", env_list[i]);
-		i++;
-		//je copy dans tmp les variables apres celle a supprimer.
-		while (env_list[i])
-		{
-			tmp[i] = ft_strdup(env_list[i]);
-			i++;
-		}
-		tmp[i] = NULL;
-		//je free env_list
-		i = 0;
-		while (env_list[i])
-		{
-			if (env_list[i])
-			{
-				//printf("FREE ENV : [%d]%s\n", i, env_list[i]);
-				free(env_list[i]);
-				env_list[i] = NULL;
-			}
-			i++;
-		}
-		free(*env_list);
-		*env_list = malloc(sizeof(char *) * len + 1);
-		//je duplique tmp dans env_list;
-		i = 0;
-		while (tmp[i])
-		{
-			env_list[i] = ft_strdup(tmp[i]);
-			i++;
-		}
-		env_list[i] = NULL;
-		//je free tmp;
-		i = 0;
-		while (tmp[i])
-		{
-			if (tmp[i])
-			{
-				//printf("FREE TMP : [%d]%s\n", i, env_list[i]);
-				free(tmp[i]);
-				tmp[i] = NULL;
-			}
-			i++;
-		}
-		free(tmp);
-	}
-	//si je dois creer une var
+		change_env_var(env_list, len, exist, cmd.arg[0]);
 	else if (exist == -1)
-	{
-		//je malloc tmp;
-		tmp = malloc(sizeof(char *) * len + 2);
-		//je copy dans tmp les variables de env_list
-		while (env_list[i])
-		{
-			tmp[i] = ft_strdup(env_list[i]);
-			i++;
-		}
-		tmp[i] = ft_strdup(cmd.arg[0]);
-		printf("La ligne a rajouter est : %s\n", tmp[i]);
-		i++;
-		tmp[i] = NULL;
-		//je free env_list
-		i = 0;
-		while (env_list[i])
-		{
-			if (env_list[i])
-			{
-				//printf("FREE ENV : [%d]%s\n", i, env_list[i]);
-				free(env_list[i]);
-				env_list[i] = NULL;
-			}
-			i++;
-		}
-		free(*env_list);
-		*env_list = malloc(sizeof(char *) * len + 2);
-		//je duplique tmp dans env_list;
-		i = 0;
-		while (tmp[i])
-		{
-			env_list[i] = ft_strdup(tmp[i]);
-			i++;
-		}
-		env_list[i] = NULL;
-		//je free tmp;
-		i = 0;
-		while (tmp[i])
-		{
-			if (tmp[i])
-			{
-				//printf("FREE TMP : [%d]%s\n", i, env_list[i]);
-				free(tmp[i]);
-				tmp[i] = NULL;
-			}
-			i++;
-		}
-		free(tmp);
-	}
+		add_env_var(env_list, len, cmd.arg[0]);
 	else if (exist == -2)
 		printf("La fonction \"export\" ne peut prendre qu'un parametre.\n");
 	else if (exist == -3)
