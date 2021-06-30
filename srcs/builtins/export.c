@@ -6,11 +6,21 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 15:37:24 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 15:59:42 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	count_arg(t_cmd cmd)
+{
+	int i;
+
+	i = 0;
+	while (cmd.arg[i])
+		i++;
+	return (i);
+}
 
 int	var_already_exist(t_cmd cmd, char **env_list)
 {
@@ -19,18 +29,14 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	char *tmp;
 
 	i = 0;
-	while (cmd.arg[i])
-		i++;
-	if (i > 1)
+	if (count_arg(cmd) > 1)
 		return (-2);
-	else if (i == 1)
+	else if (count_arg(cmd) == 1)
 	{
 		if (ft_strclen(cmd.arg[0], '=') == -1)
 			return (-3);
 		tmp = ft_substr(cmd.arg[0], 0, ft_strclen(cmd.arg[0], '='));
-		printf("DEBUG : %s\n", tmp);
 		env_names = get_env_names(env_list);
-		i = 0;
 		while (env_names[i])
 		{
 			if (ft_strcmp(tmp, env_names[i]) == 0)
@@ -43,54 +49,6 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 		free_env(nb_env(env_names), env_names);
 	}
 	return (-1);
-}
-
-void	envdup(char **env_list, char **tmp)
-{
-	int i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		env_list[i] = ft_strdup(tmp[i]);
-		i++;
-	}
-	env_list[i] = NULL;
-}
-
-void	envdup_plus(char **env_list, char **tmp, char *plus)
-{
-	int i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		env_list[i] = ft_strdup(tmp[i]);
-		i++;
-	}
-	env_list[i] = ft_strdup(plus);
-	i++;
-	env_list[i] = NULL;
-}
-
-void	envdup_n_change(char **tmp, char **env_list, char *change, int exist)
-{
-	int i;
-
-	i = 0;
-	while (i < exist)
-	{
-		tmp[i] = ft_strdup(env_list[i]);
-		i++;
-	}
-	tmp[i] = ft_strdup(change);
-	i++;
-	while (env_list[i])
-	{
-		tmp[i] = ft_strdup(env_list[i]);
-		i++;
-	}
-	tmp[i] = NULL;
 }
 
 void	add_env_var(char **env_list, int len, char *add)
