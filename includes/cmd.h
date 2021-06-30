@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/06/29 21:43:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 17:51:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void		parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd);
 
 void		do_builtin(t_cmd cmd, char **env_list, bool pipe);
 
-int			single_pipe(int *i, t_cmd *cmd, char **env_list);
-int			multi_pipe(int *i, t_cmd *cmd, char **env_list, int nb_pipe);
+int			single_pipe(int i, t_cmd *cmd, char **env_list);
+int			multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe);
 
 
 #endif
