@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 17:50:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/01 12:12:46 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,26 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int	i;
+	int	nbr;
+	int	isnegative;
+
+	nbr = 0;
+	isnegative = 1;
+	i = 0;
+	while ((nptr[i] >= 8 && nptr[i] <= 13) || (nptr[i] == 32))
+		i++;
+	if (nptr[i] == '+' || nptr[i] == '-')
+		if (nptr[i++] == '-')
+			isnegative = -1;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		nbr = nbr * 10 + (nptr[i] - '0');
+		i++;
+	}
+	return (isnegative * nbr);
 }

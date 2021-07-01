@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 23:07:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/01 12:12:56 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ size_t		ft_strlen(const char *str);
 int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isascii(int c);
+int	        ft_atoi(const char *nptr);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);

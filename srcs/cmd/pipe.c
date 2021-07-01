@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 17:50:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/01 12:31:31 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ int	single_pipe(int i, t_cmd *cmd, char **env_list)
 
 static void set_pipe(int i, t_cmd *cmd, int fd, int fds[2])
 {
-			dup2(fd, 0);
-			if (cmd[i + 1].builtin != NULL)
-				dup2(fds[1], 1);
-			else
-				close(fds[1]);
-			close(fds[0]);
+		dup2(fd, 0);
+		if (cmd[i + 1].builtin != NULL)
+			dup2(fds[1], 1);
+		else
+			close(fds[1]);
+		close(fds[0]);
 }
 
 int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
