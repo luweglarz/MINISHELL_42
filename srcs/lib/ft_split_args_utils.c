@@ -6,25 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 01:05:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/02 01:08:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 01:17:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_inquote2(int c, int inquote)
-{
-	if (c == '\'' && inquote == 0)
-		return (1);
-	else if (c == '"' && inquote == 0)
-		return (2);
-	else if (c == '\'' && inquote == 1)
-		return (0);
-	else if (c == '"' && inquote == 2)
-		return (0);
-	else 
-		return (inquote);
-}
 
 char	**free_words(int word, char **tabword)
 {
@@ -45,7 +31,7 @@ const char	*pass_quotes(const char *str, int *inquote)
 	str++;
 	while (*str)
 	{
-		*inquote = check_inquote2(*str, *inquote);
+		*inquote = check_inquote(*str, *inquote);
 		if (*inquote == 0)
 		{
 			str++;
@@ -68,7 +54,7 @@ int		count_words(const char *str, char c)
 	inquote = 0;
 	while (*str)
 	{	
-		inquote = check_inquote2(*str, inquote);
+		inquote = check_inquote(*str, inquote);
 		if (inquote == 1 || inquote == 2)
 		{
 			str = pass_quotes(str, &inquote);
@@ -107,7 +93,7 @@ const char	*fill_quoted_word(const char *s, char *tab, int *inquote)
 	while (*s)
 	{
 		tab[i] = *s;
-		*inquote = check_inquote2(*s, *inquote);
+		*inquote = check_inquote(*s, *inquote);
 		if (*inquote == 0)
 		{
 			s++;

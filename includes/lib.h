@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/02 01:08:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 01:16:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,5 @@ int			count_words(const char *str, char c);
 int			ft_word_len(const char *s, char c);
 const char	*fill_quoted_word(const char *s, char *tab, int *inquote);
 char		**ft_split_args(char const *s, char c);
-
-int	check_inquote2(int c, int inquote);
 
 #endif

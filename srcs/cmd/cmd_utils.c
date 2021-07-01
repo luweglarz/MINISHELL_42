@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 12:08:22 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/02 01:12:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
 		builtin_pwd(pipe);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
-		builtin_export(cmd, pipe);
+		builtin_export(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
-		builtin_unset(cmd, pipe);
+		builtin_unset(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
-		builtin_env(cmd, pipe);
+		builtin_env(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
 		builtin_exit(cmd);
 	else

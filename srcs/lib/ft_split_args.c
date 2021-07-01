@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 22:31:04 by user42            #+#    #+#             */
-/*   Updated: 2021/07/02 01:06:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 01:16:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static const char	*cut_words_quoted(const char *s, char ***tab, int *j)
 	int	inquote;
 
 	inquote = 0;
-	inquote = check_inquote2(*s, inquote);
+	inquote = check_inquote(*s, inquote);
 	if (inquote == 1 || inquote == 2)
 	{
 		s++;
@@ -40,7 +40,7 @@ static const char	*cut_words_non_quoted(const char *s, char ***tab, int *j, int 
 
 	i = 0;
 	inquote = 0;
-	inquote = check_inquote2(*s, inquote);
+	inquote = check_inquote(*s, inquote);
 	if (*s != '"' || *s != '\'')
 	{
 		(*tab)[*j] = malloc(sizeof(char) * ft_word_len(s, c) + 1);
