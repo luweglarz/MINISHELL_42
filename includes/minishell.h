@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/06/28 14:51:58 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/01 11:55:24 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
-#include <string.h>
+# include <string.h>
 
 # include "cmd.h"
 # include "builtin.h"
