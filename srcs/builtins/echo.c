@@ -6,11 +6,12 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 23:09:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 00:44:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 static void	display_echo(t_cmd cmd)
 {
@@ -29,6 +30,7 @@ static void	display_echo(t_cmd cmd)
 	}
 	else
 	{
+
 		while (cmd.arg[i] != NULL)
 		{
 			printf("%s", cmd.arg[i]);
@@ -45,6 +47,8 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 	int			i;
 
 	i = 0;
+
+	
 	if (pipe == false)
 	{
 		pid = fork();

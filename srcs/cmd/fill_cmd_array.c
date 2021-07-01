@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 14:18:11 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/02 01:04:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 		cmd->arg = malloc(sizeof(char *) * 2);
 		//cmd->arg[0] = ft_strschr(cmd->builtin, '/');
 		cmd->arg[0] = ft_strdup(cmd->builtin);
-		cmd->arg[1] = (char*)0;
+		cmd->arg[1] = NULL;
 	}
 	else
-		cmd->arg = ft_split(ft_strjoinzarb(cmd->builtin, args), ' ');
+		cmd->arg = ft_split_args(ft_strjoinzarb(cmd->builtin, args), ' ');
 	i = 0;
 	while ((size_t)i++ < ft_strlen(args))
 		line++;
@@ -95,7 +95,6 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
-		//printf("le builtin %s\n", cmd[index].builtin);
 		if (*line++ == ';')
 		{
 			index++;
@@ -104,8 +103,6 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-	for (int j = 0; cmd[j].arg; j++)
-		printf("l'arg 0 %s\n", cmd[index].arg[j]);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
 		index++;
