@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/06/30 20:52:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 00:08:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	close_command(int *cmd_started, int *nb_cmd)
 {
 	if (*cmd_started == 1)
 	{
-		nb_cmd++;
-		cmd_started = 0;
+		*nb_cmd = *nb_cmd + 1;
+		*cmd_started = 0;
 	}
 }
 
@@ -36,7 +36,14 @@ int	count_command(const char *line, int i)
 	{
 		inquote = check_inquote(line, i, inquote);
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
+		{
 			close_command(&cmd_started, &nb_cmd);
+			/*if (cmd_started == 1)
+			{
+				nb_cmd++;
+				cmd_started = 0;
+			}*/
+		}
 		else if ((size_t)i + 1 == ft_strlen(line) && cmd_started == 1)
 		{
 			nb_cmd++;
