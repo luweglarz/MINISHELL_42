@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/06/21 12:31:43 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/06/30 23:07:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-int	ft_isascii(int c)
-{
-	if (c > 32 && c <= 127 && c != 59)
-		return (1);
-	return (0);
 }
 
 char	*ft_strdup(const char *s)
@@ -53,20 +46,6 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
-}
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
@@ -88,12 +67,56 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+char	*ft_strschr(char *s, int c)
 {
-	int i;
+	int	i;
+	int	count;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			count++;
 		i++;
-	return (s1[i] - s2[i]);
+	}
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			count--;
+		if (s[i] == (char)c && count == 0)
+			return ((char *)s + i + 1);
+		i++;
+	}
+	if (s[i] == '\0' && c == '\0')
+		return ((char *)s + i);
+	return (s);
+}
+
+char		*ft_strjoin(char const *s1, char const *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			*str;
+
+	i = 0;
+	j = 0;
+	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	while (s1[i])
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		str[j] = s2[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }

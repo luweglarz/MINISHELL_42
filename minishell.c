@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/01 12:59:07 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:14:22 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ char	*get_line(void)
 	return (line);
 }
 
-/*void	sig_handler(int signum)
+void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}*/
+}
 
 int		main(int ac, char **av, char **envp)
 {
@@ -46,7 +46,7 @@ int		main(int ac, char **av, char **envp)
 	char	*tmp;
 	char	**env_list;
 	int		nb_cmd;
-
+	int k = 0;
 	cmd = NULL;
 	(void)ac;
 	(void)av;

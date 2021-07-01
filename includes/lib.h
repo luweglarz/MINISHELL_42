@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 11:56:09 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:06:33 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char		*ft_strjoin(const char *s1, const char *s2);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strchr(const char *s, int c);
+char		*ft_strschr(char *s, int c);
+char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split(char const *s, char c);
 
 #endif

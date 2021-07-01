@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/06/18 00:02:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/30 23:11:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,33 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-static const char	*fill_option(const char *line, t_cmd *cmd)
+char		*ft_strjoinzarb(char const *s1, char const *s2)
 {
-	int		i;
-	int		j;
+	unsigned int	i;
+	unsigned int	j;
+	char			*str;
 
 	i = 0;
-	line++;
-	while (line[i] == 'n')
-		i++;
-	if (i > 0 && (line[i] == ' ' || line[i] == '\0' || line[i] == ';'))
+	j = 0;
+	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1 + 1))))
+		return (NULL);
+	while (s1[i])
 	{
-		cmd->option = ft_strdup("-n");
-		j = 0;
-		while (j++ < i)
-			line++;
+		str[j] = s1[i];
+		i++;
+		j++;
 	}
-	return (line);
+	i = 0;
+	str[j] = ' ';
+	j++;
+	while (s2[i])
+	{
+		str[j] = s2[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
 }
 
 static const char	*fill_arg(const char *line, t_cmd *cmd)
@@ -58,16 +68,18 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 		i++;
 	}
 	args = ft_substr(line, 0, i);
-	if (ft_strncmp(cmd->builtin, "echo", 4) == 0)
+	if (!args || ft_strlen(args) == 0)
 	{
-		cmd->arg = malloc(sizeof(char*) * 1);
-		cmd->arg[0] = args;
+		cmd->arg = malloc(sizeof(char *) * 2);
+		cmd->arg[0] = ft_strschr(cmd->builtin, '/');
+		cmd->arg[1] = NULL;
 	}
 	else
-		cmd->arg = ft_split(args, ' ');
+		cmd->arg = ft_split(ft_strjoinzarb(cmd->builtin, args), ' ');
 	i = 0;
 	while ((size_t)i++ < ft_strlen(args))
 		line++;
+	free(args);
 	return (line);
 }
 
@@ -78,30 +90,20 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 	index = 0;
 	while (*line)
 	{
-		printf("index %d\n", index);
 		cmd_init(&cmd[index]);
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
 		if (*line++ == ';')
-		{	
+		{
 			index++;
 			continue ;
 		}
-		printf("Builtin: %s\n", cmd[index].builtin);
-		while (*line == ' ')
-			line++;
-		if (ft_strncmp(cmd[index].builtin, "echo", 4) == 0 && *line == '-')
-			line = fill_option(line, &cmd[index]);
-		printf("Option: %s\n", cmd[index].option);
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-		for (int i = 0; cmd[index].arg[i]; i++)
-			printf("Arg: %s\n", cmd[index].arg[i]);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
-		printf("Pipe: %d\n", cmd[index].pipe);
 		index++;
-	}	
+	}
 }
