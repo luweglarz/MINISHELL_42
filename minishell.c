@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/01 13:14:22 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/04 23:13:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	//signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	while (1)
 	{

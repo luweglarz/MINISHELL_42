@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 22:16:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 00:01:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	error(t_cmd *cmd, int error_code)
+void	error_errno(t_cmd *cmd, int error_code)
 {
 	char	*error_msg;
 

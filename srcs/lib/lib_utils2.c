@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/07/02 01:18:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/04 23:41:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ int	ft_isascii(int c)
 	if (c > 32 && c <= 127 && c != 59)
 		return (1);
 	return (0);
+}
+
+int	ft_str_isdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		printf("la valeur %d\n", str[i]);
+		if (str[i] < '0' || str[i] > '9')
+		{
+			printf("on rentre ? \n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 int	ft_strcmp(char *s1, char *s2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 12:31:31 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/04 23:26:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ int	single_pipe(int i, t_cmd *cmd, char **env_list)
 	pid_t		pid2;
 
 	if (pipe(fds) == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	pid1 = fork();
 	if (pid1 == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	if (pid1 == 0)
 	pipe_ends(STDIN_FILENO, cmd[i + 1], fds, env_list);
 	pid2 = fork();
 	if (pid2 == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	if (pid2 == 0)
 		pipe_ends(STDOUT_FILENO, cmd[i], fds, env_list);
    	close(fds[0]);
