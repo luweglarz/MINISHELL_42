@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/02 00:07:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 17:05:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *str)
 
 int	ft_strclen(const char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -110,7 +110,7 @@ char	*ft_strschr(char *s, int c)
 	return (s);
 }
 
-char		*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -118,7 +118,8 @@ char		*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str == NULL)
 		return (NULL);
 	while (s1[i])
 	{

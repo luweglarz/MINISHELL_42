@@ -6,11 +6,12 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/04 23:18:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 16:47:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 static void	display_echo(t_cmd cmd)
 {
@@ -22,20 +23,20 @@ static void	display_echo(t_cmd cmd)
 		i++;
 		while (cmd.arg[i])
 		{
-			printf("%s", cmd.arg[i]);
-			printf(" ");
+			write(1, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(1, " ", 1);
 			i++;
 		}
 	}
 	else
 	{
-		while (cmd.arg[i] != NULL)
+		while (cmd.arg[i])
 		{
-			printf("%s", cmd.arg[i]);
-			printf(" ");
+			write(1, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(1, " ", 1);
 			i++;
 		}
-		printf("\n");
+		write(1, "\n", 1);
 	}
 }
 

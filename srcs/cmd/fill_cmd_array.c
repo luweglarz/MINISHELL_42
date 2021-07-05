@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/04 23:14:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 17:06:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 		cmd->arg[1] = NULL;
 	}
 	else
-		cmd->arg = ft_split_args(join_with_space(cmd->builtin, args), ' ');
+		cmd->arg = split_args(join_with_space(cmd->builtin, args));
 	i = 0;
 	while ((size_t)i++ < ft_strlen(args))
 		line++;
@@ -104,6 +104,7 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
+		printf("le arg %s\n", cmd[index].arg[1]);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
 		index++;
