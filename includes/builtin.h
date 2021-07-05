@@ -6,14 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:58:19 by user42            #+#    #+#             */
-/*   Updated: 2021/07/04 23:23:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 22:03:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# define TOO_ARG 1001
 
 # include "minishell.h"
 

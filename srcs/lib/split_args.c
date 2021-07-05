@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 22:31:04 by user42            #+#    #+#             */
-/*   Updated: 2021/07/05 17:06:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 18:07:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,23 @@ static	void	ft_free_words(int word, char **tabword)
 	free(tabword);
 }
 
-static char	**ft_cut_words(const char *s, char **tab, int nb_words)
+static char	
+	**ft_cut_words(const char *s, const char *builtin, char **tab, int words)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (i++ < nb_words)
+	tab[j++] = ft_strdup(builtin);
+	while (i++ < words)
 	{
 		while (*s == ' ')
 			s++;
 		tab[j] = malloc(sizeof(char) * (word_len(s) + 1));
 		if (tab[j] == NULL)
 		{
-			ft_free_words(nb_words, tab);
+			ft_free_words(words, tab);
 			return (NULL);
 		}
 		s = fill_split(s, &tab[j]);
@@ -49,15 +51,15 @@ static char	**ft_cut_words(const char *s, char **tab, int nb_words)
 	return (tab);
 }
 
-char	**split_args(char const *s)
+char	**split_args(char const *s, const char *builtin)
 {
 	char	**tab;
 	int		nb_words;
 
 	nb_words = count_word(s);
 	printf("count words %d\n", nb_words);
-	tab = malloc(sizeof(char *) * (nb_words + 1));
+	tab = malloc(sizeof(char *) * (nb_words + 1 + 1));
 	if (tab == NULL)
 		return (NULL);
-	return (ft_cut_words(s, tab, nb_words));
+	return (ft_cut_words(s, builtin, tab, nb_words));
 }

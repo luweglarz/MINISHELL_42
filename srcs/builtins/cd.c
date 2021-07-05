@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 12:07:07 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/05 17:29:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		builtin_cd(t_cmd cmd)
 	int			size;
 
 	size = 0;
-	if (ft_strncmp(cmd.arg[1], ".", 1) == 0 && cmd.arg[1][1] == '\0')
+	if (cmd.arg[1] == NULL)
 		chdir(getenv("HOME"));
 	else if (ft_strncmp(cmd.arg[1], "..", 2) == 0 && cmd.arg[1][2] == '\0')
 	{
