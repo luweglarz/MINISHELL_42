@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/05 19:51:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 14:57:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
 	char	*args;
-	//char	*join;
 
 	i = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
@@ -82,4 +81,5 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 			cmd[index].pipe = true;
 		index++;
 	}
+	cmd_init(&cmd[index]);
 }
