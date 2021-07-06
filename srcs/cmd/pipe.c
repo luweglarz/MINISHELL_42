@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 17:50:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 22:05:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,32 @@ int	single_pipe(int i, t_cmd *cmd, char **env_list)
 	pid_t		pid2;
 
 	if (pipe(fds) == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	pid1 = fork();
 	if (pid1 == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	if (pid1 == 0)
-	pipe_ends(STDIN_FILENO, cmd[i + 1], fds, env_list);
+		pipe_ends(STDIN_FILENO, cmd[i + 1], fds, env_list);
 	pid2 = fork();
 	if (pid2 == -1)
-		error(cmd, errno);
+		error_errno(cmd, errno);
 	if (pid2 == 0)
 		pipe_ends(STDOUT_FILENO, cmd[i], fds, env_list);
-   	close(fds[0]);
+	close(fds[0]);
     close(fds[1]);
 	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 	return (i + 2);
 }
 
 static void set_pipe(int i, t_cmd *cmd, int fd, int fds[2])
 {
-			dup2(fd, 0);
-			if (cmd[i + 1].builtin != NULL)
-				dup2(fds[1], 1);
-			else
-				close(fds[1]);
-			close(fds[0]);
+		dup2(fd, 0);
+		if (cmd[i + 1].builtin != NULL)
+			dup2(fds[1], 1);
+		else
+			close(fds[1]);
+		close(fds[0]);
 }
 
 int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)

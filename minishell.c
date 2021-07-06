@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/01 13:14:22 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/05 17:57:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,39 @@ int		main(int ac, char **av, char **envp)
 	char	*tmp;
 	char	**env_list;
 	int		nb_cmd;
-	int k = 0;
 	cmd = NULL;
 	(void)ac;
 	(void)av;
 	env_list = init_env(envp);
-	//signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	while (1)
 	{
 		line = get_line();
 		tmp = replace_env_var(line, env_list, 0, 0);
 		free(line);
+		line = NULL;
 		line = ft_strdup(tmp);
 		free(tmp);
+		tmp = NULL;
 		nb_cmd = parse_command(line);
 		cmd = malloc(sizeof(t_cmd) * nb_cmd);
 		fill_cmd_array(line, cmd);
 		parse_cmd_array(cmd, env_list, nb_cmd);
+		int i = 0;
 		if (cmd)
 		{
+			if (cmd->arg)
+			{
+				while (cmd->arg[i])
+				{
+					free(cmd->arg[i]);
+					i++;
+				}
+				free(cmd->arg);
+			}
+			if (cmd->builtin)
+				free(cmd->builtin);
 			free(cmd);
 			cmd = NULL;
 		}

@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 20:52:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 12:20:08 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/02 01:15:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_inquote(const char *line, int i, int inquote)
+int	check_inquote(int c, int inquote)
 {
-	if (line[i] == '\'' && inquote == 0)
+	if (c == '\'' && inquote == 0)
 		return (1);
-	else if (line[i] == '"' && inquote == 0)
+	else if (c == '"' && inquote == 0)
 		return (2);
-	else if (line[i] == '\'' && inquote == 1)
+	else if (c == '\'' && inquote == 1)
 		return (0);
-	else if (line[i] == '"' && inquote == 2)
+	else if (c == '"' && inquote == 2)
 		return (0);
-	else
+	else 
 		return (inquote);
 }
 
@@ -35,7 +35,7 @@ int	check_sep(const char *line)
 	inquote = 0;
 	while (line[i])
 	{
-		inquote = check_inquote(line, i, inquote);
+		inquote = check_inquote(line[i], inquote);
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
 			i++;

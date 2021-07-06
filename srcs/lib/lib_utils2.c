@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:24:27 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/04 23:41:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ int	ft_isascii(int c)
 	if (c > 32 && c <= 127 && c != 59)
 		return (1);
 	return (0);
+}
+
+int	ft_str_isdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		printf("la valeur %d\n", str[i]);
+		if (str[i] < '0' || str[i] > '9')
+		{
+			printf("on rentre ? \n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 int	ft_strcmp(char *s1, char *s2)
@@ -43,18 +61,24 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int	ft_strclen(char *str, char c)
+int	ft_atoi(const char *nptr)
 {
-	int i;
+	int	i;
+	int	nbr;
+	int	isnegative;
 
+	nbr = 0;
+	isnegative = 1;
 	i = 0;
-	while (str[i])
+	while ((nptr[i] >= 8 && nptr[i] <= 13) || (nptr[i] == 32))
+		i++;
+	if (nptr[i] == '+' || nptr[i] == '-')
+		if (nptr[i++] == '-')
+			isnegative = -1;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		if (str[i] == (char)c)
-			return (i);
+		nbr = nbr * 10 + (nptr[i] - '0');
 		i++;
 	}
-	if (str[i] == (char)c)
-		return (i);
-	return (-1);
+	return (isnegative * nbr);
 }

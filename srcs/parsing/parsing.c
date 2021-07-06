@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/02 00:08:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/02 01:17:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	count_command(const char *line, int i)
 		cmd_started = 1;
 	while (line[i])
 	{
-		inquote = check_inquote(line, i, inquote);
+		inquote = check_inquote(line[i], inquote);
 		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
 		{
 			close_command(&cmd_started, &nb_cmd);

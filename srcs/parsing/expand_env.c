@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/01 13:00:21 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/02 01:17:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*del_dollar(const char *line, char quote)
 	inquote = 0;
 	while (line[stop])
 	{
-		inquote = check_inquote(line, stop, inquote);
+		inquote = check_inquote(line[stop], inquote);
 		if (inquote == 0)
 			break;
 		stop++;
@@ -125,7 +125,7 @@ char	*replace_env_var(const char *line, char **env_list, int i, int stop)
 	init_env_parse(&pars);
 	while (line[i])
 	{
-		inquote = check_inquote(line, i, inquote);
+		inquote = check_inquote(line[i], inquote);
 		if (line[i] == '$' && (inquote == 0 || inquote == 2))
 		{
 			if (pars.res == NULL && inquote == 2)
@@ -139,7 +139,7 @@ char	*replace_env_var(const char *line, char **env_list, int i, int stop)
 				pars.expanded = expand_var_content(line, &i, env_list, 0, 1);
 			else if (i < (int)ft_strlen(line) && line[i] != ';' && line[i + 1] && line[i + 1] != ' ')
 			{
-				inquote = check_inquote(line, i, inquote);
+				inquote = check_inquote(line[i], inquote);
 				if (inquote == 0)
 					pars.expanded = expand_var_content(line, &i, env_list, 0, 0);
 				else if (inquote == 1)

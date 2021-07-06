@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 23:09:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/05 22:13:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 	int			i;
 
 	i = 0;
+
+	
 	if (pipe == false)
 	{
 		pid = fork();
@@ -58,5 +60,8 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 		waitpid(pid, NULL, 0);
 	}
 	else if (pipe == true)
+	{
 		display_echo(cmd);
+		exit(1);
+	}
 }

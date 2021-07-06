@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 12:59:19 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/02 01:14:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*expand_var_content(const char *line, int *index, char **env_list, int i, i
 char	*strdup_without_space(char *tmp);
 char	*get_var_name(const char *line, int *index);
 
-int		check_inquote(const char *line, int i, int inquote);
+int		check_inquote(int c, int inquote);
 int		check_sep(const char *line);
 int		not_only_space(const char *line);
 void	init_env_parse(t_pars *pars);

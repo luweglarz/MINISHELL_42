@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:11:57 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/05 22:04:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0 && cmd.error == false)
 		builtin_echo(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "cd", len) == 0 && cmd.error == false)
-		builtin_cd(cmd, pipe);
+		builtin_cd(cmd);
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
 		builtin_pwd(pipe);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
@@ -30,7 +30,7 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
 		builtin_env(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
-		builtin_exit(cmd, pipe);
+		builtin_exit(cmd);
 	else
 		execpath(cmd, env_list, pipe);
 }
