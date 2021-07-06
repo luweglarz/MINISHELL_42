@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:10:01 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/06 19:35:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,13 @@ int	var_exist(t_cmd cmd, char **env_list)
 	char	**env_names;
 
 	i = 0;
-	while (cmd.arg[i])
-		i++;
-	if (i > 1)
-		return (-2);
-	else if (i == 1)
+	if (count_arg(cmd) > 0)
 	{
 		env_names = get_env_names(env_list);
 		i = 0;
 		while (env_names[i])
 		{
-			if (ft_strcmp(cmd.arg[0], env_names[i]) == 0)
+			if (ft_strcmp(cmd.arg[1], env_names[i]) == 0)
 			{
 				free_env(nb_env(env_names), env_names);
 				return (i);

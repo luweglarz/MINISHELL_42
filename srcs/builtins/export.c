@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:06:33 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/06 19:35:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	char	*tmp;
 
 	i = 0;
-	if (count_arg(cmd) > 1)
-		return (-2);
-	else if (count_arg(cmd) == 1)
+	if (count_arg(cmd) > 0)
 	{
-		if (ft_strclen(cmd.arg[0], '=') == -1)
-			return (-3);
-		tmp = ft_substr(cmd.arg[0], 0, ft_strclen(cmd.arg[0], '='));
+		if (ft_strclen(cmd.arg[1], '=') == -1)
+			return (-2);
+		tmp = ft_substr(cmd.arg[1], 0, ft_strclen(cmd.arg[1], '='));
 		env_names = get_env_names(env_list);
 		while (env_names[i])
 		{
@@ -87,11 +85,9 @@ void	builtin_export(t_cmd cmd, char **env_list)
 	exist = var_already_exist(cmd, env_list);
 	len = nb_env(env_list);
 	if (exist > 0)
-		change_env_var(env_list, len, exist, cmd.arg[0]);
+		change_env_var(env_list, len, exist, cmd.arg[1]);
 	else if (exist == -1)
-		add_env_var(env_list, len, cmd.arg[0]);
+		add_env_var(env_list, len, cmd.arg[1]);
 	else if (exist == -2)
-		printf("La fonction \"export\" ne peut prendre qu'un parametre.\n");
-	else if (exist == -3)
 		printf("Mauvais format pour la fonction \"export\".\n");
 }
