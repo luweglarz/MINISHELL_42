@@ -29,7 +29,7 @@ ifeq ($(UNAME), Darwin)
 	@$(CC)  minishell.c -o minishell -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include $(NAME)
 endif
 ifeq ($(UNAME), Linux)
-	@$(CC) -fsanitize=address minishell.c -o minishell -lreadline $(NAME)
+	@$(CC)  minishell.c -o minishell -lreadline $(NAME)
 endif
 
 clean:

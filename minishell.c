@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/06 14:58:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 17:28:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		main(int ac, char **av, char **envp)
 		free(tmp);
 		tmp = NULL;
 		nb_cmd = parse_command(line);
-		cmd = malloc(sizeof(t_cmd) * nb_cmd + 1);
+		cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 		fill_cmd_array(line, cmd);
 		parse_cmd_array(cmd, env_list, nb_cmd);
 		int i = 0;
