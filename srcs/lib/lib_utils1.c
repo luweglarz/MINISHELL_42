@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:49:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/05 17:05:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 17:48:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,33 +81,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	str[i] = '\0';
 	return (str);
-}
-
-char	*ft_strschr(char *s, int c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			count++;
-		i++;
-	}
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			count--;
-		if (s[i] == (char)c && count == 0)
-			return ((char *)s + i + 1);
-		i++;
-	}
-	if (s[i] == '\0' && c == '\0')
-		return ((char *)s + i);
-	return (s);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

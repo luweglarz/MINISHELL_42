@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/05 17:29:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 17:29:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char		*go_back(char *pwd)
 	return (ft_substr(pwd, 0, count));
 }
 
-void		builtin_cd(t_cmd cmd)
+void		builtin_cd(t_cmd cmd, bool pipe)
 {
 	char		*pwd = NULL;
 	int			size;
@@ -45,4 +45,6 @@ void		builtin_cd(t_cmd cmd)
 	}
 	else
 		chdir(go_back(cmd.arg[1]));
+	if (pipe == true)
+		exit(1);
 }
