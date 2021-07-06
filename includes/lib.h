@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 15:27:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 17:48:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	        ft_atoi(const char *nptr);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strschr(char *s, int c);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split(char const *s, char c);
 

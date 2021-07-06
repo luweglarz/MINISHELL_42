@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 17:28:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/06 19:34:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,8 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);
-		//cmd->arg[0] = ft_strschr(cmd->builtin, '/');
 		cmd->arg[0] = ft_strdup(cmd->builtin);
-		cmd->arg[1] = (char *)0;
+		cmd->arg[1] = NULL;
 	}
 	else
 		cmd->arg = split_args(args, cmd->builtin);
