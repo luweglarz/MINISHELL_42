@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 19:34:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/07 16:51:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	i = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
 	{
-		if (line[i] == '|' || line[i] == ';')
+		if (line[i] == '|' || line[i] == ';' || line[i] == '>'
+		 || line[i] == '<' || ft_strncmp(line, ">>", 2) == 0 
+		 || ft_strncmp(line, "<<", 2) == 0)
 			break ;
 		i++;
 	}
@@ -56,6 +58,29 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	return (line);
 }
 
+static const char	*check_flows(const char *line, t_cmd *cmd)
+{
+	if (*line == '>' || *line == '<')
+	{
+		if (ft_strncmp(line, ">>", 2) == 0)
+		{
+			cmd->flows = ft_strdup(">>");
+			line++;
+		}
+		else if (ft_strncmp(line, "<<", 2) == 0)
+		{
+			cmd->flows = ft_strdup("<<");
+			line++;
+		}
+		else if (*line == '>')
+			cmd->flows = ft_strdup(">");
+		else if (*line == '<')
+			cmd->flows = ft_strdup("<");
+		line++;	
+	}
+	return (line);
+}
+
 void	fill_cmd_array(const char *line, t_cmd *cmd)
 {
 	int		index;
@@ -67,17 +92,23 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
-		if (*line == ';' || *line == '|')
-		{
-			index++;
-			line ++;
-			continue ;
-		}
 		while (*line == ' ')
 			line++;
+	//	line = check_flows(line, &cmd[index]);
 		line = fill_arg(line, &cmd[index]);
-		if (*line++ == '|')
+		if (*line == '|')
+		{
 			cmd[index].pipe = true;
+			line++;
+		}
+		else if (*line == ';')
+		{
+			line++;
+			index++;
+			continue;
+		}
+		line = check_flows(line, &cmd[index]);
+		printf("le flows %s\n", cmd[index].flows);
 		index++;
 	}
 	cmd_init(&cmd[index]);

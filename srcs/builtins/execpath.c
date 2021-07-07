@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 17:25:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/07 16:21:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	while (split[i])
 	{
 		if (stat((const char*)ft_strjoin(split[i], cmd.builtin), buf) == 0)
+		{
 			execve(ft_strjoin(split[i], cmd.builtin), cmd.arg, env_list);
+			error_errno(&cmd, errno);
+		}
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/06 15:40:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/07 17:23:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+# include <dirent.h>
 # include <errno.h>
 # include <string.h>
 
