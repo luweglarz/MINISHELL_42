@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 16:21:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 16:13:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ void	cmd_init(t_cmd *cmd)
 	cmd->flows = NULL;
 	cmd->error = false;
 	cmd->pipe = false;
-	
+	cmd->fd = 1;
 }

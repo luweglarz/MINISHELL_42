@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 15:32:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 16:13:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_cmd
 		bool			error;
 		bool			pipe;
 		char			*flows;
+		int				fd;
 }				t_cmd;
 
 void		cmd_init(t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 01:05:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/05 17:41:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 17:19:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_end_quote(const char *s)
 static const char
 	*check_inquote_split(const char *s, int *inquote, int *docontinue)
 {
-	if (*s == '\'' || *s == '"' & *inquote == 0)
+	if ((*s == '\'') ||(*s == '"' && *inquote == 0))
 	{
 		if (check_end_quote(s) == 1)
 		{
@@ -59,6 +59,7 @@ int	count_word(const char *str)
 
 	count_words = 0;
 	ter = 0;
+	inquote = 0;
 	while (*str)
 	{
 		docontinue = 0;
