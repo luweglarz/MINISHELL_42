@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 17:51:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 19:36:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static void	display_echo(t_cmd cmd)
 		i++;
 		while (cmd.arg[i])
 		{
-			printf("%s",cmd.arg[i]);
-			printf(" ");
+			write(cmd.fd, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(cmd.fd, " ", 1);
+			//printf("%s",cmd.arg[i]);
+			//printf(" ");
 				i++;
 		}
 	}
@@ -31,11 +33,13 @@ static void	display_echo(t_cmd cmd)
 	{
 		while (cmd.arg[i] != NULL)
 		{
-			printf("%s", cmd.arg[i]);
-			printf(" ");
+			write(cmd.fd, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(cmd.fd, " ", 1);
+			//printf("%s", cmd.arg[i]);
+			//printf(" ");
 			i++;
 		}
-		printf("\n");
+		write(cmd.fd, "\n", 1);
 	}
 }
 

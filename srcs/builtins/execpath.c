@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 16:21:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 22:49:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,16 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 
 	if (pipe == false)
 	{
+		printf("a fd %d\n", cmd.fd);
+	//	if (cmd.fd != 1)
+	//		dup2(cmd.fd, 1);
 		pid = fork();
 		if (pid < 0)
 			return ;
 		if (pid == 0)
 		{
+			if (cmd.fd != 1)
+				dup2(cmd.fd, 1);
 			if (check_is_path(cmd.builtin) == 1)
 				execve(cmd.builtin, cmd.arg, env_list);
 			else

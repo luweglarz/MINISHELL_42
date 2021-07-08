@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 17:25:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 19:47:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	pipe_ends(int end, t_cmd cmd, int *fds, char **env_list)
 	if (end == STDIN_FILENO)
 	{
 		close (fds[1]);
+		if (cmd.fd != 1)
+			dup2(cmd.fd, 1);
 		dup2(fds[0], 0);
 		close (fds[0]);
 		do_builtin(cmd, env_list, true);

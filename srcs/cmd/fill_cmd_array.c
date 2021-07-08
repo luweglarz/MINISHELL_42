@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 18:55:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 22:43:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,17 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-int	pass_flows(const char *line, int j, int *start)
+int	pass_flows(const char *line, int j, int *start, int *append)
 {
-	int	append;
-
-	append = 0;
 	if (line[j] == '>')
 	{
 		j++;
-		if (line[j++] == '>')
-			append = 1;
+		if (line[j++] == '>' && append != NULL)
+			*append = 1;
 		while (line[j] == ' ')
 			j++;
-		*start = j;
+		if (start != NULL)
+			*start = j;
 		while ((ft_isascii(line[j]) == 1) && (line[j] != '|'
 		|| line[j] != ';'))
 			j++;
@@ -46,14 +44,13 @@ int	pass_flows(const char *line, int j, int *start)
 	else if (line[j] == '<')
 	{
 		j++;
-		if (line[j++] == '<')
-			append = 1;
-		while (line[j] == ' ')
-			j++;
-		*start = j;
-		while ((ft_isascii(line[j]) == 1) && (line[j] != '|'
-		|| line[j] != ';'))
-			j++;		
+	 	while (line[j] == ' ')
+	 		j++;
+	 	if (start != NULL)
+	 		*start = j;
+	 	while ((ft_isascii(line[j]) == 1) && (line[j] != '|'
+	 	|| line[j] != ';'))
+	 		j++;		
 	}
 	return(j);
 }
@@ -63,18 +60,19 @@ int	dosize(const char *line, int i)
 	int j;
 	int	k;
 	int start;
+	int	append;
 
 	j = 0;
 	k = 0;
 	start = 0;
+	append = 0;
 	while (j < i)
 	{	
 		if (line[j] == '>' || line[j] == '<')
-			j = pass_flows(line, j, &start);
+			j = pass_flows(line, j, NULL, NULL);
 		k++;
 		j++;
 	}
-	printf("le k tqt %d\n", k);
 	return (k);
 }
 
@@ -83,18 +81,27 @@ char	*formate_args(const char *line, t_cmd *cmd, int i)
 	int 	j;
 	int		k;
 	int		start;
+	int		append;
 	char	*newarg;
 
 	j = 0;
 	k = 0;
 	start = 0;
+	append = 0;
 	newarg = malloc(sizeof(char) * (dosize(line, i) + 1));
 	while (j < i)
 	{	
-		if (line[j] == '>' || line[j] == '<')
+		if (line[j] == '>')
 		{
-			j = pass_flows(line, j, &start);
-			cmd->fd = open(ft_substr(line, start, j - start), O_RDWR|O_CREAT, 0664);
+			j = pass_flows(line, j, &start, &append);
+			if (append == 1)
+				cmd->fd = open(ft_substr(line, start, j - start), O_RDWR|O_APPEND|O_CREAT, 0664);
+			else
+				cmd->fd = open(ft_substr(line, start, j - start), O_RDWR|O_CREAT, 0664);
+		}
+		else if (line[j] == '<')
+		{
+			cmd->fd = open(ft_substr(line, start, j - start), O_RDWR);
 		}
 		newarg[k] = line[j];
 		k++;
@@ -147,11 +154,7 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		line = fill_builtin(line, &cmd[index]);
 		while (*line == ' ')
 			line++;
-	//	line = check_flows(line, &cmd[index]);
 		line = fill_arg(line, &cmd[index]);
-		printf("les args 1 %s\n", cmd[index].arg[0]);
-		printf("les args 2 %s\n", cmd[index].arg[1]);
-		printf("les args 3 %s\n", cmd[index].arg[2]);
 		if (*line == '|')
 		{
 			cmd[index].pipe = true;

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 16:13:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/08 22:51:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 	else if (ft_strncmp(cmd.builtin, "cd", len) == 0 && cmd.error == false)
 		builtin_cd(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
-		builtin_pwd(pipe);
+		builtin_pwd(cmd, pipe);
 	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
 		builtin_export(cmd, env_list);
 	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
