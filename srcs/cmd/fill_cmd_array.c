@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 17:25:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/09 23:25:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,46 +26,60 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
+int	create_redirection_files(const char *line, int *j, t_cmd *cmd)
+{
+	char	*file;
+	int		start;
+	int		append;
+	struct stat buf;
+
+	start = 0;
+	append = 0;
+	file = NULL;
+	if (line[*j] == '>')
+	{
+		*j = pass_redirections(line, *j, &start, &append);
+		file = ft_substr(line, start, *j - start);
+		if (append == 1)
+			cmd->fdout = open(file, O_RDWR|O_APPEND|O_CREAT, 0664);
+		else
+			cmd->fdout = open(file, O_RDWR|O_CREAT, 0664);
+	}
+	else if (line[*j] == '<')
+	{
+		*j = pass_redirections(line, *j, &start, &append);
+		file = ft_substr(line, start, *j - start);
+		if (stat(file, &buf) == - 1)
+		{
+			write(2, strerror(errno), ft_strlen(strerror(errno)));
+			write(2, "\n", 1);
+		}
+		else
+			cmd->fdin = open(file, O_RDWR);
+	}
+	if (file)
+		free(file); 
+	return (*j);
+}
+
 static char	*formate_args(const char *line, t_cmd *cmd, int i)
 {
 	int 	j;
 	int		k;
-	int		start;
-	int		append;
 	char	*newarg;
-	struct stat *buf = NULL;
 
 	j = 0;
 	k = 0;
-	start = 0;
-	append = 0;
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
-		if (line[j] == '>')
-		{
-			j = pass_redirections(line, j, &start, &append);
-			if (append == 1)
-				cmd->fdout = open(ft_substr(line, start, j - start), O_RDWR|O_APPEND|O_CREAT, 0664);
-			else
-				cmd->fdout = open(ft_substr(line, start, j - start), O_RDWR|O_CREAT, 0664);
-		}
-		else if (line[j] == '<')
-		{
-			j = pass_redirections(line, j, &start, &append);
-			if (stat(ft_substr(line, start, j - start), buf) == - 1)
-			{
-				write(2, strerror(errno), ft_strlen(strerror(errno)));
-				write(2, "\n", 1);
-			}
-			else
-				cmd->fdin = open(ft_substr(line, start, j - start), O_RDWR);
-		}
+		j = create_redirection_files(line, &j, cmd);
 		newarg[k] = line[j];
 		k++;
 		j++;
 	}
 	newarg[k] = '\0';
+	printf("le newargs %s\n", newarg);
 	return (newarg);
 }
 
