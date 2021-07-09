@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 22:43:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/09 17:25:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,82 +26,40 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-int	pass_flows(const char *line, int j, int *start, int *append)
-{
-	if (line[j] == '>')
-	{
-		j++;
-		if (line[j++] == '>' && append != NULL)
-			*append = 1;
-		while (line[j] == ' ')
-			j++;
-		if (start != NULL)
-			*start = j;
-		while ((ft_isascii(line[j]) == 1) && (line[j] != '|'
-		|| line[j] != ';'))
-			j++;
-	}
-	else if (line[j] == '<')
-	{
-		j++;
-	 	while (line[j] == ' ')
-	 		j++;
-	 	if (start != NULL)
-	 		*start = j;
-	 	while ((ft_isascii(line[j]) == 1) && (line[j] != '|'
-	 	|| line[j] != ';'))
-	 		j++;		
-	}
-	return(j);
-}
-
-int	dosize(const char *line, int i)
-{
-	int j;
-	int	k;
-	int start;
-	int	append;
-
-	j = 0;
-	k = 0;
-	start = 0;
-	append = 0;
-	while (j < i)
-	{	
-		if (line[j] == '>' || line[j] == '<')
-			j = pass_flows(line, j, NULL, NULL);
-		k++;
-		j++;
-	}
-	return (k);
-}
-
-char	*formate_args(const char *line, t_cmd *cmd, int i)
+static char	*formate_args(const char *line, t_cmd *cmd, int i)
 {
 	int 	j;
 	int		k;
 	int		start;
 	int		append;
 	char	*newarg;
+	struct stat *buf = NULL;
 
 	j = 0;
 	k = 0;
 	start = 0;
 	append = 0;
-	newarg = malloc(sizeof(char) * (dosize(line, i) + 1));
+	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
 		if (line[j] == '>')
 		{
-			j = pass_flows(line, j, &start, &append);
+			j = pass_redirections(line, j, &start, &append);
 			if (append == 1)
-				cmd->fd = open(ft_substr(line, start, j - start), O_RDWR|O_APPEND|O_CREAT, 0664);
+				cmd->fdout = open(ft_substr(line, start, j - start), O_RDWR|O_APPEND|O_CREAT, 0664);
 			else
-				cmd->fd = open(ft_substr(line, start, j - start), O_RDWR|O_CREAT, 0664);
+				cmd->fdout = open(ft_substr(line, start, j - start), O_RDWR|O_CREAT, 0664);
 		}
 		else if (line[j] == '<')
 		{
-			cmd->fd = open(ft_substr(line, start, j - start), O_RDWR);
+			j = pass_redirections(line, j, &start, &append);
+			if (stat(ft_substr(line, start, j - start), buf) == - 1)
+			{
+				write(2, strerror(errno), ft_strlen(strerror(errno)));
+				write(2, "\n", 1);
+			}
+			else
+				cmd->fdin = open(ft_substr(line, start, j - start), O_RDWR);
 		}
 		newarg[k] = line[j];
 		k++;

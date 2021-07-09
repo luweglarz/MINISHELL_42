@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/06 17:28:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/09 16:44:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,7 @@ int		main(int ac, char **av, char **envp)
 		fill_cmd_array(line, cmd);
 		parse_cmd_array(cmd, env_list, nb_cmd);
 		int i = 0;
-		if (cmd)
-		{
-			if (cmd->arg)
-			{
-				while (cmd->arg[i])
-				{
-					free(cmd->arg[i]);
-					i++;
-				}
-				free(cmd->arg);
-			}
-			if (cmd->builtin)
-				free(cmd->builtin);
-			free(cmd);
-			cmd = NULL;
-		}
+		free_cmd(cmd);
 		if (line)
 		{
 			free(line);
