@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/12 20:17:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 22:13:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ void	free_after_line(t_cmd *cmd, char *line)
 	struct stat *buf;
 
 	free_cmd(cmd);
-	if (stat(".heredoc", buf))
-	{
-		buf = malloc(sizeof(struct stat) * 1);
+	buf = malloc(sizeof(struct stat) * 1);
+	if (stat(".heredoc", buf) == 0)
 		unlink(".heredoc");
-	}
+	free(buf);
 	if (line)
 	{
 		free(line);
@@ -83,6 +82,7 @@ int		main(int ac, char **av, char **envp)
 		cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 		fill_cmd_array(line, cmd);
 		parse_cmd_array(cmd, env_list, nb_cmd);
+		free_after_line(cmd, line);
 	}
 	return (1);
 }

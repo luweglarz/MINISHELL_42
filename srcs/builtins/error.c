@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 16:43:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 21:24:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_cmd(t_cmd *cmd)
 		}
 		if (cmd->builtin)
 			free(cmd->builtin);
-		free(cmd);
 		cmd = NULL;
 	}
 }
@@ -43,8 +42,6 @@ void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
 	write (2, error_msg, ft_strlen(error_msg));
 	write(2, "\n", 1);
 	free_cmd(cmd);
-	if (cmd->builtin)
-		free(cmd->builtin);
 	if (exit_bool == true)
 		exit(error_code);
 }
