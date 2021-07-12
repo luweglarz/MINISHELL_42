@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 23:25:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 18:44:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,16 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 
 int	create_redirection_files(const char *line, int *j, t_cmd *cmd)
 {
-	char	*file;
-	int		start;
-	int		append;
-	struct stat buf;
-
-	start = 0;
-	append = 0;
-	file = NULL;
 	if (line[*j] == '>')
-	{
-		*j = pass_redirections(line, *j, &start, &append);
-		file = ft_substr(line, start, *j - start);
-		if (append == 1)
-			cmd->fdout = open(file, O_RDWR|O_APPEND|O_CREAT, 0664);
-		else
-			cmd->fdout = open(file, O_RDWR|O_CREAT, 0664);
-	}
+		*j = bracket_out(line, j, cmd);
 	else if (line[*j] == '<')
-	{
-		*j = pass_redirections(line, *j, &start, &append);
-		file = ft_substr(line, start, *j - start);
-		if (stat(file, &buf) == - 1)
-		{
-			write(2, strerror(errno), ft_strlen(strerror(errno)));
-			write(2, "\n", 1);
-		}
-		else
-			cmd->fdin = open(file, O_RDWR);
-	}
-	if (file)
-		free(file); 
+		*j = bracket_in(line, j, cmd);
 	return (*j);
 }
 
 static char	*formate_args(const char *line, t_cmd *cmd, int i)
 {
-	int 	j;
+	int		j;
 	int		k;
 	char	*newarg;
 
@@ -79,7 +52,7 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 		j++;
 	}
 	newarg[k] = '\0';
-	printf("le newargs %s\n", newarg);
+	printf("le newarg %s\n", newarg);
 	return (newarg);
 }
 
@@ -97,7 +70,6 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 		i++;
 	}
 	args = formate_args(line, cmd, i);
-	printf("le newarg %s\n", args);
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);
@@ -127,16 +99,12 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-		if (*line == '|')
-		{
+		if (*line++ == '|')
 			cmd[index].pipe = true;
-			line++;
-		}
-		else if (*line == ';')
+		else if (*line++ == ';')
 		{
-			line++;
 			index++;
-			continue;
+			continue ;
 		}
 		index++;
 	}

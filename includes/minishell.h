@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/09 16:43:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 16:41:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # include "parsing.h"
 # include "lib.h"
 # include "env.h"
+
+char	*get_line(const char *prompt);
 
 void	free_cmd(t_cmd *cmd);
 void	error_errno(t_cmd *cmd, int error_code, bool exit_bool);

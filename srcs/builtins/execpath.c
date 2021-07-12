@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 23:23:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 20:22:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
 
+	if (cmd.fdout != 1)
+		dup2(cmd.fdout, 1);
+	if (cmd.fdin != 0)
+		dup2(cmd.fdin, 0);
 	if (pipe == false)
 	{
 		pid = fork();
@@ -57,10 +61,6 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 			return ;
 		if (pid == 0)
 		{
-			if (cmd.fdout != 1)
-				dup2(cmd.fdout, 1);
-			if (cmd.fdin != 0)
-				dup2(cmd.fdin, 0);
 			if (check_is_path(cmd.builtin) == 1)
 				execve(cmd.builtin, cmd.arg, env_list);
 			else
@@ -73,8 +73,8 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 	{
 		if (check_is_path(cmd.builtin) == 1)
 			execve(cmd.builtin, cmd.arg, env_list);
-			else
-				execve_with_path(cmd, env_list);
+		else
+			execve_with_path(cmd, env_list);
 		error_errno(&cmd, errno, true);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 17:26:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 19:01:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static void	display_echo(t_cmd cmd)
 		{
 			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
 			write(cmd.fdout, " ", 1);
-			//printf("%s",cmd.arg[i]);
-			//printf(" ");
 				i++;
 		}
 	}
@@ -35,8 +33,6 @@ static void	display_echo(t_cmd cmd)
 		{
 			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
 			write(cmd.fdout, " ", 1);
-			//printf("%s", cmd.arg[i]);
-			//printf(" ");
 			i++;
 		}
 		write(cmd.fdout, "\n", 1);
