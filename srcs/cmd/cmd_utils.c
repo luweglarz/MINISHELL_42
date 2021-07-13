@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/12 18:57:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 16:59:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 	int		len;
 
 	len = ft_strlen(cmd.builtin);
-	if (ft_strncmp(cmd.builtin, "echo", len) == 0 && cmd.error == false)
+	if (ft_strncmp(cmd.builtin, "echo", len) == 0)
 		builtin_echo(cmd, pipe);
-	else if (ft_strncmp(cmd.builtin, "cd", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "cd", len) == 0)
 		builtin_cd(cmd, pipe);
-	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "pwd", len) == 0)
 		builtin_pwd(cmd, pipe);
-	else if (ft_strncmp(cmd.builtin, "export", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "export", len) == 0)
 		builtin_export(cmd, env_list);
-	else if (ft_strncmp(cmd.builtin, "unset", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "unset", len) == 0)
 		builtin_unset(cmd, env_list);
-	else if (ft_strncmp(cmd.builtin, "env", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "env", len) == 0)
 		builtin_env(cmd, env_list);
-	else if (ft_strncmp(cmd.builtin, "exit", len) == 0 && cmd.error == false)
+	else if (ft_strncmp(cmd.builtin, "exit", len) == 0)
 		builtin_exit(cmd);
 	else
 		execpath(cmd, env_list, pipe);
@@ -90,7 +90,6 @@ void	cmd_init(t_cmd *cmd)
 	cmd->arg = NULL;
 	cmd->builtin = NULL;
 	cmd->flows = NULL;
-	cmd->error = false;
 	cmd->pipe = false;
 	cmd->fdout = 1;
 	cmd->fdin = 0;

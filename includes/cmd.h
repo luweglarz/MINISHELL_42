@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 14:54:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 17:14:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 
 typedef struct s_cmd
 {
-		char			*builtin;
+		char	 		*builtin;
 		char			**arg;
-		bool			error;
 		bool			pipe;
 		char			*flows;
 		int				fdout;
