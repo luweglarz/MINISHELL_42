@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/12 21:24:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 15:08:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	i = 0;
 	buf = malloc(sizeof(struct stat));
 	split = ft_split(getenv("PATH"), ':');
-	join = ft_strjoin(split[i], cmd.builtin);
 	while (split[i])
 	{
-		if (stat((const char*)join, buf) == 0)
+		join = ft_strjoin(split[i], cmd.builtin);
+		if (stat(join, buf) == 0)
 			execve(join, cmd.arg, env_list);
 		i++;
 	}
