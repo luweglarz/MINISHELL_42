@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 16:46:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 21:27:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,19 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	free_splitnjoin(split, join);
 }
 
+static void	execpath_no_pipe(t_cmd cmd, char **env_list)
+{
+	if (cmd.fdout != 1)
+		dup2(cmd.fdout, 1);
+	if (cmd.fdin != 0)
+		dup2(cmd.fdin, 0);
+	if (check_is_path(cmd.builtin) == 1)
+		execve(cmd.builtin, cmd.arg, env_list);
+	else
+		execve_with_path(cmd, env_list);
+	error_errno(&cmd, errno, true);
+}
+
 void	execpath(t_cmd cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
@@ -73,18 +86,7 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 		if (pid < 0)
 			return ;
 		if (pid == 0)
-		{
-			if (cmd.fdout != 1)
-				dup2(cmd.fdout, 1);
-			if (cmd.fdin != 0)
-				dup2(cmd.fdin, 0);
-			if (check_is_path(cmd.builtin) == 1)
-				execve(cmd.builtin, cmd.arg, env_list);
-			else
-				execve_with_path(cmd, env_list);
-				printf("on va la \n");
-			error_errno(&cmd, errno, true);
-		}
+			execpath_no_pipe(cmd, env_list);
 		waitpid(pid, NULL, 0);
 	}
 	else if (pipe == true)

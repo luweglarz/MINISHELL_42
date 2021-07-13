@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 16:59:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 21:23:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 {
 	int		len;
 
+	if (cmd.fdin == -1)
+		return ;
 	len = ft_strlen(cmd.builtin);
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0)
 		builtin_echo(cmd, pipe);

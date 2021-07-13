@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 16:38:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 21:22:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ int	bracket_in(const char *line, int *j, t_cmd *cmd)
 	file = NULL;
 	*j = pass_redirections(line, *j, &start, &doublebracket);
 	file = ft_substr(line, start, *j - start);
-	buf = malloc(sizeof(buf) * 1);
+	buf = malloc(sizeof(struct stat) * 1);
 	if (buf == NULL)
 		error_errno(cmd, errno, true);
 	if (doublebracket == 1)
 		double_bracket_in(file, cmd);
-	else if (stat(file, buf) == -1 && doublebracket == 0)
+	if (stat((const char*)file, buf) == -1 && doublebracket == 0)
 	{
+		cmd->fdin = -1;
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, "\n", 1);
 	}
