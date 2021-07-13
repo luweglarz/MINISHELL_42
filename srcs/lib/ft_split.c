@@ -5,95 +5,77 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/06 15:26:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 15:51:23 by user42           ###   ########.fr       */
+/*   Created: 2021/07/08 16:48:11 by user42            #+#    #+#             */
+/*   Updated: 2021/07/08 16:49:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static	void		ft_free_words(int word, char **tabword)
-{
-	int	i;
-
-	i = 0;
-	while (i < word)
-	{
-		free(tabword[i]);
-		i++;
-	}
-	free(tabword);
-}
-
-static	int			ft_is_word(const char *str, char c)
-{
-	int		count_words;
-	int		ter;
-
-	count_words = 0;
-	ter = 0;
-	while (*str)
-	{
-		if (*str == c)
-			ter = 0;
-		else if (ter == 0)
-		{
-			ter = 1;
-			count_words++;
-		}
-		str++;
-	}
-	return (count_words);
-}
-
-static	int			ft_word_len(const char *s, char c)
-{
-	int	size;
-
-	size = 0;
-	while (*s != c && *s != '\0')
-	{
-		s++;
-		size++;
-	}
-	return (size);
-}
-
-static char			**ft_cut_words(const char *s, char c, char **tab, int words)
+static int		countword(const char *s, char c)
 {
 	int		i;
-	int		j;
-	int		k;
+	int		nbword;
 
 	i = 0;
-	j = 0;
-	while (i++ < words)
+	nbword = 0;
+	while (s[i])
 	{
-		while (*s == c)
-			s++;
-		if (!(tab[j] = malloc(sizeof(char) * (ft_word_len(s, c) + 1 + 1))))
+		if (s[i] == c)
+			i++;
+		else if (s[i] != c)
 		{
-			ft_free_words(words, tab);
-			return (NULL);
+			if (s[i + 1] == c || s[i + 1] == '\0')
+				nbword++;
+			i++;
 		}
-		k = 0;
-		while (*s && *s != c)
-			tab[j][k++] = *s++;
-		tab[j][k++] = '/';
-		tab[j][k] = '\0';
-		j++;
 	}
-	tab[j] = NULL;
-	return (tab);
+	return (nbword);
 }
 
-char	**ft_split(char const *s, char c)
+static char		*sepword(const char *s, char c, int *ptr)
 {
-	char	**tab;
-	int		count_words;
+	int		j;
+	int		len;
+	char	*sepstr;
 
-	count_words = ft_is_word(s, c);
-	if (!(tab = malloc(sizeof(char *) * (count_words + 1))))
+	len = 0;
+	while (s[*ptr] == c && s[*ptr])
+		*ptr = *ptr + 1;
+	while (s[*ptr + len] != c && s[*ptr + len])
+		len++;
+	sepstr = malloc(sizeof(char) * (len + 1));
+	if (sepstr == NULL)
 		return (NULL);
-	return (ft_cut_words(s, c, tab, count_words));
+	j = 0;
+	while (j < len)
+	{
+		sepstr[j] = s[*ptr];
+		j++;
+		*ptr = *ptr + 1;
+	}
+	sepstr[j] = '\0';
+	return (sepstr);
+}
+
+char			**ft_split(const char *s, char c)
+{
+	int		i;
+	int		ptr;
+	int		nbword;
+	char	**split;
+
+	nbword = countword(s, c);
+	i = 0;
+	split = malloc(sizeof(char *) * (nbword + 1));
+	if (split == NULL)
+		return (NULL);
+	ptr = 0;
+	while (i < nbword)
+	{
+		split[i] = sepword(s, c, &ptr);
+		i++;
+	}
+	split[i] = NULL;
+	return (split);
 }

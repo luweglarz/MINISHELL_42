@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/06 17:28:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/10 01:47:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int		main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = get_line();
-		tmp = replace_env_var(line, env_list, 0, 0);
+		tmp = replace_env_var(line, env_list, 0);
+		printf("tmp = '%s'\n", tmp);
 		free(line);
 		line = NULL;
 		line = ft_strdup(tmp);
 		free(tmp);
 		tmp = NULL;
+		printf("line = '%s'\n", line);
 		nb_cmd = parse_command(line);
 		cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 		fill_cmd_array(line, cmd);
