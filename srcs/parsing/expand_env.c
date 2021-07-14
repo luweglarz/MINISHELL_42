@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/14 02:59:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:40:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ char	*get_var_name(const char *line, int *index)
 	j = 0;
 	i = *index;
 	while (line[*index] && line[*index] != ' ' && line[*index] != '\''
-		&& line[*index] != '"' && line[*index] != ';'
-		&& line[*index] != '|' && line[*index] != '$')
+		&& line[*index] != '"' && line[*index] != '|' && line[*index] != '$')
 	{
 		*index = *index + 1;
 		j++;
@@ -30,7 +29,7 @@ char	*get_var_name(const char *line, int *index)
 	var_name = malloc(sizeof(char) * j + 1);
 	j = 0;
 	while (line[i] && line[i] != ' ' && line[i] != '\'' && line[i] != '"'
-		&& line[i] != ';' && line[i] != '|' && line[i] != '$')
+		&& line[i] != '|' && line[i] != '$')
 	{
 		var_name[j] = line[i];
 		i++;
@@ -199,7 +198,7 @@ void	choose_expansion(t_pars *pars, const char *line, int *i, char **env_list)
 	save_buffer(pars, line, i);
 	if (pars->inquote == 2)
 		pars->expanded = expand_var_content(line, i, env_list, 0, 1);
-	else if (*i < (int)ft_strlen(line) && line[*i] != ';' && line[*i + 1] && line[*i + 1] != ' ')
+	else if (*i < (int)ft_strlen(line) && line[*i + 1] && line[*i + 1] != ' ')
 		get_expanded(pars, env_list, line, i);
 	else
 		pars->expanded = ft_strdup("$");

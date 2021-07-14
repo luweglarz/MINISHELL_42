@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 20:52:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 02:35:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:39:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ int	check_unused(const char *line)
 		if ((line[i] == '>' || line[i] == '<') && inquote == 0)
 		{
 			i = check_space_unused(line, i, 1);
-			if (line[i] == '\0' || line[i] == ';' || line[i] == '|')
+			if (line[i] == '\0' || line[i] == '|')
 				return (-1);
 		}
 		if (line[i] == '|' && inquote == 0)
 		{
 			i = check_space_unused(line, i, 0);
-			if (line[i] == '\0' || line[i] == ';' || line[i] == '|')
+			if (line[i] == '\0' || line[i] == '|')
 				return (-1);
 		}
 		i++;
