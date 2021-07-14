@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 15:25:14 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/14 20:39:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static const char	*fill_builtin(const char *line, t_cmd *cmd)
 {
 	int		i;
+	int		j;
 	int 	start;
 
 	i = 0;
@@ -31,14 +32,11 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 			i = bracket_out(line, &i, cmd);
 			start = i + 1;
 		}
-		printf("line i %c\n", line[i]);
 		i++;
 	}
-	printf("start %d\n", start);
-	printf("i %d\n", i);
-	cmd->builtin = ft_substr(line, start, i);
-	i = 0;
-	while ((size_t)i++ < ft_strlen(cmd->builtin))
+	cmd->builtin = ft_substr(line, start, i - start);
+	j = 0;
+	while (j++ < i)
 		line++;
 	return (line);
 }
@@ -63,7 +61,6 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 		j++;
 	}
 	newarg[k] = '\0';
-	//printf("le newarg %s\n", newarg);
 	return (newarg);
 }
 
