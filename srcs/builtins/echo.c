@@ -3,27 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 16:58:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 12:17:27 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int check_option(char *arg)
+{
+	int i;
+
+	i = 1;
+	if (arg == NULL)
+		return (-1);
+	if (arg[0] != '-')
+		return (-1);
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (-1);
+		i++;
+	}
+	return (1);
+}
 
 static void	display_echo(t_cmd cmd)
 {
 	int	i;
 
 	i = 1;
-	if (cmd.arg && ft_strncmp(cmd.arg[1], "-n", 2) == 0 && cmd.arg[1][2] == '\0')
+	if (check_option(cmd.arg[1]) == 1)
 	{
 		i++;
 		while (cmd.arg[i])
 		{
 			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
-			write(cmd.fdout, " ", 1);
+			if (cmd.arg[i + 1] != NULL)
+				write(cmd.fdout, " ", 1);
 			i++;
 		}
 	}
@@ -32,7 +51,8 @@ static void	display_echo(t_cmd cmd)
 		while (cmd.arg[i] != NULL)
 		{
 			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
-			write(cmd.fdout, " ", 1);
+			if (cmd.arg[i + 1] != NULL)
+				write(cmd.fdout, " ", 1);
 			i++;
 		}
 		write(cmd.fdout, "\n", 1);
@@ -45,7 +65,6 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 	int			i;
 
 	i = 0;
-
 	if (pipe == false)
 	{
 		pid = fork();

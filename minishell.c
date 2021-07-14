@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/13 16:41:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 12:37:52 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	else if (signum == EOF)
+		exit(1);
 }
 
 void	free_after_line(t_cmd *cmd, char *line)
@@ -75,6 +77,8 @@ int		main(int ac, char **av, char **envp)
 		line = readline("Minishell>");
 		if (line)
 			add_history(line);
+		if (line == NULL)
+			exit(1);
 		tmp = replace_env_var(line, env_list, 0, 0);
 		free(line);
 		line = NULL;

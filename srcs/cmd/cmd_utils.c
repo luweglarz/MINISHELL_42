@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 21:23:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 12:55:58 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 
 	if (cmd.fdin == -1)
 		return ;
+	printf("le buil %s\n", cmd.builtin);
 	len = ft_strlen(cmd.builtin);
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0)
 		builtin_echo(cmd, pipe);
@@ -42,25 +43,31 @@ int	pass_redirections(const char *line, int j, int *start, int *doublebracket)
 	if (line[j] == '>')
 	{
 		j++;
-		if (line[j++] == '>' && doublebracket != NULL)
+		if (line[j + 1] == '>' && doublebracket != NULL)
+		{
+			j++;
 			*doublebracket = 1;
+		}
 		while (line[j] == ' ')
 			j++;
 		if (start != NULL)
 			*start = j;
-		while ((ft_isascii(line[j]) == 1) && (line[j] != '|' || line[j] != ';'))
+		while ((ft_isascii(line[j]) == 1) && line[j] != '|')
 			j++;
 	}
 	else if (line[j] == '<')
 	{
 		j++;
-		if (line[j++] == '<' && doublebracket != NULL)
+		if (line[j + 1] == '<' && doublebracket != NULL)
+		{
+			j++;
 			*doublebracket = 1;
+		}
 		while (line[j] == ' ')
 			j++;
 		if (start != NULL)
 			*start = j;
-		while ((ft_isascii(line[j]) == 1) && (line[j] != '|' || line[j] != ';'))
+		while ((ft_isascii(line[j]) == 1) && line[j] != '|')
 			j++;
 	}
 	return (j);

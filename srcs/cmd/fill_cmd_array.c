@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 20:51:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:03:09 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	i = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
 	{
-		if (line[i] == '|' || line[i] == ';')
+		if (line[i] == '|')
 			break ;
 		i++;
 	}
@@ -93,12 +93,10 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
-		if (*line++ == '|')
-			cmd[index].pipe = true;
-		else if (*line++ == ';')
+		if (*line == '|')
 		{
-			index++;
-			continue ;
+			cmd[index].pipe = true;
+			line++;
 		}
 		index++;
 	}

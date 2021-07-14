@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 17:34:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:02:18 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
 	pid_t	pid;
 
 	fd = 0;
-	nb_pipe++;
+	if (cmd[nb_pipe + 1].builtin != NULL)
+		nb_pipe++;
 	while (nb_pipe-- != 0)
 	{
 		pipe (fds);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/13 15:47:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 11:49:59 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@
 # include <dirent.h>
 # include <errno.h>
 # include <string.h>
-# include <linux/limits.h>
+#if defined(__linux__)
+    #define PLATFORM_NAME "linux" 
+    # include <linux/limits.h>
+#elif defined(__MACH__)
+    # define PATH_MAX 1024
+#endif
 
 # include "cmd.h"
 # include "builtin.h"
