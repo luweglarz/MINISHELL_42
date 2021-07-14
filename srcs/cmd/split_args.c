@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 22:31:04 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 16:53:33 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:26:39 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**split_args(char const *s, const char *builtin)
 	int		nb_words;
 
 	nb_words = count_word(s);
-	printf("count words %d\n", nb_words);
+	//printf("count words %d\n", nb_words);
 	tab = malloc(sizeof(char *) * (nb_words + 1 + 1));
 	if (tab == NULL)
 		return (NULL);

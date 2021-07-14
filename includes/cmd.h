@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 21:19:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 13:20:58 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_cmd
 		char	 		*builtin;
 		char			**arg;
 		bool			pipe;
-		char			*flows;
 		int				fdout;
 		int				fdin;
 }				t_cmd;

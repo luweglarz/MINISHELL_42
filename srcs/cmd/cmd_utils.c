@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 12:55:58 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/14 13:26:29 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	do_builtin(t_cmd cmd, char **env_list, bool pipe)
 
 	if (cmd.fdin == -1)
 		return ;
-	printf("le buil %s\n", cmd.builtin);
 	len = ft_strlen(cmd.builtin);
 	if (ft_strncmp(cmd.builtin, "echo", len) == 0)
 		builtin_echo(cmd, pipe);
@@ -98,7 +97,6 @@ void	cmd_init(t_cmd *cmd)
 {	
 	cmd->arg = NULL;
 	cmd->builtin = NULL;
-	cmd->flows = NULL;
 	cmd->pipe = false;
 	cmd->fdout = 1;
 	cmd->fdin = 0;
