@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/02 01:17:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:59:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ char	*get_var_name(const char *line, int *index)
 
 	j = 0;
 	i = *index;
-	while (line[*index] && line[*index] != ' ' && line[*index] != '\'' && line[*index] != '"'
-		&& line[*index] != ';' && line[*index] != '|' && line[*index] != '$')
+	while (line[*index] && line[*index] != ' ' && line[*index] != '\''
+		&& line[*index] != '"' && line[*index] != ';'
+		&& line[*index] != '|' && line[*index] != '$')
 	{
 		*index = *index + 1;
 		j++;
@@ -41,22 +42,45 @@ char	*get_var_name(const char *line, int *index)
 
 char	*strdup_without_space(char *tmp)
 {
+	char	**tab;
 	char	*str;
-	char	*temp;
-	int		start;
-	int		end;
+	int		i;
+	int		j;
+	int		count;
 
-	start = 0;
-	end = (int)ft_strlen(tmp);
-	while (tmp[start] && tmp[start] == ' ')
-		start++;
-	while (end > 0 && tmp[end] == ' ')
-		end--;
-	str = ft_substr(tmp, start, end);
-	temp = ft_strjoin("\"", str);
-	free(str);
-	str = ft_strjoin(temp, "\"");
-	free(temp);
+	tab = ft_split(tmp, ' ');
+	count = 0;
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			j++;
+			count++;
+		}
+		i++;
+		count++;
+	}
+	str = malloc(sizeof(char) * count + 2);
+	count = 1;
+	i = 0;
+	str[0] = '"';
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			str[count] = tab[i][j];
+			j++;
+			count++;
+		}
+		str[count] = ' ';
+		i++;
+		count++;
+	}
+	str[count - 1] = '"';
+	str[count] = '\0';
 	return (str);
 }
 
@@ -83,7 +107,6 @@ char	*expand_var_content(const char *line, int *index, char **env_list, int i, i
 			var_content[i] = tmp[i - 1];
 		var_content[ft_strlen(tmp) + 1] = '"';
 		var_content[ft_strlen(tmp) + 2] = '\0';
-		
 	}
 	if (tmp)
 		free(tmp);
@@ -116,78 +139,96 @@ char	*del_dollar(const char *line, char quote)
 	return (expanded);
 }
 
-char	*replace_env_var(const char *line, char **env_list, int i, int stop)
+void	save_buffer(t_pars *pars, const char *line, int *i)
 {
-	int		inquote;
+	if (pars->res == NULL && pars->inquote == 2)
+		pars->res = ft_substr(line, 0, *i - 1);
+	else if (pars->res == NULL)
+		pars->res = ft_substr(line, 0, *i);
+	else if (line[pars->stop + *i - pars->stop])
+		pars->tmp2 = ft_substr(line, pars->stop, *i - pars->stop);
+	*i = *i + 1;
+}
+
+void	add_buffer(t_pars *pars)
+{
+	pars->tmp = ft_strdup(pars->res);
+	free(pars->res);
+	pars->res = NULL;
+	pars->res = ft_strjoin(pars->tmp, pars->tmp2);
+	free(pars->tmp);
+	pars->tmp = NULL;
+	free(pars->tmp2);
+	pars->tmp2 = NULL;
+}
+
+void	add_expansion(t_pars *pars)
+{
+	pars->tmp = ft_strdup(pars->res);
+	free(pars->res);
+	pars->res = ft_strjoin(pars->tmp, pars->expanded);
+	free(pars->tmp);
+	pars->tmp = NULL;
+	free(pars->expanded);
+	pars->expanded = NULL;
+}
+
+void	add_last_buffer(t_pars *pars, const char *line, int i)
+{
+	pars->tmp = ft_strdup(pars->res);
+	pars->tmp2 = ft_substr(line, pars->stop, i - pars->stop);
+	free(pars->res);
+	pars->res = ft_strjoin(pars->tmp, pars->tmp2);
+	free(pars->tmp);
+	free(pars->tmp2);
+}
+
+void	get_expanded(t_pars *pars, char **env_list, const char *line, int *i)
+{
+	pars->inquote = check_inquote(line[*i], pars->inquote);
+	if (pars->inquote == 0)
+		pars->expanded = expand_var_content(line, i, env_list, 0, 0);
+	else if (pars->inquote == 1)
+		pars->expanded = del_dollar(&line[*i], '\'');
+	else
+		pars->expanded = del_dollar(&line[*i], '"');
+}
+
+void	choose_expansion(t_pars *pars, const char *line, int *i, char **env_list)
+{
+	save_buffer(pars, line, i);
+	if (pars->inquote == 2)
+		pars->expanded = expand_var_content(line, i, env_list, 0, 1);
+	else if (*i < (int)ft_strlen(line) && line[*i] != ';' && line[*i + 1] && line[*i + 1] != ' ')
+		get_expanded(pars, env_list, line, i);
+	else
+		pars->expanded = ft_strdup("$");
+	pars->stop = *i;
+}
+
+char	*replace_env_var(const char *line, char **env_list, int i)
+{
 	t_pars	pars;
 
-	inquote = 0;
 	init_env_parse(&pars);
 	while (line[i])
 	{
-		inquote = check_inquote(line[i], inquote);
-		if (line[i] == '$' && (inquote == 0 || inquote == 2))
-		{
-			if (pars.res == NULL && inquote == 2)
-				pars.res = ft_substr(line, 0, i - 1);
-			else if (pars.res == NULL)
-				pars.res = ft_substr(line, 0, i);
-			else if (line[stop + i - stop])
-				pars.tmp2 = ft_substr(line, stop, i - stop);
-			i++;
-			if (inquote == 2)
-				pars.expanded = expand_var_content(line, &i, env_list, 0, 1);
-			else if (i < (int)ft_strlen(line) && line[i] != ';' && line[i + 1] && line[i + 1] != ' ')
-			{
-				inquote = check_inquote(line[i], inquote);
-				if (inquote == 0)
-					pars.expanded = expand_var_content(line, &i, env_list, 0, 0);
-				else if (inquote == 1)
-					pars.expanded = del_dollar(&line[i], '\'');
-				else
-					pars.expanded = del_dollar(&line[i], '"');
-			}
-			else
-				pars.expanded = ft_strdup("$");
-			stop = i;
-		}
+		pars.inquote = check_inquote(line[i], pars.inquote);
+		if (line[i] == '$' && (pars.inquote == 0 || pars.inquote == 2))
+			choose_expansion(&pars, line, &i, env_list);
 		if (pars.expanded || pars.tmp2)
 		{
 			if (pars.tmp2)
-			{
-				pars.tmp = ft_strdup(pars.res);
-				free(pars.res);
-				pars.res = NULL;
-				pars.res = ft_strjoin(pars.tmp, pars.tmp2);
-				free(pars.tmp);
-				pars.tmp = NULL;
-				free(pars.tmp2);
-				pars.tmp2 = NULL;
-			}
+				add_buffer(&pars);
 			if (pars.expanded)
-			{
-				pars.tmp = ft_strdup(pars.res);
-				free(pars.res);
-				pars.res = ft_strjoin(pars.tmp, pars.expanded);
-				free(pars.tmp);
-				pars.tmp = NULL;
-				free(pars.expanded);
-				pars.expanded = NULL;
-			}
+				add_expansion(&pars);
 		}
 		if (i < (int)ft_strlen(line) && line[i] != '$')
 			i++;
 	}
 	if (pars.res == NULL)
 		pars.res = ft_substr(line, 0, i);
-	else if (stop != i)
-	{
-		pars.tmp = ft_strdup(pars.res);
-		pars.tmp2 = ft_substr(line, stop, i - stop);
-		free(pars.res);
-		pars.res = ft_strjoin(pars.tmp, pars.tmp2);
-		free(pars.tmp);
-		free(pars.tmp2);
-	}
+	else if (line[i] != '\0')
+		add_last_buffer(&pars, line, i);
 	return (pars.res);
 }

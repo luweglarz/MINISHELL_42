@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 13:03:09 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/14 13:11:04 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 		j++;
 	}
 	newarg[k] = '\0';
-	printf("le newarg %s\n", newarg);
+	//printf("le newarg %s\n", newarg);
 	return (newarg);
 }
 

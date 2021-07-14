@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:10:01 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/13 15:56:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,23 @@ char	**get_env_names(char **env_list)
 	return (env_names);
 }
 
-int	var_exist(t_cmd cmd, char **env_list)
+int	var_exist(t_cmd cmd, int w_arg, char **env_list)
 {
 	int		i;
 	char	**env_names;
 
 	i = 0;
-	while (cmd.arg[i])
-		i++;
-	if (i > 1)
-		return (-2);
-	else if (i == 1)
+	env_names = get_env_names(env_list);
+	while (env_names[i])
 	{
-		env_names = get_env_names(env_list);
-		i = 0;
-		while (env_names[i])
+		if (ft_strcmp(cmd.arg[w_arg], env_names[i]) == 0)
 		{
-			if (ft_strcmp(cmd.arg[0], env_names[i]) == 0)
-			{
-				free_env(nb_env(env_names), env_names);
-				return (i);
-			}
-			i++;
+			free_env(nb_env(env_names), env_names);
+			return (i);
 		}
-		free_env(nb_env(env_names), env_names);
+		i++;
 	}
+	free_env(nb_env(env_names), env_names);
 	return (-1);
 }
 
@@ -74,11 +66,19 @@ void	builtin_unset(t_cmd cmd, char **env_list)
 	int	i;
 	int	len;
 
-	i = 0;
-	to_del = var_exist(cmd, env_list);
+	to_del = 0;
+	i = 1;
 	len = nb_env(env_list);
-	if (to_del > 0)
-		del_env_var(env_list, len, to_del);
-	else if (to_del == -2)
-		printf("La fonction \"env\" ne peut prendre qu'un parametre.\n");
+	if (count_arg(cmd) > 1)
+	{
+		while (i < count_arg(cmd) && to_del >= 0)
+		{
+			to_del = var_exist(cmd, i, env_list);
+			if (to_del >= 0)
+				del_env_var(env_list, len, to_del);
+			i++;
+		}
+	}
+	else
+		printf("Pas assez d'arguments pour la fonction \"unset\".\n");
 }

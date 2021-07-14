@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:21:19 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 11:58:43 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/14 02:45:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ char	*ft_getenv(char *var_name, char **env_list)
 	len = ft_strlen(var_name);
 	while (env_list[i] != NULL)
 	{
-		if (env_list[i] && ft_strncmp(env_list[i], var_name, len) == 0 && env_list[i][len] == '=')
+		if (env_list[i] && ft_strncmp(env_list[i], var_name, len) == 0
+			&& env_list[i][len] == '=')
 			return (ft_substr(env_list[i], len + 1, ft_strlen(env_list[i])));
 		i++;
 	}

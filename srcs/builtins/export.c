@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:06:33 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/14 02:48:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	char	*tmp;
 
 	i = 0;
-	if (count_arg(cmd) > 1)
-		return (-2);
-	else if (count_arg(cmd) == 1)
+	if (count_arg(cmd) > 0)
 	{
-		if (ft_strclen(cmd.arg[0], '=') == -1)
-			return (-3);
-		tmp = ft_substr(cmd.arg[0], 0, ft_strclen(cmd.arg[0], '='));
+		if (ft_strclen(cmd.arg[1], '=') == -1)
+			return (-2);
+		tmp = ft_substr(cmd.arg[1], 0, ft_strclen(cmd.arg[1], '='));
 		env_names = get_env_names(env_list);
 		while (env_names[i])
 		{
@@ -51,47 +49,51 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	return (-1);
 }
 
-void	add_env_var(char **env_list, int len, char *add)
+void	display_env_ascii(t_cmd cmd, char **env_list)
 {
 	char	**tmp;
+	char	**var_names;
+	int		i;
+	int		j;
 
-	tmp = malloc(sizeof(char *) * len + 2);
-	envdup_plus(tmp, env_list, add);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len + 2);
-	envdup(env_list, tmp);
-	free_env(len, tmp);
-}
-
-void	change_env_var(char **env_list, int len, int exist, char *change)
-{
-	char	**tmp;
-
-	tmp = malloc(sizeof(char *) * len + 1);
-	envdup_n_change(tmp, env_list, change, exist);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len + 1);
-	envdup(env_list, tmp);
-	free_env(len, tmp);
+	i = 0;
+	var_names = get_env_names(env_list);
+	tmp = malloc(sizeof(char *) * (nb_env(env_list) + 1));
+	envdup(tmp, env_list);
+	while (tmp[i])
+	{
+		j = i + 1;
+		while (tmp[j])
+		{
+			if (ft_strcmp(var_names[i], var_names[j]) > 0)
+				swap_env(&tmp[i], &tmp[j], &var_names[i], &var_names[j]);
+			j++;
+		}
+		i++;
+	}
+	display_env(cmd, tmp);
+	free_env(nb_env(tmp), tmp);
+	free_env(nb_env(var_names), var_names);
 }
 
 void	builtin_export(t_cmd cmd, char **env_list)
 {
-	char	**tmp;
 	int		exist;
 	int		i;
-	int		len;
 
 	i = 0;
-	tmp = NULL;
-	exist = var_already_exist(cmd, env_list);
-	len = nb_env(env_list);
-	if (exist > 0)
-		change_env_var(env_list, len, exist, cmd.arg[0]);
-	else if (exist == -1)
-		add_env_var(env_list, len, cmd.arg[0]);
-	else if (exist == -2)
-		printf("La fonction \"export\" ne peut prendre qu'un parametre.\n");
-	else if (exist == -3)
-		printf("Mauvais format pour la fonction \"export\".\n");
+	if (count_arg(cmd) > 1)
+	{
+		exist = var_already_exist(cmd, env_list);
+		if (exist > 0)
+			change_env_var(env_list, nb_env(env_list), exist, cmd.arg[1]);
+		else if (exist == -1)
+			add_env_var(env_list, nb_env(env_list), cmd.arg[1]);
+		else if (exist == -2)
+			printf("Mauvais format pour la fonction \"export\".\n");
+	}
+	else if (count_arg(cmd) == 1)
+		display_env_ascii(cmd, env_list);
+	else
+		printf("Pas assez d'arguments pour la fonction \"export\".\n");
 }
