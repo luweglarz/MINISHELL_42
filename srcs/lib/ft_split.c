@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:48:11 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 17:39:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:51:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int		countword(const char *s, char c)
+static int	countword(const char *s, char c)
 {
 	int		i;
 	int		nbword;
@@ -33,7 +33,7 @@ static int		countword(const char *s, char c)
 	return (nbword);
 }
 
-static char		*sepword(const char *s, char c, int *ptr)
+static char	*sepword(const char *s, char c, int *ptr)
 {
 	int		j;
 	int		len;
@@ -58,7 +58,7 @@ static char		*sepword(const char *s, char c, int *ptr)
 	return (sepstr);
 }
 
-char			**ft_split(const char *s, char c)
+char	**ft_split(const char *s, char c)
 {
 	int		i;
 	int		ptr;

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:52:22 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/13 15:04:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:49:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,10 @@ void	envdup(char **env_list, char **tmp);
 void	envdup_n_change(char **tmp, char **env_list, char *change, int exist);
 void	envdup_plus(char **env_list, char **tmp, char *plus);
 void	envdup_without(char **env_list, char **tmp, int without);
+
+void	add_env_var(char **env_list, int len, char *add);
+void	change_env_var(char **env_list, int len, int exist, char *change);
+void	display_env(t_cmd cmd, char **tmp);
+void	swap_env(char **s1, char **s2, char **name1, char **name2);
 
 #endif

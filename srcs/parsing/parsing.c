@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/14 02:16:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:43:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	count_command(const char *line, int i, int len, int	inquote)
 	return (nb_cmd);
 }
 
-int		check_line(const char *line)
+int	check_line(const char *line)
 {
 	if (check_sep(line) < 0)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 17:22:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:48:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,61 +49,12 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	return (-1);
 }
 
-void	add_env_var(char **env_list, int len, char *add)
-{
-	char	**tmp;
-
-	tmp = malloc(sizeof(char *) * len + 2);
-	envdup_plus(tmp, env_list, add);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len + 2);
-	envdup(env_list, tmp);
-	free_env(len, tmp);
-}
-
-void	change_env_var(char **env_list, int len, int exist, char *change)
-{
-	char	**tmp;
-
-	tmp = malloc(sizeof(char *) * len + 1);
-	envdup_n_change(tmp, env_list, change, exist);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len + 1);
-	envdup(env_list, tmp);
-	free_env(len, tmp);
-}
-
-void	display_env(t_cmd cmd, char **tmp)
-{
-	int i;
-	
-	i = 0;
-	while (tmp[i])
-	{
-		write(cmd.fdout,  tmp[i], ft_strlen(tmp[i]));
-		write(cmd.fdout, "\n", 1);
-		i++;
-	}
-}
-
-void	swap_env(char **s1, char **s2, char **name1, char **name2)
-{
-	char *save;
-
-	save = *s1;
-	*s1 = *s2;
-	*s2 = save;
-	save = *name1;
-	*name1 = *name2;
-	*name2 = save;
-}
-
 void	display_env_ascii(t_cmd cmd, char **env_list)
 {
-	char **tmp;
-	char **var_names;
-	int i;
-	int j;
+	char	**tmp;
+	char	**var_names;
+	int		i;
+	int		j;
 
 	i = 0;
 	var_names = get_env_names(env_list);
