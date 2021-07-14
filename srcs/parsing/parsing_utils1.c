@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parsing_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 20:52:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 12:23:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:35:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,8 @@ int	check_inquote(int c, int inquote)
 		return (0);
 	else if (c == '"' && inquote == 2)
 		return (0);
-	else 
+	else
 		return (inquote);
-}
-
-int	check_sep(const char *line)
-{
-	int	i;
-	int	inquote;
-
-	i = 0;
-	inquote = 0;
-	while (line[i])
-	{
-		inquote = check_inquote(line[i], inquote);
-		if ((line[i] == ';' || line[i] == '|') && inquote == 0)
-		{
-			i++;
-			while (line[i] == ' ')
-				i++;
-			if (line[i] == ';' || line[i] == '|')
-				return (-1);
-		}
-		i++;
-	}
-	return (1);
 }
 
 int	not_only_space(const char *line)
@@ -76,4 +53,41 @@ void	init_env_parse(t_pars *pars)
 	pars->tmp2 = NULL;
 	pars->inquote = 0;
 	pars->stop = 0;
+}
+
+int	check_space_unused(const char *line, int i, int redirection)
+{
+	i++;
+	if (redirection == 1 && (line[i] == '>' || line[i] == '<'))
+		i++;
+	while (line[i] && line[i] == ' ')
+		i++;
+	return (i);
+}
+
+int	check_unused(const char *line)
+{
+	int	i;
+	int	inquote;
+
+	i = 0;
+	inquote = 0;
+	while (line[i])
+	{
+		inquote = check_inquote(line[i], inquote);
+		if ((line[i] == '>' || line[i] == '<') && inquote == 0)
+		{
+			i = check_space_unused(line, i, 1);
+			if (line[i] == '\0' || line[i] == ';' || line[i] == '|')
+				return (-1);
+		}
+		if (line[i] == '|' && inquote == 0)
+		{
+			i = check_space_unused(line, i, 0);
+			if (line[i] == '\0' || line[i] == ';' || line[i] == '|')
+				return (-1);
+		}
+		i++;
+	}
+	return (1);
 }

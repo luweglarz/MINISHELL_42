@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 16:49:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 13:56:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,49 @@ static int	check_is_path(const char *str)
 	return (0);
 }
 
+static void free_splitnjoin(char **split, char *join)
+{	
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	free(join);
+}
+
 static void	execve_with_path(t_cmd cmd, char **env_list)
 {
 	int			i;
 	char		**split;
+	char		*join;
 	struct stat *buf = NULL;
 
 	i = 0;
 	buf = malloc(sizeof(struct stat));
 	split = ft_split_slash(getenv("PATH"), ':');
+	join = ft_strjoin(split[i], cmd.builtin);
 	while (split[i])
 	{
-		if (stat((const char*)ft_strjoin(split[i], cmd.builtin), buf) == 0)
-			execve(ft_strjoin(split[i], cmd.builtin), cmd.arg, env_list);
+		if (stat((const char*)join, buf) == 0)
+			execve(join, cmd.arg, env_list);
 		i++;
 	}
+	free(buf);
+	free_splitnjoin(split, join);
 }
 
 void	execpath(t_cmd cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
 
+	if (cmd.fdout != 1)
+		dup2(cmd.fdout, 1);
+	if (cmd.fdin != 0)
+		dup2(cmd.fdin, 0);
 	if (pipe == false)
 	{
 		pid = fork();
@@ -58,7 +80,7 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 				execve(cmd.builtin, cmd.arg, env_list);
 			else
 				execve_with_path(cmd, env_list);
-			error_errno(&cmd, errno);
+			error_errno(&cmd, errno, true);
 		}
 		waitpid(pid, NULL, 0);
 	}
@@ -66,8 +88,8 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 	{
 		if (check_is_path(cmd.builtin) == 1)
 			execve(cmd.builtin, cmd.arg, env_list);
-			else
-				execve_with_path(cmd, env_list);
-		error_errno(&cmd, errno);
+		else
+			execve_with_path(cmd, env_list);
+		error_errno(&cmd, errno, true);
 	}
 }

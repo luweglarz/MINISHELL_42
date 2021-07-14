@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/10 02:11:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 14:38:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void	choose_expansion(t_pars *pars, const char *line, int *i, char **env_list)
 	if (pars->inquote == 2)
 	{
 		pars->expanded = expand_var_content(line, i, env_list, 0, 1);
-		printf("[DEBUG1]\n");
+		printf("Le $ est entre double quote\n");
 	}
 	else if (*i < (int)ft_strlen(line) && line[*i] != ';' && line[*i + 1] && line[*i + 1] != ' ')
 	{

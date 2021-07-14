@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:52:22 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/01 11:58:43 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/13 15:04:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 char	**get_env_names(char **env_list);
-int		var_exist(t_cmd cmd, char **env_list);
+int		var_exist(t_cmd cmd, int w_arg, char **env_list);
 int		var_already_exist(t_cmd cmd, char **env_list);
 
 void	add_env_var(char **env_list, int len, char *add);

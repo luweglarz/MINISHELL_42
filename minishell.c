@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/10 01:47:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:38:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	*get_line(void)
+char	*get_line(const char *prompt)
 {
 	char	*line;
 
@@ -22,7 +22,7 @@ char	*get_line(void)
 		free(line);
 		line = NULL;
 	}
-	line = readline("Minishell>");
+	line = readline(prompt);
 	if (line)
 		add_history(line);
 	return (line);
@@ -39,13 +39,30 @@ void	sig_handler(int signum)
 	}
 }
 
-int		main(int ac, char **av, char **envp)
+void	free_after_line(t_cmd *cmd, char *line)
+{
+	struct stat	*buf;
+
+	free_cmd(cmd);
+	buf = malloc(sizeof(struct stat) * 1);
+	if (stat(".heredoc", buf) == 0)
+		unlink(".heredoc");
+	free(buf);
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+}
+
+int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	char	*line;
 	char	*tmp;
 	char	**env_list;
 	int		nb_cmd;
+
 	cmd = NULL;
 	(void)ac;
 	(void)av;
@@ -54,41 +71,21 @@ int		main(int ac, char **av, char **envp)
 	nb_cmd = 0;
 	while (1)
 	{
-		line = get_line();
+		line = get_line("Minishell>");
 		tmp = replace_env_var(line, env_list, 0);
-		printf("tmp = '%s'\n", tmp);
 		free(line);
-		line = NULL;
 		line = ft_strdup(tmp);
 		free(tmp);
-		tmp = NULL;
-		printf("line = '%s'\n", line);
 		nb_cmd = parse_command(line);
-		cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
-		fill_cmd_array(line, cmd);
-		parse_cmd_array(cmd, env_list, nb_cmd);
-		int i = 0;
-		if (cmd)
+		if (nb_cmd >= 0)
 		{
-			if (cmd->arg)
-			{
-				while (cmd->arg[i])
-				{
-					free(cmd->arg[i]);
-					i++;
-				}
-				free(cmd->arg);
-			}
-			if (cmd->builtin)
-				free(cmd->builtin);
-			free(cmd);
-			cmd = NULL;
+			cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
+			fill_cmd_array(line, cmd);
+			parse_cmd_array(cmd, env_list, nb_cmd);
+			free_after_line(cmd, line);
 		}
-		if (line)
-		{
+		else if (line)
 			free(line);
-			line = NULL;
-		}
 	}
 	return (1);
 }

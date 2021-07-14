@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/07/07 12:26:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:40:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 
 typedef struct s_pars
 {
-		char	*res;
-		char	*tmp;
-		char	*tmp2;
-		char	*expanded;
-		int		inquote;
-		int		stop;
+	char	*res;
+	char	*tmp;
+	char	*tmp2;
+	char	*expanded;
+	int		inquote;
+	int		stop;
 }				t_pars;
 
 void	close_command(int *cmd_started, int *nb_cmd);
-int		count_command(const char *line, int i);
+int		count_command(const char *line, int i, int len, int	inquote);
 int		parse_command(const char *line);
 int		count_arg(t_cmd cmd);
 
@@ -38,6 +38,12 @@ char	*get_var_name(const char *line, int *index);
 
 int		check_inquote(int c, int inquote);
 int		check_sep(const char *line);
+int		check_unclosed(const char *line);
+int		check_redirection_input(const char *line, int i);
+int		check_redirection_output(const char *line, int i);
+int		check_redirection(const char *line);
+int		check_space_unused(const char *line, int i, int redirection);
+int		check_unused(const char *line);
 int		not_only_space(const char *line);
 void	init_env_parse(t_pars *pars);
 

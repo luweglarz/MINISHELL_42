@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 19:34:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 14:00:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,40 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
+int	create_redirection_files(const char *line, int *j, t_cmd *cmd)
+{
+	if (line[*j] == '>')
+		*j = bracket_out(line, j, cmd);
+	else if (line[*j] == '<')
+		*j = bracket_in(line, j, cmd);
+	return (*j);
+}
 
+static char	*formate_args(const char *line, t_cmd *cmd, int i)
+{
+	int		j;
+	int		k;
+	char	*newarg;
+
+	j = 0;
+	k = 0;
+	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
+	while (j < i)
+	{	
+		j = create_redirection_files(line, &j, cmd);
+		newarg[k] = line[j];
+		k++;
+		j++;
+	}
+	newarg[k] = '\0';
+	//printf("le newarg %s\n", newarg);
+	return (newarg);
+}
 
 static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
+	int		j;
 	char	*args;
 
 	i = 0;
@@ -40,7 +69,7 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 			break ;
 		i++;
 	}
-	args = ft_substr(line, 0, i);
+	args = formate_args(line, cmd, i);
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);
@@ -49,10 +78,10 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	}
 	else
 		cmd->arg = split_args(args, cmd->builtin);
-	i = 0;
-	while ((size_t)i++ < ft_strlen(args))
-		line++;
 	free(args);
+	j = 0;
+	while (j++ < i)
+		line++;
 	return (line);
 }
 
@@ -67,17 +96,16 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
-		if (*line == ';' || *line == '|')
-		{
-			index++;
-			line ++;
-			continue ;
-		}
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
 		if (*line++ == '|')
 			cmd[index].pipe = true;
+		else if (*line++ == ';')
+		{
+			index++;
+			continue ;
+		}
 		index++;
 	}
 	cmd_init(&cmd[index]);

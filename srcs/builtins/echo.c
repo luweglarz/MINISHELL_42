@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/06 19:24:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/12 19:01:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	display_echo(t_cmd cmd)
 		i++;
 		while (cmd.arg[i])
 		{
-			printf("%s",cmd.arg[i]);
-			printf(" ");
+			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(cmd.fdout, " ", 1);
 				i++;
 		}
 	}
@@ -31,11 +31,11 @@ static void	display_echo(t_cmd cmd)
 	{
 		while (cmd.arg[i] != NULL)
 		{
-			printf("%s", cmd.arg[i]);
-			printf(" ");
+			write(cmd.fdout, cmd.arg[i], ft_strlen(cmd.arg[i]));
+			write(cmd.fdout, " ", 1);
 			i++;
 		}
-		printf("\n");
+		write(cmd.fdout, "\n", 1);
 	}
 }
 
@@ -50,7 +50,7 @@ void	builtin_echo(t_cmd cmd, bool pipe)
 	{
 		pid = fork();
 		if (pid < 0)
-			return ;
+			error_errno(&cmd, errno, true);
 		if (pid == 0)
 		{
 			display_echo(cmd);
