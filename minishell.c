@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/14 02:38:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:56:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,12 @@ int	main(int ac, char **av, char **envp)
 	env_list = init_env(envp);
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
+	line = NULL;
 	while (1)
 	{
-		line = get_line("Minishell>");
+		line = readline("Minishell>");
+		if (line)
+			add_history(line);
 		tmp = replace_env_var(line, env_list, 0);
 		free(line);
 		line = ft_strdup(tmp);

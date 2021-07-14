@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/14 02:44:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:59:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,11 @@ char	*expand_var_content(const char *line, int *index, char **env_list, int i, i
 	var_content = NULL;
 	tmp = NULL;
 	if (getenv(var_name) != NULL)
-	{
 		tmp = ft_getenv(var_name, env_list);
-		printf("content brute : '%s'\n", tmp);
-	}
 	if (var_name)
 		free(var_name);
 	if (tmp && space == 0)
-	{
 		var_content = strdup_without_space(tmp);
-		printf("content w- space uniquement : '%s'\n", var_content);
-	}
 	else if (tmp && space == 1)
 	{
 		var_content = malloc(sizeof(char) * ft_strlen(tmp) + 3);
@@ -113,7 +107,6 @@ char	*expand_var_content(const char *line, int *index, char **env_list, int i, i
 			var_content[i] = tmp[i - 1];
 		var_content[ft_strlen(tmp) + 1] = '"';
 		var_content[ft_strlen(tmp) + 2] = '\0';
-		printf("content w+ space uniquement : '%s'\n", var_content);
 	}
 	if (tmp)
 		free(tmp);
@@ -172,11 +165,8 @@ void	add_buffer(t_pars *pars)
 void	add_expansion(t_pars *pars)
 {
 	pars->tmp = ft_strdup(pars->res);
-	printf("pars->res = '%s'\n", pars->res);
-	printf("pars->expanded = '%s'\n", pars->expanded);
 	free(pars->res);
 	pars->res = ft_strjoin(pars->tmp, pars->expanded);
-	printf("AFTER JOIN pars->res = '%s'\n", pars->res);
 	free(pars->tmp);
 	pars->tmp = NULL;
 	free(pars->expanded);
@@ -199,30 +189,18 @@ void	get_expanded(t_pars *pars, char **env_list, const char *line, int *i)
 	if (pars->inquote == 0)
 		pars->expanded = expand_var_content(line, i, env_list, 0, 0);
 	else if (pars->inquote == 1)
-	{
 		pars->expanded = del_dollar(&line[*i], '\'');
-		printf("[DEBUG2]del_dollar\n");
-	}
 	else
-	{
 		pars->expanded = del_dollar(&line[*i], '"');
-		printf("[DEBUG2]del_dollar\n");
-	}
 }
 
 void	choose_expansion(t_pars *pars, const char *line, int *i, char **env_list)
 {
 	save_buffer(pars, line, i);
 	if (pars->inquote == 2)
-	{
 		pars->expanded = expand_var_content(line, i, env_list, 0, 1);
-		printf("Le $ est entre double quote\n");
-	}
 	else if (*i < (int)ft_strlen(line) && line[*i] != ';' && line[*i + 1] && line[*i + 1] != ' ')
-	{
 		get_expanded(pars, env_list, line, i);
-		printf("[DEBUG2]\n");
-	}
 	else
 		pars->expanded = ft_strdup("$");
 	pars->stop = *i;

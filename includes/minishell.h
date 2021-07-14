@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/12 21:02:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/13 15:47:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <string.h>
+# include <linux/limits.h>
 
 # include "cmd.h"
 # include "builtin.h"

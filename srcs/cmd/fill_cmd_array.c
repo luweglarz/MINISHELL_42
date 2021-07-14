@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 14:00:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 02:54:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,6 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-int	create_redirection_files(const char *line, int *j, t_cmd *cmd)
-{
-	if (line[*j] == '>')
-		*j = bracket_out(line, j, cmd);
-	else if (line[*j] == '<')
-		*j = bracket_in(line, j, cmd);
-	return (*j);
-}
-
 static char	*formate_args(const char *line, t_cmd *cmd, int i)
 {
 	int		j;
@@ -46,7 +37,10 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
-		j = create_redirection_files(line, &j, cmd);
+		if (line[j] == '>')
+			j = bracket_out(line, &j, cmd);
+		else if (line[j] == '<')
+			j = bracket_in(line, &j, cmd);
 		newarg[k] = line[j];
 		k++;
 		j++;
