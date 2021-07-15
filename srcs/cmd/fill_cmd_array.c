@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 15:07:36 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 17:49:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,27 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
 	int		j;
+	int		inquote;
 	char	*args;
 
 	i = 0;
+	inquote = 0;
 	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
 	{
-		if (line[i] == '|')
+		if (line [i] == '"' && check_end_quote(line + 1))
+			inquote = 1;
+		else if (line [i] == '\'' && check_end_quote(line + 1))
+			inquote = 2;
+		if (line [i] == '"' && inquote == 1)
+			inquote = 0;
+		else if (line [i] == '\'' && inquote == 2)
+			inquote = 0;
+		if (line[i] == '|' && inquote == 0)
 			break ;
 		i++;
 	}
 	args = formate_args(line, cmd, i);
+	printf("les args %s\n", args);
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);
@@ -87,7 +98,8 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 		cmd->arg[1] = NULL;
 	}
 	else
-		cmd->arg = split_args(args, cmd->builtin);
+		cmd->arg = ft_split(args, ' ', cmd->builtin);
+		//cmd->arg = split_args(args, cmd->builtin);
 	free(args);
 	j = 0;
 	while (j++ < i)
@@ -106,10 +118,11 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
-		printf("le buil |%s|\n", cmd[index].builtin);
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
+		printf("le arg 1 %s\n", cmd[index].arg[1]);
+		printf("le arg 2 %s\n", cmd[index].arg[2]);
 		if (*line == '|')
 		{
 			cmd[index].pipe = true;

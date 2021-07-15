@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/15 15:09:39 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:55:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ void	sig_handler(int signum)
 void	free_after_line(t_cmd *cmd, char *line)
 {
 	struct stat	*buf;
-	char		*join;
+	//char		*join;
 
 	buf = malloc(sizeof(struct stat) * 1);
-	join = ft_strjoin(getenv("TMPDIR"), ".heredoc");
-	if (stat(join, buf) == 0)
-		unlink(join);
+	//join = ft_strjoin(getenv("TMPDIR"), ".heredoc");
+	//if (stat(join, buf) == 0)
+	//	unlink(join);
+	//free(join);
 	free(buf);
 	free_cmd(cmd);
 	if (line)

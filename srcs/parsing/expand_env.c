@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:08 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/14 02:59:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 17:46:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*strdup_without_space(char *tmp)
 	int		j;
 	int		count;
 
-	tab = ft_split(tmp, ' ');
+	tab = ft_split(tmp, ' ', NULL);
 	count = 0;
 	i = 0;
 	while (tab[i])

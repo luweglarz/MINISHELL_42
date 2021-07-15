@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 16:49:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 17:45:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split_slash(char const *s, char c);
-char		**ft_split(char const *s, char c);
+char		**ft_split(const char *s, char c, char *builtin);
 
 #endif

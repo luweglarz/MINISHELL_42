@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:48:11 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 02:51:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 17:51:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*sepword(const char *s, char c, int *ptr)
 	return (sepstr);
 }
 
-char	**ft_split(const char *s, char c)
+char	**ft_split(const char *s, char c, char *builtin)
 {
 	int		i;
 	int		ptr;
@@ -66,11 +66,15 @@ char	**ft_split(const char *s, char c)
 	char	**split;
 
 	nbword = countword(s, c);
+	if (builtin != NULL)
+		nbword++;
 	i = 0;
 	split = malloc(sizeof(char *) * (nbword + 1));
 	if (split == NULL)
 		return (NULL);
 	ptr = 0;
+	if (builtin != NULL)
+			split[i++] = ft_strdup(builtin);
 	while (i < nbword)
 	{
 		split[i] = sepword(s, c, &ptr);
