@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 02:48:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 04:01:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,46 @@ int	var_already_exist(t_cmd cmd, char **env_list)
 	return (-1);
 }
 
+char	**get_env_content(char **env_list)
+{
+	int		i;
+	char	**env_names;
+
+	i = 0;
+	env_names = malloc(sizeof(char *) * (nb_env(env_list) + 1));
+	while (env_list[i])
+	{
+		env_names[i] = ft_substr(env_list[i], ft_strclen(env_list[i], '=') + 1, ft_strlen(env_list[i]));
+		i++;
+	}
+	env_names[i] = NULL;
+	return (env_names);
+}
+
 void	display_env_ascii(t_cmd cmd, char **env_list)
 {
-	char	**tmp;
 	char	**var_names;
+	char	**var_contents;
 	int		i;
 	int		j;
 
 	i = 0;
 	var_names = get_env_names(env_list);
-	tmp = malloc(sizeof(char *) * (nb_env(env_list) + 1));
-	envdup(tmp, env_list);
-	while (tmp[i])
+	var_contents = get_env_content(env_list);
+	while (env_list[i])
 	{
 		j = i + 1;
-		while (tmp[j])
+		while (env_list[j])
 		{
 			if (ft_strcmp(var_names[i], var_names[j]) > 0)
-				swap_env(&tmp[i], &tmp[j], &var_names[i], &var_names[j]);
+				swap_env(&var_contents[i], &var_contents[j], &var_names[i], &var_names[j]);
 			j++;
 		}
 		i++;
 	}
-	display_env(cmd, tmp);
-	free_env(nb_env(tmp), tmp);
+	display_env(cmd, var_names, var_contents);
 	free_env(nb_env(var_names), var_names);
+	free_env(nb_env(var_names), var_contents);
 }
 
 void	builtin_export(t_cmd cmd, char **env_list)

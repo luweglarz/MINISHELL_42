@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:48:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 02:50:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 04:04:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,29 @@ void	change_env_var(char **env_list, int len, int exist, char *change)
 	free_env(len, tmp);
 }
 
-void	display_env(t_cmd cmd, char **tmp)
+void	display_env(t_cmd cmd, char **var_names, char **var_contents)
 {
 	int	i;
 
 	i = 0;
-	while (tmp[i])
+	while (var_names[i])
 	{
-		write(cmd.fdout, tmp[i], ft_strlen(tmp[i]));
-		write(cmd.fdout, "\n", 1);
+		write(cmd.fdout, "declare -x ", 11);
+		write(cmd.fdout, var_names[i], ft_strlen(var_names[i]));
+		write(cmd.fdout, "=\"", 2);
+		write(cmd.fdout, var_contents[i], ft_strlen(var_names[i]));
+		write(cmd.fdout, "\"\n", 2);
 		i++;
 	}
 }
 
-void	swap_env(char **s1, char **s2, char **name1, char **name2)
+void	swap_env(char **content1, char **content2, char **name1, char **name2)
 {
 	char	*save;
 
-	save = *s1;
-	*s1 = *s2;
-	*s2 = save;
+	save = *content1;
+	*content1 = *content2;
+	*content2 = save;
 	save = *name1;
 	*name1 = *name2;
 	*name2 = save;
