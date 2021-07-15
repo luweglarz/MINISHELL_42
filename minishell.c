@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/15 14:21:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 16:07:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int	main(int ac, char **av, char **envp)
 		nb_cmd = parse_command(line);
 		if (nb_cmd >= 0)
 		{
+			printf("nb cmd %d\n", nb_cmd);
 			cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 			fill_cmd_array(line, cmd);
 			format_args(cmd, env_list, nb_cmd);

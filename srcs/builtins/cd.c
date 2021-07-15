@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 16:45:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 12:38:47 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void		builtin_cd(t_cmd cmd, bool pipe)
 {
 	char		*pwd = NULL;
 	int			size;
+	int			ret;
 
 	size = 0;
+	ret = 1;
 	if (cmd.arg[1] == NULL)
 		chdir(getenv("HOME"));
+	else if (ft_strncmp(cmd.arg[1], "/", ft_strlen(cmd.arg[1]) + 1) == 0)
+		chdir("/");
 	else if (ft_strncmp(cmd.arg[1], "..", 2) == 0 && cmd.arg[1][2] == '\0')
 	{
 		while (getcwd(pwd, size) == NULL)
@@ -44,7 +48,11 @@ void		builtin_cd(t_cmd cmd, bool pipe)
 		chdir(go_back(pwd));
 	}
 	else
-		chdir(go_back(cmd.arg[1]));
+	{
+	 	ret = chdir(cmd.arg[1]);
+		if (ret == -1)
+			error_errno(&cmd, errno, false);
+	}
 	if (pipe == true)
 		exit(1);
 }

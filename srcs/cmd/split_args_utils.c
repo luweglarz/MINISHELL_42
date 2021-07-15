@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_args_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 01:05:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/12 18:51:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 12:05:33 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_end_quote(const char *s)
 static const char
 	*check_inquote_split(const char *s, int *inquote, int *docontinue)
 {
-	if ((*s == '\'') || (*s == '"' && *inquote == 0))
+	if ((*s == '\'' && *inquote == 0) || (*s == '"' && *inquote == 0))
 	{
 		if (check_end_quote(s) == 1)
 		{
@@ -40,7 +40,7 @@ static const char
 			return (s);
 		}
 	}
-	else if ((*s == '\'') || (*s == '"' && *inquote == 1))
+	else if ((*s == '\'' && *inquote == 1) || (*s == '"' && *inquote == 1))
 	{
 		*inquote = 0;
 		s++;

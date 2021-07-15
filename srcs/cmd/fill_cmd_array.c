@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 13:20:23 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:22:51 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,30 @@
 static const char	*fill_builtin(const char *line, t_cmd *cmd)
 {
 	int		i;
+	int		j;
+	int 	start;
 
 	i = 0;
+	j = 0;
+	start = 0;
 	while (ft_isascii(line[i]) == 1)
+	{
+		if (line[i] == '>')
+		{
+			i = bracket_out(line, &i, cmd);
+			start = i;
+		}
+		else if (line[i] == '<')
+		{
+			i = bracket_out(line, &i, cmd);
+			start = i;
+		}
+		if (line[i] == '|')
+			break ;
 		i++;
-	cmd->builtin = ft_substr(line, 0, i);
-	i = 0;
-	while ((size_t)i++ < ft_strlen(cmd->builtin))
+	}
+	cmd->builtin = ft_substr(line, start, i - start);
+	while (j++ < i)
 		line++;
 	return (line);
 }
@@ -46,7 +63,6 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 		j++;
 	}
 	newarg[k] = '\0';
-	//printf("le newarg %s\n", newarg);
 	return (newarg);
 }
 
@@ -90,6 +106,7 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		while (*line == ' ')
 			line++;
 		line = fill_builtin(line, &cmd[index]);
+		printf("le buil |%s|\n", cmd[index].builtin);
 		while (*line == ' ')
 			line++;
 		line = fill_arg(line, &cmd[index]);
