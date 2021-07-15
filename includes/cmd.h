@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 13:20:58 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 17:08:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void		parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd);
 
 int			count_word(const char *str);
 int			word_len(const char *s);
+int			check_end_quote(const char *s);
 const char	*fill_split(const char *s, char **tab);
 char		**split_args(char const *s, const char *builtin);
 

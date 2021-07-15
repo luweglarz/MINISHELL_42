@@ -10,7 +10,7 @@ SRCS  =  srcs/lib/lib_utils1.c srcs/lib/lib_utils2.c srcs/lib/ft_split.c srcs/li
  	srcs/cmd/fill_cmd_array.c  srcs/cmd/parse_cmd_array.c  srcs/cmd/cmd_utils.c srcs/cmd/pipe.c  srcs/cmd/redirection.c\
 	srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/execpath.c srcs/builtins/cd.c srcs/builtins/env.c \
 	srcs/builtins/exit.c srcs/builtins/unset.c srcs/builtins/export.c srcs/builtins/error.c \
-	srcs/parsing/expand_env.c srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing.c \
+	srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing.c \
 	srcs/env/env_utils1.c srcs/env/env_utils2.c srcs/env/env_utils3.c
 
 RM	= rm -f
