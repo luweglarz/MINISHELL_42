@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 20:52:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 13:39:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/14 18:32:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,6 @@ int	not_only_space(const char *line)
 		return (-1);
 	else
 		return (1);
-}
-
-void	init_env_parse(t_pars *pars)
-{
-	pars->expanded = NULL;
-	pars->res = NULL;
-	pars->tmp = NULL;
-	pars->tmp2 = NULL;
-	pars->inquote = 0;
-	pars->stop = 0;
 }
 
 int	check_space_unused(const char *line, int i, int redirection)
