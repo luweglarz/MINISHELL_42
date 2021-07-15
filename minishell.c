@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/14 14:46:04 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:09:39 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ void	sig_handler(int signum)
 void	free_after_line(t_cmd *cmd, char *line)
 {
 	struct stat	*buf;
+	char		*join;
 
-	free_cmd(cmd);
 	buf = malloc(sizeof(struct stat) * 1);
-	if (stat(".heredoc", buf) == 0)
-		unlink(".heredoc");
+	join = ft_strjoin(getenv("TMPDIR"), ".heredoc");
+	if (stat(join, buf) == 0)
+		unlink(join);
 	free(buf);
+	free_cmd(cmd);
 	if (line)
 	{
 		free(line);

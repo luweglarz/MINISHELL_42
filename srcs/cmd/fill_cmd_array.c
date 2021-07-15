@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 14:22:51 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:07:36 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	i = 0;
 	j = 0;
 	start = 0;
+	if (line[i] == '>')
+	{
+		i = bracket_out(line, &i, cmd);
+		start = i;
+	}
+	else if (line[i] == '<')
+	{
+		i = bracket_in(line, &i, cmd);
+		start = i;
+	}
 	while (ft_isascii(line[i]) == 1)
 	{
-		if (line[i] == '>')
-		{
-			i = bracket_out(line, &i, cmd);
-			start = i;
-		}
-		else if (line[i] == '<')
-		{
-			i = bracket_out(line, &i, cmd);
-			start = i;
-		}
-		if (line[i] == '|')
+		if (line[i] == '|' || line[i] == '<' || line[i] == '>')
 			break ;
 		i++;
 	}

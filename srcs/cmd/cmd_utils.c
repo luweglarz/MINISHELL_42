@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:59:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 15:15:47 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:55:43 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	pass_redirections(const char *line, int j, int *start, int *doublebracket)
 	if (line[j] == '>')
 	{
 		j++;
-		if (line[j + 1] == '>' && doublebracket != NULL)
+		if (line[j] == '>' && doublebracket != NULL)
 		{
 			j++;
 			*doublebracket = 1;
@@ -57,7 +57,7 @@ int	pass_redirections(const char *line, int j, int *start, int *doublebracket)
 	else if (line[j] == '<')
 	{
 		j++;
-		if (line[j + 1] == '<' && doublebracket != NULL)
+		if (line[j] == '<' && doublebracket != NULL)
 		{
 			j++;
 			*doublebracket = 1;

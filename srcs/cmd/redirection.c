@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 21:22:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/15 15:13:45 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 {
 	int			fd;
 	char		*newline;
+	char		*join;
 
-	fd = open(".heredoc", O_RDWR | O_CREAT, 0664);
+	join = ft_strjoin(getenv("TMPDIR"), ".heredoc");
+	fd = open(join, O_RDWR | O_CREAT, 0664);
 	newline = NULL;
 	while (1)
 	{
@@ -54,7 +56,8 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 		write(fd, "\n", 1);
 	}
 	free(newline);
-	cmd->fdin = open(".heredoc", O_RDWR);
+	cmd->fdin = open(join, O_RDWR);
+	free(join);
 }
 
 int	bracket_in(const char *line, int *j, t_cmd *cmd)
@@ -74,7 +77,7 @@ int	bracket_in(const char *line, int *j, t_cmd *cmd)
 		error_errno(cmd, errno, true);
 	if (doublebracket == 1)
 		double_bracket_in(file, cmd);
-	if (stat((const char*)file, buf) == -1 && doublebracket == 0)
+	else if (stat((const char*)file, buf) == -1 && doublebracket == 0)
 	{
 		cmd->fdin = -1;
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
