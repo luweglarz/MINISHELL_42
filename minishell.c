@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/16 02:02:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/16 14:42:00 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,41 @@ void	free_after_line(t_cmd *cmd, char *line)
 	}
 }
 
+int		check_solo_quote(char *arg, int inquote)
+{
+	int i;
+
+	i = 0;
+	if (arg[i] == '\'' && inquote == 1)
+	{
+		i++;
+		while (arg[i])
+		{
+			if (arg[i] == '\'')
+				return (1);
+			i++;
+		}
+		if (arg[i] == '\'')
+				return (1);
+		return (0);
+	}
+	else if (arg[i] == '"' && inquote == 2)
+	{
+		i++;
+		while (arg[i])
+		{
+			if (arg[i] == '"')
+				return (2);
+			i++;
+		}
+		if (arg[i] == '"')
+				return (2);
+		return (0);
+	}
+	else
+		return (inquote);
+}
+
 int		dollar_inside(t_cmd *cmd, int i, int j)
 {
 	int index;
@@ -74,39 +109,6 @@ int		dollar_inside(t_cmd *cmd, int i, int j)
 		index++;
 	}
 	return (nb);
-}
-
-int		check_solo_quote(char *arg, int inquote)
-{
-	int i;
-
-	i = 0;
-	if (arg[i] == '\'')
-	{
-		i++;
-		while (arg[i])
-		{
-			if (arg[i] == '\'')
-				return (inquote);
-			i++;
-		}
-		inquote = 0;
-		return (inquote);
-	}
-	else if (arg[i] == '"')
-	{
-		i++;
-		while (arg[i])
-		{
-			if (arg[i] == '"')
-				return (inquote);
-			i++;
-		}
-		inquote = 0;
-		return (inquote);
-	}
-	else
-		return (inquote);
 }
 
 char	*ft_getenv_quoted(char *var_name, char **env_list)
@@ -152,7 +154,6 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 {
 	t_pars pars;
 
-	//init_pars_struct(pars);
 	pars.var_content = NULL;
 	pars.var_name = NULL;
 	pars.tmp = NULL;
@@ -165,10 +166,8 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 		pars.inquote = check_inquote(cmd[i].arg[j][pars.index], pars.inquote);
 		if (pars.inquote == 1 || pars.inquote == 2)
 			pars.inquote = check_solo_quote(&cmd[i].arg[j][pars.index], pars.inquote);
-		//printf("[DEBUG1] inquote = %d | stop = %d - %s| &cmd[i].arg[j] = %s\n", pars.inquote, pars.stop, &cmd[i].arg[j][pars.stop], &cmd[i].arg[j][pars.index]);
 		if (cmd[i].arg[j][pars.index] == '$' && (pars.inquote == 0 || pars.inquote == 2))
 		{
-			//Je recupere ce qui est avant le $
 			if (pars.stop == -1)
 				pars.tmp = ft_substr(cmd[i].arg[j], 0, pars.index);
 			else if (pars.res != NULL)
@@ -177,8 +176,6 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 				{
 					pars.var_content = ft_substr(cmd[i].arg[j], pars.stop, pars.index - pars.stop);
 					pars.tmp = ft_strjoin(pars.res, pars.var_content);
-					//printf("[DEBUG] res = %s\n", pars.res);
-					//printf("[DEBUG] var_content = %s\n", pars.var_content);
 					free(pars.var_content);
 					free(pars.res);
 					pars.res = NULL;
@@ -192,7 +189,6 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 			}
 			pars.index++;
 			pars.stop = pars.index;
-			//
 			if (cmd[i].arg[j][pars.index] == '\0' || cmd[i].arg[j][pars.index] == '\'' || cmd[i].arg[j][pars.index] == '"')
 			{
 				pars.var_content = ft_strdup("$");
@@ -209,7 +205,6 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 			{
 				while (cmd[i].arg[j][pars.index] && cmd[i].arg[j][pars.index] != '$' && cmd[i].arg[j][pars.index] != '\'' && cmd[i].arg[j][pars.index] != '"')
 					pars.index++;
-				//Je recupere ce qui est apres le $
 				pars.var_name = ft_substr(cmd[i].arg[j], pars.stop, pars.index - pars.stop);
 				if (pars.inquote == 0)
 					pars.var_content = ft_getenv(pars.var_name, env_list);
@@ -223,8 +218,6 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 				free(pars.var_name);
 				pars.var_name = NULL;
 			}
-			printf("[DEBUG2] inquote = %d | stop = %d | &cmd[i].arg[j] = %s\n", pars.inquote, pars.stop, &cmd[i].arg[j][pars.index]);
-			//Je join ou dup les morceaux de l'argument
 			if (pars.tmp)
 			{
 				pars.res = ft_strjoin(pars.tmp, pars.var_content);
@@ -291,29 +284,76 @@ int		quote_inside(t_cmd *cmd, int i, int j)
 	while (cmd[i].arg[j][index])
 	{
 		inquote = check_inquote(cmd[i].arg[j][index], inquote);
-		if (inquote == 1 || inquote == 2)
+		if (cmd[i].arg[j][index] == '\'' || cmd[i].arg[j][index] == '"')
 			inquote = check_solo_quote(&cmd[i].arg[j][index], inquote);
-		if (inquote == 1)
+		if (cmd[i].arg[j][index] == '\'' && inquote == 1)
 		{
 			nb = nb + 2;
-			while (cmd[i].arg[j][index] && inquote == 1)
-			{
-				inquote = check_inquote(cmd[i].arg[j][index], inquote);
+			while (cmd[i].arg[j][index] && cmd[i].arg[j][index] != '\'')
 				index++;
-			}
 		}
-		else if (inquote == 2)
+		else if (cmd[i].arg[j][index] == '"' && inquote == 2)
 		{
 			nb = nb + 2;
-			while (cmd[i].arg[j][index] && inquote == 2)
-			{
-				inquote = check_inquote(cmd[i].arg[j][index], inquote);
+			while (cmd[i].arg[j][index] && cmd[i].arg[j][index] != '"')
 				index++;
-			}
 		}
 		index++;
 	}
 	return (nb);
+}
+
+char	*arg_without_quote(char *tmp, t_cmd *cmd, int ind, int ind2)
+{
+	char *res;
+	int i;
+	int inquote;
+	int res_index;
+
+	res = malloc(sizeof(char) * (ft_strlen(tmp) - quote_inside(cmd, ind, ind2) + 1));
+	i = 0;
+	inquote = 0;
+	res_index = 0;
+	while (tmp[i])
+	{
+		inquote = check_inquote(tmp[i], inquote);
+		if (tmp[i] == '\'' || tmp[i] == '"')
+			inquote = check_solo_quote(&tmp[i], inquote);
+		if (tmp[i] && inquote == 1)
+		{
+			printf("debug1 : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
+			i++;
+			while (tmp[i] && tmp[i] != '\'')
+			{
+				res[res_index] = tmp[i];
+				res_index++;
+				i++;
+			}
+			i++;
+			printf("-> : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
+		}
+		else if (tmp[i] == '"' && inquote == 2)
+		{
+			printf("debug2 : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
+			i++;
+			while (tmp[i] && tmp[i] != '"')
+			{
+				res[res_index] = tmp[i];
+				res_index++;
+				i++;
+			}
+			i++;
+			printf("-> : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
+		}
+		else
+		{
+			res[res_index] = tmp[i];
+			res_index++;
+			i++;
+		}
+	}
+	res[res_index] = '\0';
+	return (res);
 }
 
 void	del_quotes(t_cmd *cmd, char **env_list, int nb_cmd)
@@ -330,13 +370,11 @@ void	del_quotes(t_cmd *cmd, char **env_list, int nb_cmd)
 		while (cmd[i].arg[j])
 		{
 			quote = quote_inside(cmd, i, j);
-			printf("ARG[%d] quote = %d | = %s\n", j, quote, cmd[i].arg[j]);
 			if (quote > 0)
 			{
-				//tmp = ft_strdup(cmd[i].arg[j]);
-				//free(cmd[i].arg[j]);
-				//cmd[i].arg[j] = arg_without_quote(cmd);
-				printf("il y a %d quote a l'enlever a l'interieur\n", quote);
+				tmp = ft_strdup(cmd[i].arg[j]);
+				free(cmd[i].arg[j]);
+				cmd[i].arg[j] = arg_without_quote(tmp, cmd, i , j);
 			}
 			j++;
 		}
@@ -368,7 +406,6 @@ int	main(int ac, char **av, char **envp)
 		nb_cmd = parse_command(line);
 		if (nb_cmd >= 0)
 		{
-			printf("nb cmd %d\n", nb_cmd);
 			cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 			fill_cmd_array(line, cmd);
 			format_args(cmd, env_list, nb_cmd);
