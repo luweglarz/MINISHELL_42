@@ -26,7 +26,7 @@ $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@ranlib $(NAME)
 ifeq ($(UNAME), Darwin)
-	@$(CC) minishell.c -o minishell -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include $(NAME)
+	@$(CC) -fsanitize=address minishell.c -o minishell -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include $(NAME)
 endif
 ifeq ($(UNAME), Linux)
 	@$(CC) minishell.c -o minishell -lreadline $(NAME)

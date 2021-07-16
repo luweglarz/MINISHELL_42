@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/16 14:42:00 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/07/16 15:19:41 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	*ft_getenv_quoted(char *var_name, char **env_list)
 		return (NULL);
 	else
 	{
-		tab = ft_split(str, ' ', NULL);
+		tab = ft_split(str, ' ');
 		free(str);
 		tmp = ft_strdup(tab[i]);
 		i++;
