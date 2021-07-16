@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/16 01:51:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/16 02:02:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,7 @@ int		quote_inside(t_cmd *cmd, int i, int j)
 
 	index = 0;
 	nb = 0;
+	inquote = 0;
 	while (cmd[i].arg[j][index])
 	{
 		inquote = check_inquote(cmd[i].arg[j][index], inquote);
@@ -320,6 +321,7 @@ void	del_quotes(t_cmd *cmd, char **env_list, int nb_cmd)
 	int i;
 	int j;
 	int quote;
+	char *tmp;
 
 	i = 0;
 	while (i < nb_cmd)
@@ -330,7 +332,12 @@ void	del_quotes(t_cmd *cmd, char **env_list, int nb_cmd)
 			quote = quote_inside(cmd, i, j);
 			printf("ARG[%d] quote = %d | = %s\n", j, quote, cmd[i].arg[j]);
 			if (quote > 0)
+			{
+				//tmp = ft_strdup(cmd[i].arg[j]);
+				//free(cmd[i].arg[j]);
+				//cmd[i].arg[j] = arg_without_quote(cmd);
 				printf("il y a %d quote a l'enlever a l'interieur\n", quote);
+			}
 			j++;
 		}
 		i++;
