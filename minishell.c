@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/16 15:19:41 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/17 16:56:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,18 @@ int		check_solo_quote(char *arg, int inquote)
 int		dollar_inside(t_cmd *cmd, int i, int j)
 {
 	int index;
+	int inquote;
 	int nb;
 
 	nb = 0;
+	inquote = 0;
 	index = 0;
 	while (cmd[i].arg[j][index])
 	{
-		if (cmd[i].arg[j][index] == '$')
+		inquote = check_inquote(cmd[i].arg[j][index], inquote);
+		if (inquote == 1)
+			inquote = check_solo_quote(&cmd[i].arg[j][index], inquote);
+		if (cmd[i].arg[j][index] == '$' && inquote != 1)
 			nb++;
 		index++;
 	}
@@ -166,8 +171,10 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 		pars.inquote = check_inquote(cmd[i].arg[j][pars.index], pars.inquote);
 		if (pars.inquote == 1 || pars.inquote == 2)
 			pars.inquote = check_solo_quote(&cmd[i].arg[j][pars.index], pars.inquote);
+		printf("DEBUG inquote = %d | cmd[i].arg[j][index] = %c\n", pars.inquote, cmd[i].arg[j][pars.index]);
 		if (cmd[i].arg[j][pars.index] == '$' && (pars.inquote == 0 || pars.inquote == 2))
 		{
+			printf("DEBUG $\n");
 			if (pars.stop == -1)
 				pars.tmp = ft_substr(cmd[i].arg[j], 0, pars.index);
 			else if (pars.res != NULL)
@@ -203,7 +210,8 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 				pars.var_content = ft_strdup("1");
 			else
 			{
-				while (cmd[i].arg[j][pars.index] && cmd[i].arg[j][pars.index] != '$' && cmd[i].arg[j][pars.index] != '\'' && cmd[i].arg[j][pars.index] != '"')
+				while (cmd[i].arg[j][pars.index] && cmd[i].arg[j][pars.index] != '$' && cmd[i].arg[j][pars.index] != '\''
+					&& cmd[i].arg[j][pars.index] != '"' && cmd[i].arg[j][pars.index] != '>' && cmd[i].arg[j][pars.index] != '<' && cmd[i].arg[j][pars.index] != '|')
 					pars.index++;
 				pars.var_name = ft_substr(cmd[i].arg[j], pars.stop, pars.index - pars.stop);
 				if (pars.inquote == 0)
@@ -232,8 +240,11 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 		if (cmd[i].arg[j][pars.index] != '$' || (cmd[i].arg[j][pars.index] == '$' && pars.inquote == 1))
 			pars.index++;
 	}
+	printf("DEBUG apres boucle\n");
 	if (pars.tmp == NULL)
 	{
+		printf("DEBUG if tmp == NULL\n");
+		printf("tmp = %s | res = %s\n", pars.tmp, pars.res);
 		pars.tmp = ft_substr(cmd[i].arg[j], pars.stop, ft_strlen(cmd[i].arg[j]));
 		pars.var_content = ft_strjoin(pars.res, pars.tmp);
 		free(pars.tmp);
@@ -243,6 +254,7 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 	}
 	if (pars.res != NULL)
 	{
+		printf("DEBUG if res == NULL\n");
 		free(cmd[i].arg[j]);
 		cmd[i].arg[j] = ft_strdup(pars.res);
 		free(pars.res);
@@ -265,7 +277,11 @@ void	format_args(t_cmd *cmd, char **env_list, int nb_cmd)
 			dollar = dollar_inside(cmd, i, j);
 			printf("ARG[%d] = %s\n", j, cmd[i].arg[j]);
 			if (dollar > 0)
+			{
+				printf("debug avant expand\n");
 				expand_env_arg(cmd, env_list, i, j);
+				printf("debug apres expand\n");
+			}
 			j++;
 		}
 		i++;
@@ -319,16 +335,18 @@ char	*arg_without_quote(char *tmp, t_cmd *cmd, int ind, int ind2)
 		inquote = check_inquote(tmp[i], inquote);
 		if (tmp[i] == '\'' || tmp[i] == '"')
 			inquote = check_solo_quote(&tmp[i], inquote);
-		if (tmp[i] && inquote == 1)
+		if (tmp[i] == '\'' && inquote == 1)
 		{
 			printf("debug1 : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
 			i++;
-			while (tmp[i] && tmp[i] != '\'')
+			while (tmp[i]  && tmp[i] != '\'')
 			{
 				res[res_index] = tmp[i];
 				res_index++;
 				i++;
 			}
+			if (tmp[i] == '\'')
+				inquote = check_inquote(tmp[i], inquote);
 			i++;
 			printf("-> : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
 		}
@@ -342,6 +360,8 @@ char	*arg_without_quote(char *tmp, t_cmd *cmd, int ind, int ind2)
 				res_index++;
 				i++;
 			}
+			if (tmp[i] == '"')
+				inquote = check_inquote(tmp[i], inquote);
 			i++;
 			printf("-> : curseur = %c | reste = %s\n", tmp[i], &tmp[i]);
 		}
@@ -370,6 +390,7 @@ void	del_quotes(t_cmd *cmd, char **env_list, int nb_cmd)
 		while (cmd[i].arg[j])
 		{
 			quote = quote_inside(cmd, i, j);
+			printf("debug : il y a %d quotes a enlever\n", quote);
 			if (quote > 0)
 			{
 				tmp = ft_strdup(cmd[i].arg[j]);
@@ -408,8 +429,11 @@ int	main(int ac, char **av, char **envp)
 		{
 			cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 			fill_cmd_array(line, cmd);
+			printf("debug1\n");
 			format_args(cmd, env_list, nb_cmd);
+			printf("debug2\n");
 			del_quotes(cmd, env_list, nb_cmd);
+			printf("debug3\n");
 			parse_cmd_array(cmd, env_list, nb_cmd);
 			free_after_line(cmd, line);
 		}
