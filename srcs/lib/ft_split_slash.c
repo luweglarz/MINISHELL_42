@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:26:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/08 16:49:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:56:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static	void		ft_free_words(int word, char **tabword)
+static	void	ft_free_words(int word, char **tabword)
 {
 	int	i;
 
@@ -25,10 +25,10 @@ static	void		ft_free_words(int word, char **tabword)
 	free(tabword);
 }
 
-static	int			ft_is_word(const char *str, char c)
+static	int	ft_is_word(const char *str, char c)
 {
-	int		count_words;
-	int		ter;
+	int	count_words;
+	int	ter;
 
 	count_words = 0;
 	ter = 0;
@@ -46,7 +46,7 @@ static	int			ft_is_word(const char *str, char c)
 	return (count_words);
 }
 
-static	int			ft_word_len(const char *s, char c)
+static	int	ft_word_len(const char *s, char c)
 {
 	int	size;
 
@@ -59,11 +59,11 @@ static	int			ft_word_len(const char *s, char c)
 	return (size);
 }
 
-static char			**ft_cut_words(const char *s, char c, char **tab, int words)
+static char	**ft_cut_words(const char *s, char c, char **tab, int words)
 {
-	int		i;
-	int		j;
-	int		k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	j = 0;
@@ -93,7 +93,8 @@ char	**ft_split_slash(char const *s, char c)
 	int		count_words;
 
 	count_words = ft_is_word(s, c);
-	if (!(tab = malloc(sizeof(char *) * (count_words + 1))))
+	tab = malloc(sizeof(char *) * (count_words + 1));
+	if (tab == NULL)
 		return (NULL);
 	return (ft_cut_words(s, c, tab, count_words));
 }

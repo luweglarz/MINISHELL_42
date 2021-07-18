@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:21:19 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 02:45:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:41:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ void	free_env_list(int nb_env, char **env_list)
 	free(*env_list);
 }
 
-char	**init_env(char **envp)
+char	**init_env(char **envp, int ac, char **av)
 {
 	char	**env_list;
 	int		i;
 
+	(void)ac;
+	(void)av;
 	i = 0;
 	while (envp[i] != NULL)
 		i++;

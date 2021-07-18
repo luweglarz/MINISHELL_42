@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 04:01:06 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:38:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ char	**get_env_content(char **env_list)
 	env_names = malloc(sizeof(char *) * (nb_env(env_list) + 1));
 	while (env_list[i])
 	{
-		env_names[i] = ft_substr(env_list[i], ft_strclen(env_list[i], '=') + 1, ft_strlen(env_list[i]));
+		env_names[i] = ft_substr(env_list[i],
+				ft_strclen(env_list[i], '=') + 1, ft_strlen(env_list[i]));
 		i++;
 	}
 	env_names[i] = NULL;
@@ -81,7 +82,8 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 		while (env_list[j])
 		{
 			if (ft_strcmp(var_names[i], var_names[j]) > 0)
-				swap_env(&var_contents[i], &var_contents[j], &var_names[i], &var_names[j]);
+				swap_env(&var_contents[i],
+					&var_contents[j], &var_names[i], &var_names[j]);
 			j++;
 		}
 		i++;

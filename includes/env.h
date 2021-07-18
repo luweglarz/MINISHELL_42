@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:52:22 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/15 03:59:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:41:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	del_env_var(char **env_list, int len, int to_del);
 int		nb_env(char **env_list);
 void	free_env(int nb_env, char **env_list);
 void	free_env_list(int nb_env, char **env_list);
-char	**init_env(char **envp);
+char	**init_env(char **envp, int ac, char **av);
 char	*ft_getenv(char *var_name, char **env_list);
 
 void	envdup(char **env_list, char **tmp);
