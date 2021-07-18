@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execpath.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 14:57:17 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/18 05:04:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_is_path(const char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -26,9 +26,9 @@ static int	check_is_path(const char *str)
 	return (0);
 }
 
-static void free_splitnjoin(char **split, char *join)
+static void	free_splitnjoin(char **split, char *join)
 {	
-	int i;
+	int	i;
 
 	i = 0;
 	(void)join;
@@ -38,7 +38,6 @@ static void free_splitnjoin(char **split, char *join)
 		i++;
 	}
 	free(split);
-
 }
 
 static void	execve_with_path(t_cmd cmd, char **env_list)
@@ -46,7 +45,7 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	int			i;
 	char		**split;
 	char		*join;
-	struct stat *buf = NULL;
+	struct stat	*buf = NULL;
 
 	i = 0;
 	buf = malloc(sizeof(struct stat));

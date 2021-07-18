@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 12:38:47 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/18 05:02:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char		*go_back(char *pwd)
+static char	*go_back(char *pwd)
 {
 	int	i;
 	int	count;
@@ -28,11 +28,11 @@ static char		*go_back(char *pwd)
 	return (ft_substr(pwd, 0, count));
 }
 
-void		builtin_cd(t_cmd cmd, bool pipe)
+void	builtin_cd(t_cmd cmd, bool pipe)
 {
-	char		*pwd = NULL;
-	int			size;
-	int			ret;
+	char	*pwd = NULL;
+	int		size;
+	int		ret;
 
 	size = 0;
 	ret = 1;
@@ -49,7 +49,7 @@ void		builtin_cd(t_cmd cmd, bool pipe)
 	}
 	else
 	{
-	 	ret = chdir(cmd.arg[1]);
+		ret = chdir(cmd.arg[1]);
 		if (ret == -1)
 			error_errno(&cmd, errno, false);
 	}

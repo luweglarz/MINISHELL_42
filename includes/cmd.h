@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 17:08:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 05:00:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 typedef struct s_cmd
 {
-		char	 		*builtin;
-		char			**arg;
-		bool			pipe;
-		int				fdout;
-		int				fdin;
+	char	*builtin;
+	char	**arg;
+	bool	pipe;
+	int		fdout;
+	int		fdin;
 }				t_cmd;
 
 void		fill_cmd_array(const char *line, t_cmd *cmd);
@@ -35,7 +35,8 @@ char		**split_args(char const *s, const char *builtin);
 
 void		cmd_init(t_cmd *cmd);
 void		do_builtin(t_cmd cmd, char **env_list, bool pipe);
-int			pass_redirections(const char *line, int j, int *start, int *doublebracket);
+int			pass_redirections(const char *line,
+				int j, int *start, int *doublebracket);
 int			size_with_redirection(const char *line, int i);
 
 int			single_pipe(int i, t_cmd *cmd, char **env_list);
