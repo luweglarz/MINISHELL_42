@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/14 11:49:59 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/18 21:41:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <string.h>
+
 #if defined(__linux__)
     #define PLATFORM_NAME "linux" 
     # include <linux/limits.h>
@@ -40,8 +41,9 @@
 # include "lib.h"
 # include "env.h"
 
-char	*get_line(const char *prompt);
+int		global_err;
 
+char	*get_line(const char *prompt);
 void	free_cmd(t_cmd *cmd);
 void	error_errno(t_cmd *cmd, int error_code, bool exit_bool);
 
