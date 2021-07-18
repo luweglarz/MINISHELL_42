@@ -6,11 +6,24 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:16:57 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 04:40:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:36:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	increment_quote(t_cmd *cmd, int i, int j, int *index)
+{
+	char	c;
+
+	if (cmd[i].arg[j][*index] == '\'')
+		c = '\'';
+	else
+		c = '"';
+	while (cmd[i].arg[j][*index] && cmd[i].arg[j][*index] != c)
+		index++;
+	return (2);
+}
 
 int	quote_inside(t_cmd *cmd, int i, int j)
 {
@@ -27,17 +40,9 @@ int	quote_inside(t_cmd *cmd, int i, int j)
 		if (cmd[i].arg[j][index] == '\'' || cmd[i].arg[j][index] == '"')
 			inquote = check_solo_quote(&cmd[i].arg[j][index], inquote);
 		if (cmd[i].arg[j][index] == '\'' && inquote == 1)
-		{
-			nb = nb + 2;
-			while (cmd[i].arg[j][index] && cmd[i].arg[j][index] != '\'')
-				index++;
-		}
+			nb = nb + increment_quote(cmd, i, j, &index);
 		else if (cmd[i].arg[j][index] == '"' && inquote == 2)
-		{
-			nb = nb + 2;
-			while (cmd[i].arg[j][index] && cmd[i].arg[j][index] != '"')
-				index++;
-		}
+			nb = nb + increment_quote(cmd, i, j, &index);
 		index++;
 	}
 	return (nb);

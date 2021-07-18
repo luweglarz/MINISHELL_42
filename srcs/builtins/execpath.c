@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 05:04:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	int			i;
 	char		**split;
 	char		*join;
-	struct stat	*buf = NULL;
+	struct stat	*buf;
 
 	i = 0;
 	buf = malloc(sizeof(struct stat));

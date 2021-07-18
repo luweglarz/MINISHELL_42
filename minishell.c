@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/18 04:31:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:46:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,16 @@ void	free_after_line(t_cmd *cmd, char *line)
 	}
 }
 
-//MAIN
+void	treat_cmd(t_cmd *cmd, int nb_cmd, char **env_list, char *line)
+{
+	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
+	fill_cmd_array(line, cmd);
+	format_args(cmd, env_list, nb_cmd);
+	del_quotes(cmd, nb_cmd);
+	parse_cmd_array(cmd, env_list, nb_cmd);
+	free_after_line(cmd, line);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
@@ -64,9 +73,7 @@ int	main(int ac, char **av, char **envp)
 	int		nb_cmd;
 
 	cmd = NULL;
-	(void)ac;
-	(void)av;
-	env_list = init_env(envp);
+	env_list = init_env(envp, ac, av);
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
@@ -79,14 +86,7 @@ int	main(int ac, char **av, char **envp)
 			exit(1);
 		nb_cmd = parse_command(line);
 		if (nb_cmd >= 0)
-		{
-			cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
-			fill_cmd_array(line, cmd);
-			format_args(cmd, env_list, nb_cmd);
-			del_quotes(cmd, nb_cmd);
-			parse_cmd_array(cmd, env_list, nb_cmd);
-			free_after_line(cmd, line);
-		}
+			treat_cmd(cmd, nb_cmd, env_list, line);
 		else if (line)
 			free(line);
 	}

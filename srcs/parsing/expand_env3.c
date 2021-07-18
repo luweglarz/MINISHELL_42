@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:23 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 04:47:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 16:14:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ int	dollar_inside(t_cmd *cmd, int i, int j)
 	return (nb);
 }
 
+void	join_splited_env(char *str, char *tmp, char *res, int *i)
+{
+	if (*i == 1)
+		str = ft_strdup(" ");
+	else
+	{
+		str = ft_strdup(" ");
+		tmp = ft_strjoin(res, str);
+	}
+	res = ft_strjoin(tmp, str);
+	free(str);
+	free(tmp);
+	i++;
+}
+
 char	*ft_getenv_splited(char *var_name, char **env_list)
 {
 	char	*str;
@@ -53,19 +68,7 @@ char	*ft_getenv_splited(char *var_name, char **env_list)
 		tmp = ft_strdup(tab[i]);
 		i++;
 		while (tab[i] && i > 0)
-		{
-			if (i == 1)
-				str = ft_strdup(" ");
-			else
-			{
-				str = ft_strdup(" ");
-				tmp = ft_strjoin(res, str);
-			}
-			res = ft_strjoin(tmp, str);
-			free(str);
-			free(tmp);
-			i++;
-		}
+			join_splited_env(str, tmp, res, &i);
 		if (res == NULL)
 			res = ft_strdup(tmp);
 		return (res);

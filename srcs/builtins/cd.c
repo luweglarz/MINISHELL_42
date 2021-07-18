@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 05:02:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ static char	*go_back(char *pwd)
 
 void	builtin_cd(t_cmd cmd, bool pipe)
 {
-	char	*pwd = NULL;
+	char	*pwd;
 	int		size;
 	int		ret;
 
 	size = 0;
 	ret = 1;
+	pwd = NULL;
 	if (cmd.arg[1] == NULL)
 		chdir(getenv("HOME"));
 	else if (ft_strncmp(cmd.arg[1], "/", ft_strlen(cmd.arg[1]) + 1) == 0)

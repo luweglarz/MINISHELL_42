@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 05:00:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 
 typedef struct s_cmd
 {
-	char	*builtin;
-	char	**arg;
-	bool	pipe;
-	int		fdout;
-	int		fdin;
+	char	 		*builtin;
+	char			**arg;
+	bool			pipe;
+	int				fdout;
+	int				fdin;
 }				t_cmd;
 
 void		fill_cmd_array(const char *line, t_cmd *cmd);
