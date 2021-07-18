@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 20:52:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 18:32:52 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 04:40:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,37 @@ int	check_inquote(int c, int inquote)
 		return (inquote);
 }
 
-int	not_only_space(const char *line)
+int	check_solo_quote(char *arg, int inquote)
 {
 	int	i;
-	int	others;
 
 	i = 0;
-	others = 0;
-	while (line[i])
+	if (arg[i] == '\'' && inquote == 1)
+		return (check_quote(arg, i, '\''));
+	else if (arg[i] == '"' && inquote == 2)
+		return (check_quote(arg, i, '"'));
+	else
+		return (inquote);
+}
+
+int	check_quote(char *arg, int i, char c)
+{
+	int	ret;
+
+	if (c == '\'')
+		ret = 1;
+	else if (c == '"')
+		ret = 2;
+	i++;
+	while (arg[i])
 	{
-		if (line[i] != ' ')
-			others++;
+		if (arg[i] == c)
+			return (ret);
 		i++;
 	}
-	if (others == 0)
-		return (-1);
-	else
-		return (1);
+	if (arg[i] == c)
+		return (ret);
+	return (0);
 }
 
 int	check_space_unused(const char *line, int i, int redirection)

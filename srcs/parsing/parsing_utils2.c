@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:17:49 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 13:39:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 04:39:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,23 @@ int	check_redirection(const char *line)
 		i++;
 	}
 	return (1);
+}
+
+int	not_only_space(const char *line)
+{
+	int	i;
+	int	others;
+
+	i = 0;
+	others = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ')
+			others++;
+		i++;
+	}
+	if (others == 0)
+		return (-1);
+	else
+		return (1);
 }
