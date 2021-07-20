@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:14:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/20 19:13:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int		not_only_space(const char *line);
 
 int		dollar_inside(t_cmd *cmd, int i, int j);
 char	*ft_getenv_splited(char *var_name, char **env_list);
-void	join_splited_env(char *str, char *tmp, char *res, int *i);
 void	get_exit_code(t_pars *pars);
 void	init_struct(t_pars *pars, int i, int j);
 

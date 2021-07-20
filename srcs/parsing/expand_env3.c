@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:23 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:14:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:04:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ int	dollar_inside(t_cmd *cmd, int i, int j)
 	return (nb);
 }
 
-void	join_splited_env(char *str, char *tmp, char *res, int *i)
+void	free_tab(char **tab)
 {
-	if (*i == 1)
-		str = ft_strdup(" ");
-	else
+	int	i;
+
+	i = 0;
+	while (tab[i])
 	{
-		str = ft_strdup(" ");
-		tmp = ft_strjoin(res, str);
+		free(tab[i]);
+		i++;
 	}
-	res = ft_strjoin(tmp, str);
-	free(str);
-	free(tmp);
-	i++;
 }
 
 char	*ft_getenv_splited(char *var_name, char **env_list)
@@ -65,12 +62,28 @@ char	*ft_getenv_splited(char *var_name, char **env_list)
 	{
 		tab = ft_split(str, ' ');
 		free(str);
+		str = NULL;
 		tmp = ft_strdup(tab[i]);
 		i++;
-		while (tab[i] && i > 0)
-			join_splited_env(str, tmp, res, &i);
+		while (tab[i])
+		{
+			if (i == 1)
+			{
+				str = ft_strjoin(tmp, " ");
+				free(tmp);
+			}
+			else
+			{
+				str = ft_strjoin(res, " ");
+				free(res);
+			}
+			res = ft_strjoin(str, tab[i]);
+			free(str);
+			i++;
+		}
 		if (res == NULL)
 			res = ft_strdup(tmp);
+		free_tab(tab);
 		return (res);
 	}
 }

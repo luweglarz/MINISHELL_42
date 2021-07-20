@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:38:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/20 01:57:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,4 @@ void	builtin_export(t_cmd cmd, char **env_list)
 	}
 	else if (count_arg(cmd) == 1)
 		display_env_ascii(cmd, env_list);
-	else
-		printf("Pas assez d'arguments pour la fonction \"export\".\n");
 }

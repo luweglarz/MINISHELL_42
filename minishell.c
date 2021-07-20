@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/18 22:15:56 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/20 01:30:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int ac, char **av, char **envp)
 			treat_cmd(cmd, nb_cmd, env_list, line);
 		else if (line)
 			free(line);
-		
 	}
 	return (1);
 }
