@@ -58,6 +58,7 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 		free(join);
 		i++;
 	}
+	dprintf(2," test\n");
 	free(buf);
 	free_splitnjoin(split, join);
 }
@@ -78,7 +79,7 @@ static void	execpath_no_pipe(t_cmd cmd, char **env_list)
 void	execpath(t_cmd cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
-
+	int 		i;
 	if (pipe == false)
 	{
 		pid = fork();
@@ -86,7 +87,8 @@ void	execpath(t_cmd cmd, char **env_list, bool pipe)
 			return ;
 		if (pid == 0)
 			execpath_no_pipe(cmd, env_list);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &i, 0);
+		printf("le i %d\n", WEXITSTATUS(i));
 	}
 	else if (pipe == true)
 	{

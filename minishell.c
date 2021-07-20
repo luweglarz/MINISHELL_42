@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/18 16:46:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/20 20:23:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,16 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
+	if (ft_strncmp(av[1], "-c", 2) == 0)
+	{
+		line = ft_strdup(av[2]);
+		nb_cmd = parse_command(line);
+		if (nb_cmd >= 0)
+			treat_cmd(cmd, nb_cmd, env_list, line);
+		else if (line)
+			free(line);
+	}
+	else
 	while (1)
 	{
 		line = readline("Minishell>");
@@ -85,6 +95,7 @@ int	main(int ac, char **av, char **envp)
 		if (line == NULL)
 			exit(1);
 		nb_cmd = parse_command(line);
+		printf("Le nombre de commande |%d|\n", nb_cmd);
 		if (nb_cmd >= 0)
 			treat_cmd(cmd, nb_cmd, env_list, line);
 		else if (line)

@@ -38,6 +38,7 @@ void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
 {
 	char	*error_msg;
 
+	dprintf(2,"test\n");
 	error_msg = strerror(error_code);
 	write (2, error_msg, ft_strlen(error_msg));
 	write(2, "\n", 1);
