@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/22 16:49:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	free_splitnjoin(char **split, char *join)
 	free(split);
 }
 
-static void	execve_with_path(t_cmd cmd, char **env_list)
+static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 {
 	int			i;
 	char		**split;
@@ -52,9 +52,9 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	split = ft_split_slash(getenv("PATH"), ':');
 	while (split[i])
 	{
-		join = ft_strjoin(split[i], cmd.builtin);
+		join = ft_strjoin(split[i], cmd[index].builtin);
 		if (stat(join, buf) == 0)
-			execve(join, cmd.arg, env_list);
+			execve(join, cmd[index].arg, env_list);
 		free(join);
 		i++;
 	}
@@ -63,43 +63,43 @@ static void	execve_with_path(t_cmd cmd, char **env_list)
 	free_splitnjoin(split, join);
 }
 
-static void	execpath_no_pipe(t_cmd cmd, char **env_list)
+static void	execpath_no_pipe(int i, t_cmd *cmd, char **env_list)
 {
-	if (cmd.fdout != 1)
-		dup2(cmd.fdout, 1);
-	if (cmd.fdin != 0)
-		dup2(cmd.fdin, 0);
-	if (check_is_path(cmd.builtin) == 1)
-		execve(cmd.builtin, cmd.arg, env_list);
+	if (cmd[i].fdout != 1)
+		dup2(cmd[i].fdout, 1);
+	if (cmd[i].fdin != 0)
+		dup2(cmd[i].fdin, 0);
+	if (check_is_path(cmd[i].builtin) == 1)
+		execve(cmd[i].builtin, cmd[i].arg, env_list);
 	else
-		execve_with_path(cmd, env_list);
-	error_errno(&cmd, errno, true);
+		execve_with_path(i, cmd, env_list);
+	error_errno(cmd, errno, true);
 }
 
-void	execpath(t_cmd cmd, char **env_list, bool pipe)
+void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
-	int 		i;
+	int 		status;
 	if (pipe == false)
 	{
 		pid = fork();
 		if (pid < 0)
 			return ;
 		if (pid == 0)
-			execpath_no_pipe(cmd, env_list);
-		waitpid(pid, &i, 0);
+			execpath_no_pipe(i, cmd, env_list);
+		waitpid(pid, &status, 0);
 		printf("le i %d\n", WEXITSTATUS(i));
 	}
 	else if (pipe == true)
 	{
-		if (cmd.fdout != 1)
-			dup2(cmd.fdout, 1);
-		if (cmd.fdin != 0)
-			dup2(cmd.fdin, 0);
-		if (check_is_path(cmd.builtin) == 1)
-			execve(cmd.builtin, cmd.arg, env_list);
+		if (cmd[i].fdout != 1)
+			dup2(cmd[i].fdout, 1);
+		if (cmd[i].fdin != 0)
+			dup2(cmd[i].fdin, 0);
+		if (check_is_path(cmd[i].builtin) == 1)
+			execve(cmd[i].builtin, cmd[i].arg, env_list);
 		else
-			execve_with_path(cmd, env_list);
-		error_errno(&cmd, errno, true);
+			execve_with_path(i, cmd, env_list);
+		error_errno(cmd, errno, true);
 	}
 }

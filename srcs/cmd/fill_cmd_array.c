@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 22:37:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/22 17:08:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	start = 0;
 	if (line[i] == '>')
 	{
-		i = bracket_out(line, &i, cmd);
+		i = bracket_out(line, i, cmd);
 		start = i;
 	}
 	else if (line[i] == '<')
 	{
-		i = bracket_in(line, &i, cmd);
+		i = bracket_in(line, i, cmd);
 		start = i;
 	}
 	while (ft_isascii(line[i]) == 1)
@@ -68,6 +68,31 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
+int bracket_out_in(const char *line, int j, t_cmd *cmd)
+{
+	char		*file;
+	struct stat	*buf;
+	int			start;
+
+	start = 0;
+	file = ft_substr(line, start, j - start);
+	j = j + 2;
+	while (line[j] == ' ')
+		j++;
+	start = j;
+	while ((ft_isascii(line[j]) == 1) && line[j] != '|')
+		j++;
+	file = ft_substr(line, start, j - start);
+	buf = malloc(sizeof(struct stat) * 1);
+	if (buf == NULL)
+		error_errno(cmd, errno, true);
+	if (stat((const char*)file, buf) == -1)
+		open(file, O_RDWR | O_CREAT, 0664);
+	else
+		cmd->fdin = open(file, O_RDWR);
+	return (j);
+}
+
 static char	*formate_args(const char *line, t_cmd *cmd, int i)
 {
 	int		j;
@@ -79,10 +104,12 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
+		if (line[j] == '<' && line[j + 1] == '>')
+			j = bracket_out_in(line, j, cmd);
 		if (line[j] == '>')
-			j = bracket_out(line, &j, cmd);
+			j = bracket_out(line, j, cmd);
 		else if (line[j] == '<')
-			j = bracket_in(line, &j, cmd);
+			j = bracket_in(line, j, cmd);
 		newarg[k] = line[j];
 		k++;
 		j++;

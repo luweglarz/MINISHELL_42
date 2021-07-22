@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:17:49 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 04:39:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/18 21:56:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	check_redirection_input(const char *line, int i)
 			return (-1);
 	}
 	else if (line[i] == '>')
-		return (-1);
+		i++;
 	while (line[i] && line[i] == ' ')
 		i++;
 	if (line[i] == '>' || line[i] == '<')

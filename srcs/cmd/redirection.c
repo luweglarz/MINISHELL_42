@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 15:13:45 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/22 17:08:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	bracket_out(const char *line, int *j, t_cmd *cmd)
+int	bracket_out(const char *line, int j, t_cmd *cmd)
 {
 	char	*file;
 	int		start;
@@ -21,14 +21,14 @@ int	bracket_out(const char *line, int *j, t_cmd *cmd)
 	start = 0;
 	doublebracket = 0;
 	file = NULL;
-	*j = pass_redirections(line, *j, &start, &doublebracket);
-	file = ft_substr(line, start, *j - start);
+	j = pass_redirections(line, j, &start, &doublebracket);
+	file = ft_substr(line, start, j - start);
 	if (doublebracket == 1)
 		cmd->fdout = open(file, O_RDWR | O_APPEND | O_CREAT, 0664);
 	else
 		cmd->fdout = open(file, O_RDWR | O_CREAT, 0664);
 	free(file);
-	return (*j);
+	return (j);
 }
 
 static void	double_bracket_in(const char *file, t_cmd *cmd)
@@ -60,7 +60,7 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 	free(join);
 }
 
-int	bracket_in(const char *line, int *j, t_cmd *cmd)
+int	bracket_in(const char *line, int j, t_cmd *cmd)
 {
 	char		*file;
 	int			start;
@@ -70,8 +70,8 @@ int	bracket_in(const char *line, int *j, t_cmd *cmd)
 	start = 0;
 	doublebracket = 0;
 	file = NULL;
-	*j = pass_redirections(line, *j, &start, &doublebracket);
-	file = ft_substr(line, start, *j - start);
+	j = pass_redirections(line, j, &start, &doublebracket);
+	file = ft_substr(line, start, j - start);
 	buf = malloc(sizeof(struct stat) * 1);
 	if (buf == NULL)
 		error_errno(cmd, errno, true);
@@ -87,5 +87,5 @@ int	bracket_in(const char *line, int *j, t_cmd *cmd)
 		cmd->fdin = open(file, O_RDWR);
 	free(buf);
 	free(file);
-	return (*j);
+	return (j);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/13 15:56:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/22 16:50:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,23 @@ void	del_env_var(char **env_list, int len, int to_del)
 	free_env(len - 1, tmp);
 }
 
-void	builtin_unset(t_cmd cmd, char **env_list)
+void	builtin_unset(int i, t_cmd *cmd, char **env_list)
 {
 	int	to_del;
-	int	i;
+	int	index;
 	int	len;
 
 	to_del = 0;
-	i = 1;
+	index = 1;
 	len = nb_env(env_list);
-	if (count_arg(cmd) > 1)
+	if (count_arg(cmd[i]) > 1)
 	{
-		while (i < count_arg(cmd) && to_del >= 0)
+		while (index < count_arg(cmd[i]) && to_del >= 0)
 		{
-			to_del = var_exist(cmd, i, env_list);
+			to_del = var_exist(cmd[i], index, env_list);
 			if (to_del >= 0)
 				del_env_var(env_list, len, to_del);
-			i++;
+			index++;
 		}
 	}
 	else

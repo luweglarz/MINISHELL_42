@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/22 16:41:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*go_back(char *pwd)
 	return (ft_substr(pwd, 0, count));
 }
 
-void	builtin_cd(t_cmd cmd, bool pipe)
+void	builtin_cd(int i, t_cmd *cmd, bool pipe)
 {
 	char	*pwd;
 	int		size;
@@ -37,11 +37,11 @@ void	builtin_cd(t_cmd cmd, bool pipe)
 	size = 0;
 	ret = 1;
 	pwd = NULL;
-	if (cmd.arg[1] == NULL)
+	if (cmd[i].arg[1] == NULL)
 		chdir(getenv("HOME"));
-	else if (ft_strncmp(cmd.arg[1], "/", ft_strlen(cmd.arg[1]) + 1) == 0)
+	else if (ft_strncmp(cmd[i].arg[1], "/", ft_strlen(cmd[i].arg[1]) + 1) == 0)
 		chdir("/");
-	else if (ft_strncmp(cmd.arg[1], "..", 2) == 0 && cmd.arg[1][2] == '\0')
+	else if (ft_strncmp(cmd[i].arg[1], "..", 2) == 0 && cmd[i].arg[1][2] == '\0')
 	{
 		while (getcwd(pwd, size) == NULL)
 			size++;
@@ -50,9 +50,9 @@ void	builtin_cd(t_cmd cmd, bool pipe)
 	}
 	else
 	{
-		ret = chdir(cmd.arg[1]);
+		ret = chdir(cmd[i].arg[1]);
 		if (ret == -1)
-			error_errno(&cmd, errno, false);
+			error_errno(cmd, errno, false);
 	}
 	if (pipe == true)
 		exit(1);

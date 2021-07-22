@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 20:34:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/22 16:49:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,13 @@ static void	display_echo(t_cmd cmd)
 	}
 }
 
-void	builtin_echo(t_cmd cmd, bool pipe)
+void	builtin_echo(int i, t_cmd *cmd, bool pipe)
 {
-	int			i;
-
-	i = 0;
 	if (pipe == false)
-		display_echo(cmd);
+		display_echo(cmd[i]);
 	else if (pipe == true)
 	{
-		display_echo(cmd);
+		display_echo(cmd[i]);
 		exit(1);
 	}
 }
