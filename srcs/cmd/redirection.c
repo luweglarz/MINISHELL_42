@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 17:08:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/25 22:59:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 	char		*newline;
 	char		*join;
 
-	join = ft_strjoin(getenv("TMPDIR"), ".heredoc");
+	join = ft_strjoin(TMPDIR, ".heredoc");
+	printf("le join  %s\n", join);
 	fd = open(join, O_RDWR | O_CREAT, 0664);
 	newline = NULL;
 	while (1)

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/22 15:53:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/25 22:59:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@
 # include <errno.h>
 # include <string.h>
 
+# define TMPDIR "/tmp/"
+
 #if defined(__linux__)
-    #define PLATFORM_NAME "linux" 
+    # define PLATFORM_NAME "linux" 
     # include <linux/limits.h>
 #elif defined(__MACH__)
     # define PATH_MAX 1024
