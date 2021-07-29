@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:51:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:20:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 	free_env(nb_env(var_names), var_contents);
 }
 
-void	builtin_export(int i, t_cmd *cmd, char **env_list)
+void	builtin_export(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	int		exist;
 
@@ -111,4 +111,6 @@ void	builtin_export(int i, t_cmd *cmd, char **env_list)
 		display_env_ascii(cmd[i], env_list);
 	else
 		printf("Pas assez d'arguments pour la fonction \"export\".\n");
+	if (pipe == true)
+		exit(1);
 }

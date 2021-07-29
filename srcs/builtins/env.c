@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:50:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:17:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_env(int i, t_cmd *cmd, char **env_list)
+void	builtin_env(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	int	env_index;
 
@@ -23,4 +23,6 @@ void	builtin_env(int i, t_cmd *cmd, char **env_list)
 		write(cmd[i].fdout, "\n", 1);
 		env_index++;
 	}
+	if (pipe == true)
+		exit(1);
 }

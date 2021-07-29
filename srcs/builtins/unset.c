@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:50:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:19:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	del_env_var(char **env_list, int len, int to_del)
 	free_env(len - 1, tmp);
 }
 
-void	builtin_unset(int i, t_cmd *cmd, char **env_list)
+void	builtin_unset(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	int	to_del;
 	int	index;
@@ -81,4 +81,6 @@ void	builtin_unset(int i, t_cmd *cmd, char **env_list)
 	}
 	else
 		printf("Pas assez d'arguments pour la fonction \"unset\".\n");
+	if (pipe == true)
+		exit(1);
 }
