@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:49:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:14:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 		free(join);
 		i++;
 	}
-	dprintf(2," test\n");
 	free(buf);
 	free_splitnjoin(split, join);
 }
@@ -80,6 +79,7 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
 	int 		status;
+
 	if (pipe == false)
 	{
 		pid = fork();
@@ -88,7 +88,6 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 		if (pid == 0)
 			execpath_no_pipe(i, cmd, env_list);
 		waitpid(pid, &status, 0);
-		printf("le i %d\n", WEXITSTATUS(i));
 	}
 	else if (pipe == true)
 	{
@@ -100,6 +99,6 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 			execve(cmd[i].builtin, cmd[i].arg, env_list);
 		else
 			execve_with_path(i, cmd, env_list);
-		error_errno(cmd, errno, true);
+		exit(1);
 	}
 }

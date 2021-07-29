@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:48:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 19:56:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
 	pid_t	pid;
 
 	fd = 0;
-	//if (cmd[nb_pipe + 1].builtin != NULL)
-		nb_pipe++;
-	printf("nb pipe %d\n", nb_pipe);
+	nb_pipe++;
 	while (nb_pipe-- != 0)
 	{
 		pipe (fds);
