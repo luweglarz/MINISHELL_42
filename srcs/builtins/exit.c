@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:40:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 22:30:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_exit(int i, t_cmd *cmd)
+void	builtin_exit(int i, t_cmd *cmd, bool pipe)
 {
 	int	size;
 
@@ -29,6 +29,10 @@ void	builtin_exit(int i, t_cmd *cmd)
 		error_errno(cmd, ENOEXEC, false);
 		return ;
 	}
-	printf("%s\n", cmd[i].builtin);
-	exit(ft_atoi(cmd[i].arg[1]));
+	if (pipe == false)
+		printf("%s\n", cmd[i].builtin);
+	if (cmd[i].arg[1][0] == '-')
+		exit(255 - (ft_atoi(cmd[i].arg[1]) * -1) + 1);
+	else
+		exit(ft_atoi(cmd[i].arg[1]));
 }

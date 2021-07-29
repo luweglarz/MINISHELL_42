@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:49:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 22:29:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exec_builtin(int i, t_cmd *cmd, char **env_list, bool pipe)
 	else if (ft_strncmp(cmd[i].builtin, "env", len + 1) == 0)
 		builtin_env(i, cmd, env_list, pipe);
 	else if (ft_strncmp(cmd[i].builtin, "exit", len + 1) == 0)
-		builtin_exit(i, cmd);
+		builtin_exit(i, cmd, pipe);
 	else
 		execpath(i, cmd, env_list, pipe);
 }
