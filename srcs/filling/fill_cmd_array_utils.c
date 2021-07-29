@@ -6,11 +6,20 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 20:57:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:16:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:48:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	cmd_init(t_cmd *cmd)
+{	
+	cmd->arg = NULL;
+	cmd->builtin = NULL;
+	cmd->pipe = false;
+	cmd->fdout = 1;
+	cmd->fdin = 0;
+}
 
 void	do_beginning_bracket(int *i, int *start, const char *line, t_cmd *cmd)
 {	

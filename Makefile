@@ -6,12 +6,13 @@ NAME = minishell.a
 
 FLAGS = -Wall -Wextra -Werror
 
-SRCS  =  srcs/lib/lib_utils1.c srcs/lib/lib_utils2.c srcs/lib/ft_split.c srcs/lib/ft_split_slash.c srcs/cmd/split_args.c srcs/cmd/split_args_utils.c  srcs/parsing/parsing.c srcs/cmd/cmd_utils.c \
- 	srcs/cmd/fill_cmd_array.c  srcs/cmd/parse_cmd_array.c  srcs/cmd/cmd_utils.c srcs/cmd/pipe.c  srcs/cmd/brackets.c srcs/cmd/redirections_utils.c srcs/cmd/fill_cmd_array_utils.c\
-	srcs/builtins/echo.c srcs/builtins/pwd.c srcs/builtins/execpath.c srcs/builtins/cd.c srcs/builtins/env.c \
-	srcs/builtins/exit.c srcs/builtins/unset.c srcs/builtins/export.c srcs/builtins/error.c \
-	srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing.c srcs/parsing/del_quotes.c srcs/parsing/expand_env1.c srcs/parsing/expand_env2.c srcs/parsing/expand_env3.c\
-	srcs/env/env_utils1.c srcs/env/env_utils2.c srcs/env/env_utils3.c
+SRCS  =  srcs/builtins/cd.c srcs/builtins/echo.c srcs/builtins/env.c srcs/builtins/execpath.c srcs/builtins/exit.c srcs/builtins/export.c srcs/builtins/pwd.c srcs/builtins/unset.c\
+		 srcs/cmd/error.c srcs/cmd/parse_cmd_array.c \
+		 srcs/env/env_utils1.c srcs/env/env_utils2.c srcs/env/env_utils3.c\
+		 srcs/filling/fill_cmd_array_utils.c srcs/filling/fill_cmd_array.c srcs/filling/split_args_utils.c srcs/filling/split_args.c \
+		 srcs/lib/ft_split_slash.c srcs/lib/ft_split.c srcs/lib/lib_utils1.c srcs/lib/lib_utils2.c \
+		 srcs/parsing/del_quotes.c srcs/parsing/expand_env1.c srcs/parsing/expand_env2.c srcs/parsing/expand_env3.c srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing.c \
+		 srcs/redirections/brackets.c srcs/redirections/pipe.c srcs/redirections/redirections_utils.c \
 
 RM	= rm -f
 
