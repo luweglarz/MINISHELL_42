@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 20:35:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 22:43:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ static char	*go_back(char *pwd)
 		i++;
 	}
 	return (ft_substr(pwd, 0, count));
-}
-
-void	absolute_path(int i, t_cmd *cmd)
-{
-	int		ret;
-
-	ret = 1;
-	ret = chdir(cmd[i].arg[1]);
-	if (ret == -1)
-		error_errno(cmd, errno, false);
 }
 
 void	builtin_cd(int i, t_cmd *cmd, bool pipe)
@@ -62,7 +52,7 @@ void	builtin_cd(int i, t_cmd *cmd, bool pipe)
 		free(path);
 	}
 	else
-		absolute_path(i, cmd);
+		chdir(cmd[i].arg[1]);
 	if (pipe == true)
 		exit(1);
 }
