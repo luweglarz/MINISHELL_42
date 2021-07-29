@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 01:05:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 19:25:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:16:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	count_word(const char *str)
 	{
 		str = check_inquote_split(str, &inquote);
 		if (*str == '|' && inquote == 0)
-			break;
+			break ;
 		if (*str == ' ' && inquote == 0)
 			ter = 0;
 		else if (ter == 0)

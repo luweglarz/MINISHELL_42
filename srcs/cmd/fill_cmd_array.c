@@ -6,36 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 17:08:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:08:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int check_inquote_args(const char *line, int i, int *inquote)
-{
-		if (line[i] == '"' && check_end_quote(line + i) == 1)
-		{
-			i++;
-			*inquote = 1;
-		}
-		else if (line [i] == '\'' && check_end_quote(line + i) == 1)
-		{
-			i++;
-			*inquote = 2;
-		}
-		if (line [i] == '"' && *inquote == 1)
-		{
-			i++;
-			*inquote = 0;
-		}
-		else if (line [i] == '\'' && *inquote == 2)
-		{
-			i++;
-			*inquote = 0;
-		}
-	return (i);
-}
 
 static const char	*fill_builtin(const char *line, t_cmd *cmd)
 {
@@ -46,16 +21,7 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	i = 0;
 	j = 0;
 	start = 0;
-	if (line[i] == '>')
-	{
-		i = bracket_out(line, i, cmd);
-		start = i;
-	}
-	else if (line[i] == '<')
-	{
-		i = bracket_in(line, i, cmd);
-		start = i;
-	}
+	do_beginning_bracket(&i, &start, line, cmd);
 	while (ft_isascii(line[i]) == 1)
 	{
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>')
@@ -66,31 +32,6 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	while (j++ < i)
 		line++;
 	return (line);
-}
-
-int bracket_out_in(const char *line, int j, t_cmd *cmd)
-{
-	char		*file;
-	struct stat	*buf;
-	int			start;
-
-	start = 0;
-	file = ft_substr(line, start, j - start);
-	j = j + 2;
-	while (line[j] == ' ')
-		j++;
-	start = j;
-	while ((ft_isascii(line[j]) == 1) && line[j] != '|')
-		j++;
-	file = ft_substr(line, start, j - start);
-	buf = malloc(sizeof(struct stat) * 1);
-	if (buf == NULL)
-		error_errno(cmd, errno, true);
-	if (stat((const char*)file, buf) == -1)
-		open(file, O_RDWR | O_CREAT, 0664);
-	else
-		cmd->fdin = open(file, O_RDWR);
-	return (j);
 }
 
 static char	*formate_args(const char *line, t_cmd *cmd, int i)
@@ -122,18 +63,10 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
 	int		j;
-	int		inquote;
 	char	*args;
 
 	i = 0;
-	inquote = 0;
-	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
-	{
-		check_inquote_args(line, i, &inquote);
-		if (line[i] == '|' && inquote == 0)
-			break ;
-		i++;
-	}
+	i = pass_ascii(line, i);
 	args = formate_args(line, cmd, i);
 	if (!args || ft_strlen(args) == 0)
 	{

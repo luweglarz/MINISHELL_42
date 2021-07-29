@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/07/22 16:33:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:53:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd)
 			if (i >= nb_cmd)
 				break ;
 		}
-		do_builtin(i, cmd, env_list, false);
+		exec_builtin(i, cmd, env_list, false);
 		i++;
 	}
 }

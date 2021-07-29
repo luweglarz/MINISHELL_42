@@ -6,26 +6,26 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 19:56:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:54:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void pipe_stdout(int i, t_cmd *cmd, int *fds, char **env_list)
+static void	pipe_stdout(int i, t_cmd *cmd, int *fds, char **env_list)
 {
 	close (fds[0]);
 	dup2(fds[1], 1);
 	close (fds[1]);
-	do_builtin(i, cmd, env_list, true);
+	exec_builtin(i, cmd, env_list, true);
 }
 
-static void pipe_stdin(int i, t_cmd *cmd, int *fds, char **env_list)
+static void	pipe_stdin(int i, t_cmd *cmd, int *fds, char **env_list)
 {
 	close (fds[1]);
 	dup2(fds[0], 0);
 	close (fds[0]);
-	do_builtin(i + 1, cmd, env_list, true);
+	exec_builtin(i + 1, cmd, env_list, true);
 }
 
 int	single_pipe(int i, t_cmd *cmd, char **env_list)
@@ -80,7 +80,7 @@ int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
 		if (pid == 0)
 		{
 			set_pipe(i, cmd, fd, fds);
-			do_builtin(i, cmd, env_list, true);
+			exec_builtin(i, cmd, env_list, true);
 		}
 		waitpid(pid, NULL, 0);
 		close(fds[1]);

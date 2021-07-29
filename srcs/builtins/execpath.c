@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 20:14:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:36:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	execpath_no_pipe(int i, t_cmd *cmd, char **env_list)
 void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	pid_t		pid;
-	int 		status;
+	int			status;
 
 	if (pipe == false)
 	{

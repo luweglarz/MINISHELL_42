@@ -6,11 +6,36 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/25 22:59:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:14:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	bracket_out_in(const char *line, int j, t_cmd *cmd)
+{
+	char		*file;
+	struct stat	*buf;
+	int			start;
+
+	start = 0;
+	file = ft_substr(line, start, j - start);
+	j = j + 2;
+	while (line[j] == ' ')
+		j++;
+	start = j;
+	while ((ft_isascii(line[j]) == 1) && line[j] != '|')
+		j++;
+	file = ft_substr(line, start, j - start);
+	buf = malloc(sizeof(struct stat) * 1);
+	if (buf == NULL)
+		error_errno(cmd, errno, true);
+	if (stat((const char *)file, buf) == -1)
+		open(file, O_RDWR | O_CREAT, 0664);
+	else
+		cmd->fdin = open(file, O_RDWR);
+	return (j);
+}
 
 int	bracket_out(const char *line, int j, t_cmd *cmd)
 {
@@ -21,7 +46,7 @@ int	bracket_out(const char *line, int j, t_cmd *cmd)
 	start = 0;
 	doublebracket = 0;
 	file = NULL;
-	j = pass_redirections(line, j, &start, &doublebracket);
+	j = pass_brackets(line, j, &start, &doublebracket);
 	file = ft_substr(line, start, j - start);
 	if (doublebracket == 1)
 		cmd->fdout = open(file, O_RDWR | O_APPEND | O_CREAT, 0664);
@@ -38,7 +63,6 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 	char		*join;
 
 	join = ft_strjoin(TMPDIR, ".heredoc");
-	printf("le join  %s\n", join);
 	fd = open(join, O_RDWR | O_CREAT, 0664);
 	newline = NULL;
 	while (1)
@@ -70,15 +94,14 @@ int	bracket_in(const char *line, int j, t_cmd *cmd)
 
 	start = 0;
 	doublebracket = 0;
-	file = NULL;
-	j = pass_redirections(line, j, &start, &doublebracket);
+	j = pass_brackets(line, j, &start, &doublebracket);
 	file = ft_substr(line, start, j - start);
 	buf = malloc(sizeof(struct stat) * 1);
 	if (buf == NULL)
 		error_errno(cmd, errno, true);
 	if (doublebracket == 1)
 		double_bracket_in(file, cmd);
-	else if (stat((const char*)file, buf) == -1 && doublebracket == 0)
+	else if (stat((const char *)file, buf) == -1 && doublebracket == 0)
 	{
 		cmd->fdin = -1;
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
