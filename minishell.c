@@ -6,27 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/29 22:53:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/30 21:11:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-char	*get_line(const char *prompt)
-{
-	char	*line;
-
-	line = NULL;
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	line = readline(prompt);
-	if (line)
-		add_history(line);
-	return (line);
-}
 
 void	sig_handler(int signum)
 {
