@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 19:46:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/01 23:11:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,28 @@
 void	free_cmd(t_cmd *cmd)
 {
 	int		i;
+	int		j;
 
 	i = 0;
 	if (cmd)
 	{
 		if (cmd->arg)
 		{
-			while (cmd->arg[i])
+			while (cmd[i].builtin)
 			{
-				free(cmd->arg[i]);
+				j = 0;
+				while (cmd[i].arg[j])
+					free(cmd[i].arg[j++]);
+				free(cmd[i].arg);
+				if (cmd[i].builtin)
+					free(cmd[i].builtin);
 				i++;
 			}
-			free(cmd->arg);
 		}
-		if (cmd->builtin)
-			free(cmd->builtin);
 		free(cmd);
 		cmd = NULL;
 	}
+	dprintf(2, "le i %d\n", i);
 }
 
 void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
