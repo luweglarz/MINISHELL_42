@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:21:19 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:41:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/02 20:49:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**init_env(char **envp, int ac, char **av)
 	i = 0;
 	while (envp[i] != NULL)
 		i++;
-	env_list = malloc(sizeof(char *) * (i + 1));
+	env_list = malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (envp[i] != NULL)
 	{

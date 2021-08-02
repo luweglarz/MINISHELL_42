@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/08/01 23:11:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/02 01:41:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd);
 		cmd = NULL;
 	}
-	dprintf(2, "le i %d\n", i);
 }
 
 void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
