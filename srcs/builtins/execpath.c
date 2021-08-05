@@ -6,11 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 22:52:56 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 17:05:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	g_err = 0;
 
 static int	check_is_path(const char *str)
 {
@@ -88,6 +90,8 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 		if (pid == 0)
 			execpath_no_pipe(i, cmd, env_list);
 		waitpid(pid, &status, 0);
+		g_err = WEXITSTATUS(status);
+		printf("Code erreur $? = %d\n", g_err);
 	}
 	else if (pipe == true)
 	{

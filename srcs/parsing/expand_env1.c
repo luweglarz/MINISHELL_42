@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:22:06 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 04:47:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 17:03:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@ void	treat_dollar(t_cmd *cmd, t_pars *pars, char **env_list)
 	fill_tmp(cmd, pars);
 	if (cmd[pars->i].arg[pars->j][pars->index] == '\0'
 		|| cmd[pars->i].arg[pars->j][pars->index] == '\''
-		|| cmd[pars->i].arg[pars->j][pars->index] == '"')
+		|| cmd[pars->i].arg[pars->j][pars->index] == '"'
+		|| cmd[pars->i].arg[pars->j][pars->index] == '$')
 		get_dollar(cmd, pars);
 	else if (cmd[pars->i].arg[pars->j][pars->index] == '?')
+	{
+		pars->stop = pars->index + 1;
 		get_exit_code(pars);
+	}
 	else
 		get_var_content(cmd, pars, env_list);
 	if (pars->tmp)
@@ -48,10 +52,10 @@ void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
 			pars.inquote = check_solo_quote
 				(&cmd[pars.i].arg[pars.j][pars.index], pars.inquote);
 		if (cmd[pars.i].arg[pars.j][pars.index] == '$'
-			&& (pars.inquote == 0 || pars.inquote == 2))
+		&& (pars.inquote == 0 || pars.inquote == 2))
 			treat_dollar(cmd, &pars, env_list);
 		if (cmd[pars.i].arg[pars.j][pars.index] != '$'
-			|| (cmd[i].arg[pars.j][pars.index] == '$' && pars.inquote == 1))
+		|| (cmd[i].arg[pars.j][pars.index] == '$' && pars.inquote == 1))
 			pars.index++;
 	}
 	fill_before_return(cmd, &pars);

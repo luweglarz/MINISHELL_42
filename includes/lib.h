@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 17:22:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 16:34:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_isascii(int c);
 int			ft_str_isdigit(char *str);
 int			ft_atoi(const char *nptr);
+
+char		*ft_itoa(int n);
+//static void	itoasign(int *n, unsigned int *sign);
+//static int	lennb(int n);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
