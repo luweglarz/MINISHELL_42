@@ -6,27 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/20 01:30:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 12:49:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-char	*get_line(const char *prompt)
-{
-	char	*line;
-
-	line = NULL;
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	line = readline(prompt);
-	if (line)
-		add_history(line);
-	return (line);
-}
 
 void	sig_handler(int signum)
 {
@@ -37,8 +21,6 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (signum == EOF)
-		exit(1);
 }
 
 void	free_after_line(t_cmd *cmd, char *line)
@@ -79,16 +61,17 @@ int	main(int ac, char **av, char **envp)
 	line = NULL;
 	while (1)
 	{
-		line = readline("Minishell>");
+		line = readline("Minishell>"); 
 		if (line)
 			add_history(line);
 		if (line == NULL)
-			exit(1);
+			exit(0);
 		nb_cmd = parse_command(line);
+		printf("Le nombre de commande |%d|\n", nb_cmd);
 		if (nb_cmd >= 0)
 			treat_cmd(cmd, nb_cmd, env_list, line);
-		else if (line)
-			free(line);
+		else
+			free_after_line(cmd, line);
 	}
 	return (1);
 }

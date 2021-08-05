@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 22:20:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/02 01:41:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,25 @@
 void	free_cmd(t_cmd *cmd)
 {
 	int		i;
+	int		j;
 
 	i = 0;
 	if (cmd)
 	{
 		if (cmd->arg)
 		{
-			while (cmd->arg[i])
+			while (cmd[i].builtin)
 			{
-				free(cmd->arg[i]);
+				j = 0;
+				while (cmd[i].arg[j])
+					free(cmd[i].arg[j++]);
+				free(cmd[i].arg);
+				if (cmd[i].builtin)
+					free(cmd[i].builtin);
 				i++;
 			}
-			free(cmd->arg);
 		}
-		if (cmd->builtin)
-			free(cmd->builtin);
+		free(cmd);
 		cmd = NULL;
 	}
 }

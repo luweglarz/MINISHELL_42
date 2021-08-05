@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 01:57:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 12:49:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,22 +93,24 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 	free_env(nb_env(var_names), var_contents);
 }
 
-void	builtin_export(t_cmd cmd, char **env_list)
+void	builtin_export(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
 	int		exist;
-	int		i;
 
-	i = 0;
-	if (count_arg(cmd) > 1)
+	if (count_arg(cmd[i]) > 1)
 	{
-		exist = var_already_exist(cmd, env_list);
+		exist = var_already_exist(cmd[i], env_list);
 		if (exist > 0)
-			change_env_var(env_list, nb_env(env_list), exist, cmd.arg[1]);
+			change_env_var(env_list, nb_env(env_list), exist, cmd[i].arg[1]);
 		else if (exist == -1)
-			add_env_var(env_list, nb_env(env_list), cmd.arg[1]);
+			add_env_var(env_list, nb_env(env_list), cmd[i].arg[1]);
 		else if (exist == -2)
 			printf("Mauvais format pour la fonction \"export\".\n");
 	}
-	else if (count_arg(cmd) == 1)
-		display_env_ascii(cmd, env_list);
+	else if (count_arg(cmd[i]) == 1)
+		display_env_ascii(cmd[i], env_list);
+	else
+		printf("Pas assez d'arguments pour la fonction \"export\".\n");
+	if (pipe == true)
+		exit(1);
 }

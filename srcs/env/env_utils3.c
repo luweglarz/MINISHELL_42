@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:48:05 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 20:08:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 12:49:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	add_env_var(char **env_list, int len, char *add)
 {
 	char	**tmp;
 
-	tmp = malloc(sizeof(char *) * len + 2);
+	tmp = malloc(sizeof(char *) * (len + 2));
 	envdup_plus(tmp, env_list, add);
 	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len + 2);
+	*env_list = malloc(sizeof(char *) * (len + 2));
 	envdup(env_list, tmp);
 	//free_env(len, tmp);
 }

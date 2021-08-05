@@ -6,21 +6,24 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:24 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 03:48:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:36:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_env(t_cmd cmd, char **env_list)
+void	builtin_env(int i, t_cmd *cmd, char **env_list, bool pipe)
 {
-	int	i;
+	int	env_index;
 
-	i = 0;
-	while (env_list[i])
+	env_index = 0;
+	while (env_list[env_index])
 	{
-		write(cmd.fdout, env_list[i], ft_strlen(env_list[i]));
-		write(cmd.fdout, "\n", 1);
-		i++;
+		write(cmd[i].fdout, env_list[env_index],
+			ft_strlen(env_list[env_index]));
+		write(cmd[i].fdout, "\n", 1);
+		env_index++;
 	}
+	if (pipe == true)
+		exit(1);
 }

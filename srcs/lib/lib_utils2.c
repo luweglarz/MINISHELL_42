@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/07/14 12:47:45 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/29 22:19:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ int	ft_str_isdigit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-')
+		i++;
 	while (str[i])
 	{
-		printf("la valeur %d\n", str[i]);
 		if (str[i] < '0' || str[i] > '9')
-		{
-			printf("on rentre ? \n");
 			return (0);
-		}
 		i++;
 	}
 	return (1);

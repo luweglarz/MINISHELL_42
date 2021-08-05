@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/07/18 22:10:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:08:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,16 @@
 # include <errno.h>
 # include <string.h>
 
-#if defined(__linux__)
-    #define PLATFORM_NAME "linux" 
-    # include <linux/limits.h>
-#elif defined(__MACH__)
-    # define PATH_MAX 1024
-#endif
+# define TMPDIR "/tmp/"
+# define PATH_MAX_SHELL 1024
 
 # include "cmd.h"
 # include "builtin.h"
 # include "parsing.h"
 # include "lib.h"
 # include "env.h"
+# include "filling.h"
+# include "redirections.h"
 
 char	*get_line(const char *prompt);
 void	free_cmd(t_cmd *cmd);

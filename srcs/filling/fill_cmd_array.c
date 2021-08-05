@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:51:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 21:08:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,7 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	i = 0;
 	j = 0;
 	start = 0;
-	if (line[i] == '>')
-	{
-		i = bracket_out(line, &i, cmd);
-		start = i;
-	}
-	else if (line[i] == '<')
-	{
-		i = bracket_in(line, &i, cmd);
-		start = i;
-	}
+	do_beginning_bracket(&i, &start, line, cmd);
 	while (ft_isascii(line[i]) == 1)
 	{
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>')
@@ -54,10 +45,12 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
+		if (line[j] == '<' && line[j + 1] == '>')
+			j = bracket_out_in(line, j, cmd);
 		if (line[j] == '>')
-			j = bracket_out(line, &j, cmd);
+			j = bracket_out(line, j, cmd);
 		else if (line[j] == '<')
-			j = bracket_in(line, &j, cmd);
+			j = bracket_in(line, j, cmd);
 		newarg[k] = line[j];
 		k++;
 		j++;
@@ -70,42 +63,11 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 {
 	int		i;
 	int		j;
-	int		inquote;
 	char	*args;
 
 	i = 0;
-	inquote = 0;
-	while (ft_isascii(line[i]) == 1 || line[i] == ' ')
-	{
-		if (line[i] == '"' && check_end_quote(line + i) == 1)
-		{
-			i++;
-			inquote = 1;
-		}
-		else if (line [i] == '\'' && check_end_quote(line + i) == 1)
-		{
-			i++;
-			inquote = 2;
-		}
-		if (line [i] == '"' && inquote == 1)
-		{
-			i++;
-			inquote = 0;
-		}
-		else if (line [i] == '\'' && inquote == 2)
-		{
-			i++;
-			inquote = 0;
-		}
-		if (line[i] == '|' && inquote == 0)
-		{
-			printf("la\n");
-			break ;
-		}
-		i++;
-	}
+	i = pass_ascii(line, i);
 	args = formate_args(line, cmd, i);
-	printf("les args %s\n", args);
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);

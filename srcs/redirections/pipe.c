@@ -3,31 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/15 14:20:03 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/07/29 20:54:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	pipe_ends(int end, t_cmd cmd, int *fds, char **env_list)
+static void	pipe_stdout(int i, t_cmd *cmd, int *fds, char **env_list)
 {
-	if (end == STDIN_FILENO)
-	{
-		close (fds[1]);
-		dup2(fds[0], 0);
-		close (fds[0]);
-		do_builtin(cmd, env_list, true);
-	}
-	else if (end == STDOUT_FILENO)
-	{
-		close (fds[0]);
-		dup2(fds[1], 1);
-		close (fds[1]);
-		do_builtin(cmd, env_list, true);
-	}
+	close (fds[0]);
+	dup2(fds[1], 1);
+	close (fds[1]);
+	exec_builtin(i, cmd, env_list, true);
+}
+
+static void	pipe_stdin(int i, t_cmd *cmd, int *fds, char **env_list)
+{
+	close (fds[1]);
+	dup2(fds[0], 0);
+	close (fds[0]);
+	exec_builtin(i + 1, cmd, env_list, true);
 }
 
 int	single_pipe(int i, t_cmd *cmd, char **env_list)
@@ -42,12 +40,12 @@ int	single_pipe(int i, t_cmd *cmd, char **env_list)
 	if (pid1 == -1)
 		error_errno(cmd, errno, true);
 	if (pid1 == 0)
-		pipe_ends(STDIN_FILENO, cmd[i + 1], fds, env_list);
+		pipe_stdin(i, cmd, fds, env_list);
 	pid2 = fork();
 	if (pid2 == -1)
 		error_errno(cmd, errno, true);
 	if (pid2 == 0)
-		pipe_ends(STDOUT_FILENO, cmd[i], fds, env_list);
+		pipe_stdout(i, cmd, fds, env_list);
 	close(fds[0]);
 	close(fds[1]);
 	waitpid(pid1, NULL, 0);
@@ -72,9 +70,7 @@ int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
 	pid_t	pid;
 
 	fd = 0;
-	//if (cmd[nb_pipe + 1].builtin != NULL)
-		nb_pipe++;
-	printf("nb pipe %d\n", nb_pipe);
+	nb_pipe++;
 	while (nb_pipe-- != 0)
 	{
 		pipe (fds);
@@ -84,7 +80,7 @@ int	multi_pipe(int i, t_cmd *cmd, char **env_list, int nb_pipe)
 		if (pid == 0)
 		{
 			set_pipe(i, cmd, fd, fds);
-			do_builtin(cmd[i], env_list, true);
+			exec_builtin(i, cmd, env_list, true);
 		}
 		waitpid(pid, NULL, 0);
 		close(fds[1]);

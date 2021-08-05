@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:26:40 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 16:56:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/29 20:37:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static char	**ft_cut_words(const char *s, char c, char **tab, int words)
 	{
 		while (*s == c)
 			s++;
-		if (!(tab[j] = malloc(sizeof(char) * (ft_word_len(s, c) + 1 + 1))))
+		tab[j] = malloc(sizeof(char) * (ft_word_len(s, c) + 1 + 1));
+		if (tab[j] == NULL)
 		{
 			ft_free_words(words, tab);
 			return (NULL);
