@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:16:57 by user42            #+#    #+#             */
-/*   Updated: 2021/07/21 15:46:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 13:32:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,48 +60,6 @@ void	get_quote_content(char *tmp, int *i, int *res_index, char *res)
 		*res_index = *res_index + 1;
 		*i = *i + 1;
 	}
-}
-
-char	*arg_without_quote(char *tmp, t_cmd *cmd, int ind, int ind2)
-{
-	char	*res;
-	int		i;
-	int		inquote;
-	int		res_index;
-
-	res = malloc(sizeof(char)
-			* (ft_strlen(tmp) - quote_inside(cmd, ind, ind2) + 1));
-	i = 0;
-	inquote = 0;
-	res_index = 0;
-	while (tmp[i])
-	{
-		inquote = check_inquote(tmp[i], inquote);
-		if (tmp[i] == '\'' || tmp[i] == '"')
-			inquote = check_solo_quote(&tmp[i], inquote);
-		if (tmp[i] == '\'' && inquote == 1)
-		{
-			get_quote_content(tmp, &i, &res_index, res);
-			if (tmp[i] == '\'')
-				inquote = check_inquote(tmp[i], inquote);
-			i++;
-		}
-		else if (tmp[i] == '"' && inquote == 2)
-		{
-			get_quote_content(tmp, &i, &res_index, res);
-			if (tmp[i] == '"')
-				inquote = check_inquote(tmp[i], inquote);
-			i++;
-		}
-		else
-		{
-			res[res_index] = tmp[i];
-			res_index++;
-			i++;
-		}
-	}
-	res[res_index] = '\0';
-	return (res);
 }
 
 void	del_quotes(t_cmd *cmd, int nb_cmd)

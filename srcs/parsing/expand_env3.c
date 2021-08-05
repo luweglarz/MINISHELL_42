@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:23 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 20:04:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 15:05:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,50 +33,48 @@ int	dollar_inside(t_cmd *cmd, int i, int j)
 	return (nb);
 }
 
-void	free_tab(char **tab)
+void	join_splited_tokens(char **tmp, char **str, char **res, int i)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
+	if (i == 1)
 	{
-		free(tab[i]);
-		i++;
+		*str = ft_strjoin(*tmp, " ");
+		free(*tmp);
+	}
+	else
+	{
+		*str = ft_strjoin(*res, " ");
+		free(*res);
 	}
 }
 
-char	*ft_getenv_splited(char *var_name, char **env_list)
+char	**fill_tmp_tab(char **str, char **tmp)
+{
+	char	**tab;
+
+	tab = ft_split(*str, ' ');
+	free(*str);
+	if (tab[0])
+		*tmp = ft_strdup(tab[0]);
+	return (tab);
+}
+
+char	*ft_getenv_splited(char *var_name, char **env_list, int i)
 {
 	char	*str;
 	char	*res;
 	char	*tmp;
 	char	**tab;
-	int		i;
 
-	i = 0;
 	str = ft_getenv(var_name, env_list);
 	res = NULL;
 	if (str == NULL)
 		return (NULL);
 	else
 	{
-		tab = ft_split(str, ' ');
-		free(str);
-		str = NULL;
-		tmp = ft_strdup(tab[i]);
-		i++;
+		tab = fill_tmp_tab(&str, &tmp);
 		while (tab[i])
 		{
-			if (i == 1)
-			{
-				str = ft_strjoin(tmp, " ");
-				free(tmp);
-			}
-			else
-			{
-				str = ft_strjoin(res, " ");
-				free(res);
-			}
+			join_splited_tokens(&tmp, &str, &res, i);
 			res = ft_strjoin(str, tab[i]);
 			free(str);
 			i++;
@@ -86,11 +84,6 @@ char	*ft_getenv_splited(char *var_name, char **env_list)
 		free_tab(tab);
 		return (res);
 	}
-}
-
-void	get_exit_code(t_pars *pars)
-{
-	pars->var_content = ft_strdup("1");
 }
 
 void	init_struct(t_pars *pars, int i, int j)

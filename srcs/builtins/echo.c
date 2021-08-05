@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/07/31 14:52:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 12:56:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static int	check_option_str(char *arg)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	if (arg[j++] != '-')
-		return (1) ;
+		return (1);
 	while (arg[j])
 	{
 		if (arg[j] != 'n')
-			return (1) ;
+			return (1);
 		j++;
 	}
 	return (0);
@@ -30,7 +30,7 @@ static int	check_option_str(char *arg)
 
 static int	check_option_first(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[i++] != '-')

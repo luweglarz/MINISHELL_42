@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:15 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 04:47:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/05 14:51:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	get_var_content(t_cmd *cmd, t_pars *pars, char **env_list)
 	pars->var_name = ft_substr(cmd[pars->i].arg[pars->j],
 			pars->stop, pars->index - pars->stop);
 	if (pars->inquote == 0)
-		pars->var_content = ft_getenv_splited(pars->var_name, env_list);
+		pars->var_content = ft_getenv_splited(pars->var_name, env_list, 1);
 	else if (pars->inquote == 2)
 		pars->var_content = ft_getenv(pars->var_name, env_list);
 	pars->stop = pars->index;
