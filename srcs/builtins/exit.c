@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 22:30:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/09 14:07:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	builtin_exit(int i, t_cmd *cmd, bool pipe)
 	size = 0;
 	while (cmd[i].arg[size])
 		size++;
+	if (size == 1)
+		exit(0);
 	if (size > 2)
 	{
 		error_errno(cmd, E2BIG, false);
