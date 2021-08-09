@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 14:11:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/09 22:52:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	builtin_echo(int i, t_cmd *cmd, bool pipe)
 	}
 	else if (pipe == true)
 	{
+		if (cmd[i].fdout != 1)
+			write(1, "", 0);
 		if (cmd[i].arg[1] == NULL)
 		{
 			write(cmd->fdout, "\n", 1);

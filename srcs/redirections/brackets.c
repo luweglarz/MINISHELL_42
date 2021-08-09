@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   brackets.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:14:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/09 22:56:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	free_bracket_stuff(char *substr, struct stat *buf)
+{
+	free(substr);
+	free(buf);
+}
 
 int	bracket_out_in(const char *line, int j, t_cmd *cmd)
 {
@@ -19,7 +25,6 @@ int	bracket_out_in(const char *line, int j, t_cmd *cmd)
 	int			start;
 
 	start = 0;
-	file = ft_substr(line, start, j - start);
 	j = j + 2;
 	while (line[j] == ' ')
 		j++;
@@ -29,11 +34,16 @@ int	bracket_out_in(const char *line, int j, t_cmd *cmd)
 	file = ft_substr(line, start, j - start);
 	buf = malloc(sizeof(struct stat) * 1);
 	if (buf == NULL)
+	{
+		free_bracket_stuff(file, buf);
 		error_errno(cmd, errno, true);
+	}
 	if (stat((const char *)file, buf) == -1)
 		open(file, O_RDWR | O_CREAT, 0664);
 	else
 		cmd->fdin = open(file, O_RDWR);
+	free_bracket_stuff(file, buf);
+	cmd->fdout = -1;
 	return (j);
 }
 
