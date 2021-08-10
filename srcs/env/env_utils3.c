@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:48:05 by user42            #+#    #+#             */
-/*   Updated: 2021/08/05 16:00:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/10 02:49:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,46 @@ void	change_env_var(char **env_list, int len, int exist, char *change)
 	free_env(len, tmp);
 }
 
-void	display_env(t_cmd cmd, char **var_names, char **var_contents)
+int	check_equal(char *var_name, char **env_list)
 {
 	int	i;
 
 	i = 0;
+	while (env_list[i])
+	{
+		if (ft_strcmp(var_name, env_list[i]) == 0)
+		{
+			if (ft_strclen(env_list[i], '=') == -1)
+				return (-1);
+		}
+		i++;
+	}
+	return (1);
+}
+
+void	display_env(t_cmd cmd, char **var_names
+	, char **var_contents, char **env_list)
+{
+	int	i;
+	int	equal;
+
+	i = 0;
 	while (var_names[i])
 	{
+		equal = 0;
 		write(cmd.fdout, "declare -x ", 11);
 		write(cmd.fdout, var_names[i], ft_strlen(var_names[i]));
-		write(cmd.fdout, "=\"", 2);
-		write(cmd.fdout, var_contents[i], ft_strlen(var_names[i]));
-		write(cmd.fdout, "\"\n", 2);
+		printf("var_name -> %s\n", var_names[i]);
+		if (check_equal(var_names[i], env_list) == -1)
+			equal = -1;
+		if (ft_strcmp(var_contents[i], "") != 0 && equal == 0)
+		{
+			write(cmd.fdout, "\"", 1);
+			write(cmd.fdout, "=", 1);
+			write(cmd.fdout, var_contents[i], ft_strlen(var_names[i]));
+			write(cmd.fdout, "\"", 1);
+		}
+		write(cmd.fdout, "\n", 1);
 		i++;
 	}
 }

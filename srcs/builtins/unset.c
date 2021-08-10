@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 20:19:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/10 02:51:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@ char	**get_env_names(char **env_list)
 {
 	int		i;
 	char	**env_names;
+	int		stop;
 
 	i = 0;
 	env_names = malloc(sizeof(char *) * (nb_env(env_list) + 1));
 	while (env_list[i])
 	{
-		env_names[i] = ft_substr(env_list[i], 0, ft_strclen(env_list[i], '='));
+		stop = ft_strclen(env_list[i], '=');
+		if (stop != -1)
+			env_names[i] = ft_substr(env_list[i], 0, stop);
+		else
+			env_names[i] = ft_substr(env_list[i], 0, ft_strlen(env_list[i]));
 		i++;
 	}
 	env_names[i] = NULL;

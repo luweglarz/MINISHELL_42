@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/05 12:55:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/09 14:51:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(int ac, char **av, char **envp)
 		if (line == NULL)
 			exit(0);
 		nb_cmd = parse_command(line);
-		printf("Le nombre de commande |%d|\n", nb_cmd);
 		if (nb_cmd >= 0)
 			treat_cmd(cmd, nb_cmd, env_list, line);
 		else

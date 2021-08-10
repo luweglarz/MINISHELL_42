@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:52:22 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/18 16:41:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/10 02:51:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 char	**get_env_names(char **env_list);
 int		var_exist(t_cmd cmd, int w_arg, char **env_list);
-int		var_already_exist(t_cmd cmd, char **env_list);
+int		var_already_exist(t_cmd cmd, char **env_list, int arg_i);
 
 void	add_env_var(char **env_list, int len, char *add);
 void	change_env_var(char **env_list, int len, int exist, char *change);
@@ -36,7 +36,8 @@ void	envdup_without(char **env_list, char **tmp, int without);
 
 void	add_env_var(char **env_list, int len, char *add);
 void	change_env_var(char **env_list, int len, int exist, char *change);
-void	display_env(t_cmd cmd, char **var_names, char **var_contents);
+void	display_env(t_cmd cmd, char **var_names,
+			char **var_contents, char **env_list);
 void	swap_env(char **content1, char **content2, char **name1, char **name2);
 
 #endif
