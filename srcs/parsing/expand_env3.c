@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:23 by user42            #+#    #+#             */
-/*   Updated: 2021/08/05 15:05:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/10 17:32:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ char	*ft_getenv_splited(char *var_name, char **env_list, int i)
 			i++;
 		}
 		if (res == NULL)
+		{
 			res = ft_strdup(tmp);
+			free(tmp);
+		}
 		free_tab(tab);
 		return (res);
 	}

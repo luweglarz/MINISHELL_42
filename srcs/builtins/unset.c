@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/08/10 02:51:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 16:23:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,21 @@ int	var_exist(t_cmd cmd, int w_arg, char **env_list)
 void	del_env_var(char **env_list, int len, int to_del)
 {
 	char	**tmp;
+	int i;
 
+	i = 0;
 	tmp = malloc(sizeof(char *) * len);
 	envdup_without(env_list, tmp, to_del);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len);
+	//free_env(len, env_list);
+	while (env_list[i])
+	{
+		free(env_list[i]);
+		i++;
+	}
+	free(env_list);
+	env_list = malloc(sizeof(char *) * len);
 	envdup(env_list, tmp);
-	free_env(len - 1, tmp);
+	free_env(len, tmp);
 }
 
 void	builtin_unset(int i, t_cmd *cmd, char **env_list, bool pipe)

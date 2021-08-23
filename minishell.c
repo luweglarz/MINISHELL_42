@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/10 02:54:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 16:03:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	char	**env_list;
 	int		nb_cmd;
+	int ind;
 
+	ind = 0;
 	cmd = NULL;
 	env_list = init_env(envp, ac, av);
 	signal(SIGINT, sig_handler);
@@ -65,12 +67,21 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 			add_history(line);
 		if (line == NULL)
+		{
+			while (env_list[ind])
+			{
+				free(env_list[ind]);
+				ind++;
+			}
+			free(env_list);
 			exit(0);
+		}
 		nb_cmd = parse_command(line);
 		if (nb_cmd >= 0)
 			treat_cmd(cmd, nb_cmd, env_list, line);
 		else
 			free_after_line(cmd, line);
 	}
+	printf("DEBUG TEST FINAL\n");
 	return (1);
 }
