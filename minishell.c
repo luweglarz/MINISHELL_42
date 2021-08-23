@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/23 18:22:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:57:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,10 @@ int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	char	*line;
-	//char	**env_list;
-	t_env_l env;
+	t_env_l	env;
 	int		nb_cmd;
 
 	cmd = NULL;
-	//env_list = init_env(envp, ac, av);
 	env.list = init_env(envp, ac, av);
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
@@ -74,6 +72,5 @@ int	main(int ac, char **av, char **envp)
 		else
 			free_after_line(cmd, line);
 	}
-	printf("DEBUG TEST FINAL\n");
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:34:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:53:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ int	var_exist(t_cmd cmd, int w_arg, char **env_list)
 void	del_env_var(t_env_l *env, int len, int to_del)
 {
 	char	**tmp;
-	int i;
+	int		i;
 
 	i = 0;
 	tmp = malloc(sizeof(char *) * len);
 	envdup_without(env->list, tmp, to_del);
-	//free_env_list(len, env->list);
 	while (env->list[i])
 	{
 		free(env->list[i]);

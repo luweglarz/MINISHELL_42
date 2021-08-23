@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:48:05 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:38:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 19:04:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 void	add_env_var(t_env_l *env, int len, char *add)
 {
 	char	**tmp;
-	int i;
+	int		i;
 
 	i = 0;
 	tmp = malloc(sizeof(char *) * (len + 2));
 	envdup_plus(tmp, env->list, add);
-	//free_env_list(len, env->list);
 	while (env->list[i])
 	{
 		free(env->list[i]);
@@ -35,12 +34,11 @@ void	add_env_var(t_env_l *env, int len, char *add)
 void	change_env_var(t_env_l *env, int len, int exist, char *change)
 {
 	char	**tmp;
-	int i;
+	int		i;
 
 	i = 0;
 	tmp = malloc(sizeof(char *) * len + 1);
 	envdup_n_change(tmp, env->list, change, exist);
-	//free_env_list(len, env->list);
 	while (env->list[i])
 	{
 		free(env->list[i]);
@@ -95,7 +93,7 @@ void	display_env(t_cmd cmd, char **var_names
 		{
 			write(cmd.fdout, "=", 1);
 			write(cmd.fdout, "\"", 1);
-			write(cmd.fdout, var_contents[i], ft_strlen(var_names[i]));
+			write(cmd.fdout, var_contents[i], ft_strlen(var_contents[i]));
 			write(cmd.fdout, "\"", 1);
 		}
 		write(cmd.fdout, "\n", 1);

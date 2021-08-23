@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:26:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:56:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ int	count_arg(t_cmd cmd)
 	return (i);
 }
 
-int	var_already_exist(t_cmd cmd, char **env_list, int arg_i)
+int	var_already_exist(t_cmd cmd, char **env_list, int a_i)
 {
 	int		i;
 	char	**env_names;
 	char	*tmp;
 
 	i = 0;
-	if (arg_i < count_arg(cmd))
+	if (a_i < count_arg(cmd))
 	{
-		if (ft_strclen(cmd.arg[arg_i], '=') == -1)
-			tmp = ft_substr(cmd.arg[arg_i], 0, ft_strlen(cmd.arg[arg_i]));
+		if (ft_strclen(cmd.arg[a_i], '=') == -1)
+			tmp = ft_substr(cmd.arg[a_i], 0, ft_strlen(cmd.arg[a_i]));
 		else
-			tmp = ft_substr(cmd.arg[arg_i], 0, ft_strclen(cmd.arg[arg_i], '=') - 1);
+			tmp = ft_substr(cmd.arg[a_i], 0, ft_strclen(cmd.arg[a_i], '=') - 1);
 		env_names = get_env_names(env_list);
 		while (env_names[i])
 		{

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/08/05 15:32:49 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 19:06:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int		check_redirection(const char *line);
 int		not_only_space(const char *line);
 
 void	free_tab(char **tab);
-
 int		dollar_inside(t_cmd *cmd, int i, int j);
 void	join_splited_tokens(char **tmp, char **str, char **res, int i);
 char	*ft_getenv_splited(char *var_name, char **env_list, int i);

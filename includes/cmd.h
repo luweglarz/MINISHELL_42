@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:36:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:56:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_cmd
 
 typedef struct s_env_l
 {
-	char **list;
+	char	**list;
 }				t_env_l;
 
 void		parse_cmd_array(t_cmd *cmd, t_env_l *env, int nb_cmd);
