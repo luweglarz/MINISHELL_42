@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 22:54:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:54:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 			execpath_no_pipe(i, cmd, env_list);
 		waitpid(pid, &status, 0);
 		g_err = WEXITSTATUS(status);
-		printf("Code erreur $? = %d\n", g_err);
 	}
 	else if (pipe == true)
 	{
