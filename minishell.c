@@ -6,7 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2021/08/23 18:26:59 by user42           ###   ########.fr       */
+=======
 /*   Updated: 2021/08/23 19:43:39 by user42           ###   ########.fr       */
+>>>>>>> 4504fc53b30b94c58d35189fef8fb32f70eeafe1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +30,14 @@ void	sig_handler(int signum)
 void	free_after_line(t_cmd *cmd, char *line)
 {
 	struct stat	*buf;
+	char		*join;
 
+	join = ft_strjoin(TMPDIR, ".heredoc");
 	buf = malloc(sizeof(struct stat) * 1);
+	if (stat(join, buf) == 0)
+		unlink(join);
 	free(buf);
+	free(join);
 	free_cmd(cmd);
 	if (line)
 	{
