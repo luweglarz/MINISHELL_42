@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/05 17:04:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:36:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@
 # define PATH_MAX_SHELL 1024
 
 # include "cmd.h"
+# include "env.h"
 # include "builtin.h"
 # include "parsing.h"
 # include "lib.h"
-# include "env.h"
 # include "filling.h"
 # include "redirections.h"
 

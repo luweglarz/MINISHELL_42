@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:10:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:34:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,27 @@ int	var_exist(t_cmd cmd, int w_arg, char **env_list)
 	return (-1);
 }
 
-void	del_env_var(char **env_list, int len, int to_del)
+void	del_env_var(t_env_l *env, int len, int to_del)
 {
 	char	**tmp;
 	int i;
 
 	i = 0;
 	tmp = malloc(sizeof(char *) * len);
-	envdup_without(env_list, tmp, to_del);
-	free_env_list(len, env_list);
-	*env_list = malloc(sizeof(char *) * len);
-	envdup(env_list, tmp);
+	envdup_without(env->list, tmp, to_del);
+	//free_env_list(len, env->list);
+	while (env->list[i])
+	{
+		free(env->list[i]);
+		i++;
+	}
+	free(env->list);
+	env->list = malloc(sizeof(char *) * len);
+	envdup(env->list, tmp);
 	free_env(len, tmp);
 }
 
-void	builtin_unset(int i, t_cmd *cmd, char **env_list, bool pipe)
+void	builtin_unset(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 {
 	int	to_del;
 	int	index;
@@ -75,14 +81,14 @@ void	builtin_unset(int i, t_cmd *cmd, char **env_list, bool pipe)
 
 	to_del = 0;
 	index = 1;
-	len = nb_env(env_list);
+	len = nb_env(env->list);
 	if (count_arg(cmd[i]) > 1)
 	{
 		while (index < count_arg(cmd[i]))
 		{
-			to_del = var_exist(cmd[i], index, env_list);
+			to_del = var_exist(cmd[i], index, env->list);
 			if (to_del >= 0)
-				del_env_var(env_list, len, to_del);
+				del_env_var(env, len, to_del);
 			index++;
 		}
 	}

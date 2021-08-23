@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 17:55:09 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:26:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 	free_env(nb_env(var_contents), var_contents);
 }
 
-void	builtin_export(int i, t_cmd *cmd, char **env_list, bool pipe)
+void	builtin_export(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 {
 	int		exist;
 	int		arg_index;
@@ -112,16 +112,16 @@ void	builtin_export(int i, t_cmd *cmd, char **env_list, bool pipe)
 	{
 		while (arg_index++ < nb_arg - 1)
 		{
-			exist = var_already_exist(cmd[i], env_list, arg_index);
+			exist = var_already_exist(cmd[i], env->list, arg_index);
 			if (exist > 0)
-				change_env_var(env_list, nb_env(env_list),
+				change_env_var(env, nb_env(env->list),
 					exist, cmd[i].arg[arg_index]);
 			else if (exist < 0)
-				add_env_var(env_list, nb_env(env_list), cmd[i].arg[arg_index]);
+				add_env_var(env, nb_env(env->list), cmd[i].arg[arg_index]);
 		}
 	}
 	else if (count_arg(cmd[i]) == 1)
-		display_env_ascii(cmd[i], env_list);
+		display_env_ascii(cmd[i], env->list);
 	if (pipe == true)
 		exit(1);
 }

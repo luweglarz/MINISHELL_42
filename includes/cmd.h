@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:01:42 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:48:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:36:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ typedef struct s_cmd
 	int				fdin;
 }				t_cmd;
 
-void		parse_cmd_array(t_cmd *cmd, char **env_list, int nb_cmd);
-void		exec_builtin(int i, t_cmd *cmd, char **env_list, bool pipe);
+typedef struct s_env_l
+{
+	char **list;
+}				t_env_l;
+
+void		parse_cmd_array(t_cmd *cmd, t_env_l *env, int nb_cmd);
+void		exec_builtin(int i, t_cmd *cmd, t_env_l *env, bool pipe);
 
 #endif
