@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:52:22 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/08/23 18:36:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 20:43:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 char	**get_env_names(char **env_list);
 int		var_exist(t_cmd cmd, int w_arg, char **env_list);
-int		var_already_exist(t_cmd cmd, char **env_list, int arg_i);
+int		var_already_exist(t_cmd cmd, char **env_list, int a_i, int i);
 
 void	add_env_var(t_env_l *env, int len, char *add);
 void	change_env_var(t_env_l *env, int len, int exist, char *change);

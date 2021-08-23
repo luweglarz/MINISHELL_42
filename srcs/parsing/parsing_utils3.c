@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:17:49 by user42            #+#    #+#             */
-/*   Updated: 2021/08/10 17:30:21 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 21:28:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,14 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+int	count_arg(t_cmd cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd.arg[i])
+		i++;
+	return (i);
 }

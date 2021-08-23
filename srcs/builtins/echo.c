@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 16:17:20 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 14:11:13 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 21:21:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static void	display_echo(t_cmd cmd)
 
 void	builtin_echo(int i, t_cmd *cmd, bool pipe)
 {
+	g_err = 0;
 	if (pipe == false)
 	{
 		if (cmd[i].arg[1] == NULL)
