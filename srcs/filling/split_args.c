@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 22:31:04 by user42            #+#    #+#             */
-/*   Updated: 2021/07/20 20:28:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/09 14:51:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	**split_args(char const *s, const char *builtin)
 	int		nb_words;
 
 	nb_words = count_word(s);
-	printf("count words %d\n", nb_words);
 	tab = malloc(sizeof(char *) * (nb_words + 1 + 1));
 	if (tab == NULL)
 		return (NULL);

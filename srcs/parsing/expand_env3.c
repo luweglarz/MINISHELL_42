@@ -6,32 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:46:23 by user42            #+#    #+#             */
-/*   Updated: 2021/08/05 15:05:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 19:06:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	dollar_inside(t_cmd *cmd, int i, int j)
-{
-	int	index;
-	int	inquote;
-	int	nb;
-
-	nb = 0;
-	inquote = 0;
-	index = 0;
-	while (cmd[i].arg[j][index])
-	{
-		inquote = check_inquote(cmd[i].arg[j][index], inquote);
-		if (inquote == 1)
-			inquote = check_solo_quote(&cmd[i].arg[j][index], inquote);
-		if (cmd[i].arg[j][index] == '$' && inquote != 1)
-			nb++;
-		index++;
-	}
-	return (nb);
-}
 
 void	join_splited_tokens(char **tmp, char **str, char **res, int i)
 {
@@ -58,6 +37,15 @@ char	**fill_tmp_tab(char **str, char **tmp)
 	return (tab);
 }
 
+void	fill_res(char **tmp, char **res)
+{
+	if (*res == NULL)
+	{
+		*res = ft_strdup(*tmp);
+		free(*tmp);
+	}
+}
+
 char	*ft_getenv_splited(char *var_name, char **env_list, int i)
 {
 	char	*str;
@@ -79,8 +67,7 @@ char	*ft_getenv_splited(char *var_name, char **env_list, int i)
 			free(str);
 			i++;
 		}
-		if (res == NULL)
-			res = ft_strdup(tmp);
+		fill_res(&tmp, &res);
 		free_tab(tab);
 		return (res);
 	}

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:16:57 by user42            #+#    #+#             */
-/*   Updated: 2021/08/05 13:32:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/10 17:11:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	quote_inside(t_cmd *cmd, int i, int j)
 	index = 0;
 	nb = 0;
 	inquote = 0;
-	while (cmd[i].arg[j][index])
+	while (index < (int)ft_strlen(cmd[i].arg[j]))
 	{
 		inquote = check_inquote(cmd[i].arg[j][index], inquote);
 		if (cmd[i].arg[j][index] == '\'' || cmd[i].arg[j][index] == '"')
@@ -81,6 +81,7 @@ void	del_quotes(t_cmd *cmd, int nb_cmd)
 				tmp = ft_strdup(cmd[i].arg[j]);
 				free(cmd[i].arg[j]);
 				cmd[i].arg[j] = arg_without_quote(tmp, cmd, i, j);
+				free(tmp);
 			}
 			j++;
 		}

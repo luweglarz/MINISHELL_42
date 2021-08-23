@@ -6,17 +6,18 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 14:07:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 18:07:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_exit(int i, t_cmd *cmd, bool pipe)
+void	builtin_exit(int i, t_cmd *cmd, bool pipe, char **env_list)
 {
 	int	size;
 
 	size = 0;
+	(void)env_list;
 	while (cmd[i].arg[size])
 		size++;
 	if (size == 1)

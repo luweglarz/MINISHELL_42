@@ -6,7 +6,11 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/08/23 18:26:59 by user42           ###   ########.fr       */
+=======
+/*   Updated: 2021/08/23 19:43:39 by user42           ###   ########.fr       */
+>>>>>>> 4504fc53b30b94c58d35189fef8fb32f70eeafe1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +46,13 @@ void	free_after_line(t_cmd *cmd, char *line)
 	}
 }
 
-void	treat_cmd(t_cmd *cmd, int nb_cmd, char **env_list, char *line)
+void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 {
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(line, cmd);
-	format_args(cmd, env_list, nb_cmd);
+	format_args(cmd, env->list, nb_cmd);
 	del_quotes(cmd, nb_cmd);
-	parse_cmd_array(cmd, env_list, nb_cmd);
+	parse_cmd_array(cmd, env, nb_cmd);
 	free_after_line(cmd, line);
 }
 
@@ -56,11 +60,11 @@ int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	char	*line;
-	char	**env_list;
+	t_env_l	env;
 	int		nb_cmd;
 
 	cmd = NULL;
-	env_list = init_env(envp, ac, av);
+	env.list = init_env(envp, ac, av);
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
@@ -72,9 +76,8 @@ int	main(int ac, char **av, char **envp)
 		if (line == NULL)
 			exit(0);
 		nb_cmd = parse_command(line);
-		printf("Le nombre de commande |%d|\n", nb_cmd);
 		if (nb_cmd >= 0)
-			treat_cmd(cmd, nb_cmd, env_list, line);
+			treat_cmd(cmd, nb_cmd, &env, line);
 		else
 			free_after_line(cmd, line);
 	}
