@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 04:16:57 by user42            #+#    #+#             */
-/*   Updated: 2021/08/10 17:11:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/24 18:03:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	del_quotes(t_cmd *cmd, int nb_cmd)
 				tmp = ft_strdup(cmd[i].arg[j]);
 				free(cmd[i].arg[j]);
 				cmd[i].arg[j] = arg_without_quote(tmp, cmd, i, j);
+				if (j == 0)
+					cmd[i].builtin = arg_without_quote(tmp, cmd, i, j);
 				free(tmp);
 			}
 			j++;
