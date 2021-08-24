@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/24 14:27:01 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/24 14:36:18 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	sig_handler(int signum)
 {
+	if (signum == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
@@ -61,6 +67,7 @@ int	main(int ac, char **av, char **envp)
 
 	cmd = NULL;
 	env.list = init_env(envp, ac, av);
+	signal(SIGQUIT, sig_handler);
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
