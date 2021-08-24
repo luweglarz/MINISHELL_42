@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/24 18:50:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/24 18:56:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 	fill_cmd_array(line, cmd);
 	format_args(cmd, env->list, nb_cmd);
 	//Ici je dois tout remettre en ligne et resplit mes args
-	fill_expanded_args(cmd, nb_cmd);
 	//Je dois imperament avoir split pour del les quotes
 	del_quotes(cmd, nb_cmd);
 	//Je retablis la verite sur mon builtin ici
