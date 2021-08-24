@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 19:42:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/24 14:19:35 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
 	error_msg = strerror(error_code);
 	write (2, error_msg, ft_strlen(error_msg));
 	write(2, "\n", 1);
-	free_cmd(cmd);
+	if (cmd)
+		free_cmd(cmd);
 	if (exit_bool == true)
 		exit(error_code);
 }
