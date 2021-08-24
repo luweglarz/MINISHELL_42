@@ -6,41 +6,30 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:56:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 21:28:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	count_arg(t_cmd cmd)
+int	var_already_exist(t_cmd cmd, char **env_list, int a_i, int i)
 {
-	int	i;
-
-	i = 0;
-	while (cmd.arg[i])
-		i++;
-	return (i);
-}
-
-int	var_already_exist(t_cmd cmd, char **env_list, int a_i)
-{
-	int		i;
 	char	**env_names;
 	char	*tmp;
 
-	i = 0;
 	if (a_i < count_arg(cmd))
 	{
 		if (ft_strclen(cmd.arg[a_i], '=') == -1)
 			tmp = ft_substr(cmd.arg[a_i], 0, ft_strlen(cmd.arg[a_i]));
 		else
-			tmp = ft_substr(cmd.arg[a_i], 0, ft_strclen(cmd.arg[a_i], '=') - 1);
+			tmp = ft_substr(cmd.arg[a_i], 0, ft_strclen(cmd.arg[a_i], '='));
 		env_names = get_env_names(env_list);
 		while (env_names[i])
 		{
 			if (ft_strcmp(tmp, env_names[i]) == 0)
 			{
 				free_env(nb_env(env_names), env_names);
+				free(tmp);
 				return (i);
 			}
 			i++;
@@ -100,6 +89,29 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 	free_env(nb_env(var_contents), var_contents);
 }
 
+int	check_env_name(char *cmd)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (ft_strclen(cmd, '=') == -1)
+		s = ft_strdup(cmd);
+	else
+		s = ft_substr(cmd, 0, ft_strclen(cmd, '='));
+	while (s[i])
+	{
+		if (ft_isalnum(s[i]) == 0 && s[i] != '_')
+		{
+			free(s);
+			return (-1);
+		}
+		i++;
+	}
+	free(s);
+	return (0);
+}
+
 void	builtin_export(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 {
 	int		exist;
@@ -108,16 +120,19 @@ void	builtin_export(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 
 	arg_index = 0;
 	nb_arg = count_arg(cmd[i]);
+	g_err = 0;
 	if (nb_arg > 1)
 	{
 		while (arg_index++ < nb_arg - 1)
 		{
-			exist = var_already_exist(cmd[i], env->list, arg_index);
+			exist = var_already_exist(cmd[i], env->list, arg_index, 0);
 			if (exist > 0)
 				change_env_var(env, nb_env(env->list),
 					exist, cmd[i].arg[arg_index]);
-			else if (exist < 0)
+			else if (exist < 0 && check_env_name(cmd[i].arg[arg_index]) != -1)
 				add_env_var(env, nb_env(env->list), cmd[i].arg[arg_index]);
+			else
+				g_err = 1;
 		}
 	}
 	else if (count_arg(cmd[i]) == 1)

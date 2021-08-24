@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   lib_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/16 21:57:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 21:24:21 by user42           ###   ########.fr       */
+/*   Created: 2021/08/23 21:26:24 by user42            #+#    #+#             */
+/*   Updated: 2021/08/23 21:26:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_env(int i, t_cmd *cmd, char **env_list, bool pipe)
+int	ft_isalnum(int c)
 {
-	int	env_index;
-
-	env_index = 0;
-	if (count_arg(cmd[i]) > 1)
-		g_err = 1;
-	else
-		g_err = 0;
-	while (env_list[env_index])
-	{
-		if (ft_strclen(env_list[env_index], '=') != -1)
-		{
-			write(cmd[i].fdout, env_list[env_index],
-				ft_strlen(env_list[env_index]));
-			write(cmd[i].fdout, "\n", 1);
-		}
-		env_index++;
-	}
-	if (pipe == true)
-		exit(1);
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
 }

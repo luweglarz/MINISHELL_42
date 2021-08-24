@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:56:37 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:53:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/23 21:17:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	var_exist(t_cmd cmd, int w_arg, char **env_list)
 		i++;
 	}
 	free_env(nb_env(env_names), env_names);
+	g_err = 1;
 	return (-1);
 }
 
@@ -81,6 +82,7 @@ void	builtin_unset(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 	to_del = 0;
 	index = 1;
 	len = nb_env(env->list);
+	g_err = 0;
 	if (count_arg(cmd[i]) > 1)
 	{
 		while (index < count_arg(cmd[i]))
@@ -88,11 +90,11 @@ void	builtin_unset(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 			to_del = var_exist(cmd[i], index, env->list);
 			if (to_del >= 0)
 				del_env_var(env, len, to_del);
+			else
+				g_err = 1;
 			index++;
 		}
 	}
-	else
-		printf("Pas assez d'arguments pour la fonction \"unset\".\n");
 	if (pipe == true)
 		exit(1);
 }
