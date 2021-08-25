@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 21:10:37 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:18:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/25 12:58:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ static int
 	if (start != NULL)
 		*start = j;
 	while ((ft_isascii(line[j]) == 1) && line[j] != '|')
+	{
+		if (line[j] == '>' || line[j] == '<')
+			return (j);
 		j++;
+	}
 	return (j);
 }
 
@@ -44,7 +48,11 @@ static int
 	if (start != NULL)
 		*start = j;
 	while ((ft_isascii(line[j]) == 1) && line[j] != '|')
+	{
+		if (line[j] == '>' || line[j] == '<')
+			return (j);
 		j++;
+	}
 	return (j);
 }
 

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 21:08:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/25 15:15:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,20 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	while (j < i)
 	{	
 		if (line[j] == '<' && line[j + 1] == '>')
+		{
 			j = bracket_out_in(line, j, cmd);
+			continue;
+		}
 		if (line[j] == '>')
+		{
 			j = bracket_out(line, j, cmd);
+			continue;
+		}
 		else if (line[j] == '<')
+		{
 			j = bracket_in(line, j, cmd);
+			continue;
+		}
 		newarg[k] = line[j];
 		k++;
 		j++;
