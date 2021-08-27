@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/27 16:04:55 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:18:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 {
 	char	*expanded;
 
-	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	expanded = expand_env_value(line, env->list);
+	nb_cmd = parse_command(expanded);
+	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(expanded, cmd);
 	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
