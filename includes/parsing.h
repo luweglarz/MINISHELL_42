@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/08/27 15:07:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/27 16:04:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,25 @@
 
 typedef struct s_pars
 {
-	char *newline;
-	char *expanded;
-	char *tmp;
-	char *save;
-	int i;
-	int inquote;
-	int stop;
-	int remember;
+	char	*newline;
+	char	*expanded;
+	char	*tmp;
+	char	*save;
+	int		i;
+	int		inquote;
+	int		stop;
+	int		remember;
 }				t_pars;
+
+char	*name_to_value(char *line, int *i, char **env_list);
+void	get_front_buffer(t_pars *exp, char *line);
+void	get_median_buffer(t_pars *exp, char *line);
+void	get_back_buffer(t_pars *exp, char *line);
+
+void	init_exp(t_pars *exp);
+void	add_expanded(t_pars *exp, char *line);
+void	treat_dollar(t_pars *exp, char *line, char **env_list);
+char	*expand_env_value(char *line, char **env_list);
 
 void	close_command(int *cmd_started, int *nb_cmd);
 int		count_command(const char *line, int i, int len, int	inquote);
