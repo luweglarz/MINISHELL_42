@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 21:28:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/27 15:07:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@
 
 typedef struct s_pars
 {
-	char	*var_content;
-	char	*var_name;
-	char	*tmp;
-	char	*res;
-	int		index;
-	int		stop;
-	int		inquote;
-	int		i;
-	int		j;
+	char *newline;
+	char *expanded;
+	char *tmp;
+	char *save;
+	int i;
+	int inquote;
+	int stop;
+	int remember;
 }				t_pars;
 
 void	close_command(int *cmd_started, int *nb_cmd);
@@ -48,23 +47,6 @@ int		check_redirection_input(const char *line, int i);
 int		check_redirection_output(const char *line, int i);
 int		check_redirection(const char *line);
 int		not_only_space(const char *line);
-
-void	free_tab(char **tab);
-int		dollar_inside(t_cmd *cmd, int i, int j);
-void	join_splited_tokens(char **tmp, char **str, char **res, int i);
-char	*ft_getenv_splited(char *var_name, char **env_list, int i);
-void	init_struct(t_pars *pars, int i, int j);
-
-void	fill_tmp(t_cmd *cmd, t_pars *pars);
-void	fill_before_return(t_cmd *cmd, t_pars *pars);
-void	get_dollar(t_cmd *cmd, t_pars *pars);
-void	get_var_content(t_cmd *cmd, t_pars *pars, char **env_list);
-
-void	treat_dollar(t_cmd *cmd, t_pars *pars, char **env_list);
-void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j);
-void	format_args(t_cmd *cmd, char **env_list, int nb_cmd);
-
-void	get_exit_code(t_pars *pars);
 
 void	fill_other_char(char *res, int *res_index, char *tmp, int *i);
 void	update_inquote(char *tmp, int *inquote, int *i, char c);
