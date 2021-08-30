@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/30 15:16:20 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/30 15:19:05 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 	printf("EXPANDED =%s\n", expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(expanded, cmd);
-	int i = 0;
+	/*int i = 0;
 	while (cmd->arg[i])
 	{
 		printf("ARG[%d]=%s\n", i, cmd->arg[i]);
 		i++;
-	}
+	}*/
 	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
 	free(expanded);
@@ -95,11 +95,8 @@ int	main(int ac, char **av, char **envp)
 
 	cmd = NULL;
 	env.list = init_env(envp, ac, av);
-<<<<<<< HEAD
 	init_token(&env);
-=======
 	signal(SIGQUIT, sig_handler);
->>>>>>> 9b1cc397f2a20ba9f2c8a2d18900b5bb34e2cfc5
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
