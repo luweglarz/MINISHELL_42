@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 22:56:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/25 20:15:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	bracket_out_in(const char *line, int j, t_cmd *cmd)
 	else
 		cmd->fdin = open(file, O_RDWR);
 	free_bracket_stuff(file, buf);
-	cmd->fdout = -1;
+	cmd->fdout = 1;
 	return (j);
 }
 

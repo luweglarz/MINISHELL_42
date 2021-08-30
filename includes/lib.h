@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 17:45:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:38:05 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split_slash(char const *s, char c);
 char		**ft_split(const char *s, char c);
+
+void	    free_splitnjoin(char **split);
 
 #endif

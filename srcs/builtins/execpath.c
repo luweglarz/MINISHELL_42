@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execpath.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 17:51:15 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:37:39 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,6 @@ static int	check_is_path(const char *str)
 	return (0);
 }
 
-static void	free_splitnjoin(char **split, char *join)
-{	
-	int	i;
-
-	i = 0;
-	(void)join;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
-
 static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 {
 	int			i;
@@ -61,7 +47,7 @@ static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 		i++;
 	}
 	free(buf);
-	free_splitnjoin(split, join);
+	free_splitnjoin(split);
 }
 
 static void	execpath_no_pipe(int i, t_cmd *cmd, char **env_list)

@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/30 15:00:27 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/30 15:16:20 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	sig_handler(int signum)
 {
+	if (signum == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
@@ -89,7 +95,11 @@ int	main(int ac, char **av, char **envp)
 
 	cmd = NULL;
 	env.list = init_env(envp, ac, av);
+<<<<<<< HEAD
 	init_token(&env);
+=======
+	signal(SIGQUIT, sig_handler);
+>>>>>>> 9b1cc397f2a20ba9f2c8a2d18900b5bb34e2cfc5
 	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
