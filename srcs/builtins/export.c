@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:55:54 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 21:28:01 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/30 14:32:34 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**get_env_content(char **env_list)
 	return (env_content);
 }
 
-void	display_env_ascii(t_cmd cmd, char **env_list)
+void	display_env_ascii(t_cmd cmd, t_env_l *env)
 {
 	char	**var_names;
 	char	**var_contents;
@@ -70,12 +70,12 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 	int		j;
 
 	i = 0;
-	var_names = get_env_names(env_list);
-	var_contents = get_env_content(env_list);
-	while (env_list[i])
+	var_names = get_env_names(env->list);
+	var_contents = get_env_content(env->list);
+	while (env->list[i])
 	{
 		j = i + 1;
-		while (env_list[j])
+		while (env->list[j])
 		{
 			if (ft_strcmp(var_names[i], var_names[j]) > 0)
 				swap_env(&var_contents[i],
@@ -84,7 +84,7 @@ void	display_env_ascii(t_cmd cmd, char **env_list)
 		}
 		i++;
 	}
-	display_env(cmd, var_names, var_contents, env_list);
+	display_env(cmd, var_names, var_contents, env);
 	free_env(nb_env(var_names), var_names);
 	free_env(nb_env(var_contents), var_contents);
 }
@@ -136,7 +136,7 @@ void	builtin_export(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 		}
 	}
 	else if (count_arg(cmd[i]) == 1)
-		display_env_ascii(cmd[i], env->list);
+		display_env_ascii(cmd[i], env);
 	if (pipe == true)
 		exit(1);
 }

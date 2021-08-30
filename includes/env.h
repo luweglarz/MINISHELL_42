@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 21:35:16 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 14:26:34 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/30 14:34:00 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ENV_H
 
 # include "minishell.h"
+
+char	**get_env_content(char **env_list);
+void	init_token(t_env_l *env);
 
 char	**get_env_names(char **env_list);
 int		var_exist(t_cmd cmd, int w_arg, char **env_list);
@@ -35,7 +38,7 @@ void	envdup_plus(char **env_list, char **tmp, char *plus);
 void	envdup_without(char **env_list, char **tmp, int without);
 
 void	display_env(t_cmd cmd, char **var_names,
-			char **var_contents, char **env_list);
+			char **var_contents, t_env_l *env);
 void	swap_env(char **content1, char **content2, char **name1, char **name2);
 
 #endif
