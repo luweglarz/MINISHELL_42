@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 21:26:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 17:43:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:37:52 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,17 @@ int	ft_isalnum(int c)
 		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
+}
+
+void	free_splitnjoin(char **split)
+{	
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
