@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/30 15:19:05 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/30 23:27:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,17 @@ void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 {
 	char	*expanded;
 
-	expanded = expand_env_value(line, env->list);
+	expanded = expand_env_value(line, env);
 	nb_cmd = parse_command(expanded);
 	printf("EXPANDED =%s\n", expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(expanded, cmd);
-	/*int i = 0;
+	int i = 0;
 	while (cmd->arg[i])
 	{
 		printf("ARG[%d]=%s\n", i, cmd->arg[i]);
 		i++;
-	}*/
+	}
 	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
 	free(expanded);
