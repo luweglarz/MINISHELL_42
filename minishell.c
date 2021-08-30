@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/24 14:36:18 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/30 12:42:28 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ void	free_after_line(t_cmd *cmd, char *line)
 
 void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 {
+	char	*expanded;
+
+	expanded = expand_env_value(line, env->list);
+	nb_cmd = parse_command(expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
-	fill_cmd_array(line, cmd);
-	format_args(cmd, env->list, nb_cmd);
+	fill_cmd_array(expanded, cmd);
 	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
+	free(expanded);
 	free_after_line(cmd, line);
 }
 

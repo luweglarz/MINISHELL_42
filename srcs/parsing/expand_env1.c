@@ -5,100 +5,72 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/18 04:22:06 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 19:06:46 by user42           ###   ########.fr       */
+/*   Created: 2021/08/27 15:58:17 by user42            #+#    #+#             */
+/*   Updated: 2021/08/27 16:03:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	treat_dollar(t_cmd *cmd, t_pars *pars, char **env_list)
+void	init_exp(t_pars *exp)
 {
-	fill_tmp(cmd, pars);
-	if (cmd[pars->i].arg[pars->j][pars->index] == '\0'
-		|| cmd[pars->i].arg[pars->j][pars->index] == '\''
-		|| cmd[pars->i].arg[pars->j][pars->index] == '"'
-		|| cmd[pars->i].arg[pars->j][pars->index] == '$')
-		get_dollar(cmd, pars);
-	else if (cmd[pars->i].arg[pars->j][pars->index] == '?')
-	{
-		pars->stop = pars->index + 1;
-		get_exit_code(pars);
-	}
-	else
-		get_var_content(cmd, pars, env_list);
-	if (pars->tmp)
-	{
-		pars->res = ft_strjoin(pars->tmp, pars->var_content);
-		free(pars->tmp);
-		pars->tmp = NULL;
-	}
-	else
-		pars->res = ft_strdup(pars->var_content);
-	free(pars->var_content);
-	pars->var_content = NULL;
+	exp->i = 0;
+	exp->inquote = 0;
+	exp->stop = -1;
+	exp->remember = -1;
 }
 
-void	expand_env_arg(t_cmd *cmd, char **env_list, int i, int j)
+void	add_expanded(t_pars *exp, char *line)
 {
-	t_pars	pars;
-
-	init_struct(&pars, i, j);
-	while (cmd[i].arg[j][pars.index])
-	{
-		pars.inquote = check_inquote
-			(cmd[pars.i].arg[pars.j][pars.index], pars.inquote);
-		if (pars.inquote == 1 || pars.inquote == 2)
-			pars.inquote = check_solo_quote
-				(&cmd[pars.i].arg[pars.j][pars.index], pars.inquote);
-		if (cmd[pars.i].arg[pars.j][pars.index] == '$'
-		&& (pars.inquote == 0 || pars.inquote == 2))
-			treat_dollar(cmd, &pars, env_list);
-		if (cmd[pars.i].arg[pars.j][pars.index] != '$'
-		|| (cmd[i].arg[pars.j][pars.index] == '$' && pars.inquote == 1))
-			pars.index++;
-	}
-	fill_before_return(cmd, &pars);
+	if (exp->stop != -1 && exp->remember - exp->stop > 0)
+		get_median_buffer(exp, line);
+	exp->stop = exp->i;
+	exp->tmp = ft_strdup(exp->newline);
+	free(exp->newline);
+	exp->newline = ft_strjoin(exp->tmp, exp->expanded);
+	free(exp->tmp);
+	free(exp->expanded);
 }
 
-void	format_args(t_cmd *cmd, char **env_list, int nb_cmd)
+void	treat_dollar(t_pars *exp, char *line, char **env_list)
 {
-	int	i;
-	int	j;
-	int	dollar;
-
-	i = 0;
-	while (i < nb_cmd)
+	if (line[exp->i] && (ft_isalnum(line[exp->i + 1]) != 1
+			&& line[exp->i + 1] != '_' && line[exp->i + 1] != '?'))
+		exp->i++;
+	else if (line[exp->i] && (ft_isalnum(line[exp->i + 1]) == 1
+			|| line[exp->i + 1] == '_' || line[exp->i + 1] == '?'))
 	{
-		j = 0;
-		while (cmd[i].arg[j])
+		get_front_buffer(exp, line);
+		if (line[exp->i] == '?')
 		{
-			dollar = dollar_inside(cmd, i, j);
-			if (dollar > 0)
-				expand_env_arg(cmd, env_list, i, j);
-			j++;
+			exp->i++;
+			exp->expanded = ft_itoa(g_err);
 		}
-		i++;
+		else
+			exp->expanded = name_to_value(&line[exp->i], &exp->i, env_list);
+		if (exp->expanded != NULL)
+			add_expanded(exp, line);
 	}
 }
 
-int	dollar_inside(t_cmd *cmd, int i, int j)
+char	*expand_env_value(char *line, char **env_list)
 {
-	int	index;
-	int	inquote;
-	int	nb;
+	t_pars	exp;
 
-	nb = 0;
-	inquote = 0;
-	index = 0;
-	while (cmd[i].arg[j][index])
+	init_exp(&exp);
+	while (line[exp.i])
 	{
-		inquote = check_inquote(cmd[i].arg[j][index], inquote);
-		if (inquote == 1)
-			inquote = check_solo_quote(&cmd[i].arg[j][index], inquote);
-		if (cmd[i].arg[j][index] == '$' && inquote != 1)
-			nb++;
-		index++;
+		exp.inquote = check_inquote(line[exp.i], exp.inquote);
+		if (exp.inquote == 1 || exp.inquote == 2)
+			exp.inquote = check_solo_quote(&line[exp.i], exp.inquote);
+		if (line[exp.i] == '$' && (exp.inquote == 0 || exp.inquote == 2))
+			treat_dollar(&exp, line, env_list);
+		else if (line[exp.i] != '$' || (line[exp.i] == '$' && exp.inquote == 1))
+			exp.i++;
 	}
-	return (nb);
+	if (exp.stop == -1)
+		exp.newline = ft_strdup(line);
+	else if (exp.stop != exp.i)
+		get_back_buffer(&exp, line);
+	return (exp.newline);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 02:17:49 by user42            #+#    #+#             */
-/*   Updated: 2021/07/18 21:56:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/24 17:18:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,25 @@ int	check_sep(const char *line)
 {
 	int	i;
 	int	inquote;
+	int	etat;
 
 	i = 0;
 	inquote = 0;
+	etat = 0;
 	while (line[i])
 	{
+		if (line[i] != ' ' && line[i] != '\0' && line[i] != '|')
+			etat = 1;
 		inquote = check_inquote(line[i], inquote);
-		if (line[i] == '|' && inquote == 0)
+		if (line[i] == '|' && inquote == 0 && etat == 1)
 		{
-			i++;
-			while (line[i] == ' ')
-				i++;
-			if (line[i] == '|')
+			while (line[i++] == ' ' && inquote == 0)
+				inquote = check_inquote(line[i], inquote);
+			if (line[i] == '|' || line[i] == '\0')
 				return (-1);
 		}
+		else if (line[i] == '|' && inquote == 0 && etat == 0)
+			return (-1);
 		i++;
 	}
 	return (1);
