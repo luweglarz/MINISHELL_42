@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/31 14:39:27 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 15:46:37 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,62 @@ void	free_after_line(char *line)
 	}
 }
 
+char	*remove_quotes(char *expanded)
+{
+	int i;
+	int inquote;
+	int stop;
+	char *newline;
+	char *tmp;
+	char *content;
+
+	i = 0;
+	inquote = 0;
+	stop = -1;
+	while (expanded[i])
+	{
+		inquote = check_inquote(expanded[i], inquote);
+		if (inquote == 1 || inquote == 2)
+			inquote = check_solo_quote(&expanded[i], inquote);
+		if (inquote == 1)
+		{
+			//Je recupere ce qui se trouve avant les quotes
+			if (stop == -1 && i > 0)
+				tmp = ft_substr(expanded, 0, i - 1);
+			else if (stop != i)
+				tmp = ft_substr(expanded, stop, i - 1);
+			else
+				tmp = ft_strdup("");
+			//je pose mon stop
+			stop = i;
+			//je recupere le contenu des quotes
+			while (expanded[i] && inquote == 1)
+			{
+				inquote = check_inquote(expanded[i], inquote);
+				i++;
+			}
+			content = ft_substr(expanded, stop, i - stop);
+			
+		}
+		else if (inquote == 2)
+		{
+			newline = ft_substr()
+		}
+		i++;
+	}
+}
+
 void	treat_cmd(int nb_cmd, t_pars *exp, t_env_l *env, char *line)
 {
+	char *tmp;
 	t_cmd *cmd;
 	char	*expanded;
 
-	expanded = expand_env_value(exp, line, env);
-	nb_cmd = parse_command(expanded);
+	tmp = expand_env_value(exp, line, env);
+	expanded = remove_quotes(tmp);
+	free(tmp);
 	printf("EXPANDED =%s\n", expanded);
+	nb_cmd = parse_command(expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(expanded, cmd);
 	int i = 0;
@@ -63,7 +111,7 @@ void	treat_cmd(int nb_cmd, t_pars *exp, t_env_l *env, char *line)
 		printf("ARG[%d]=%s\n", i, cmd->arg[i]);
 		i++;
 	}
-	del_quotes(cmd, nb_cmd);
+	//del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
 	free(expanded);
 	free_cmd(cmd);

@@ -6,7 +6,7 @@
 /*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 15:58:17 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 14:53:49 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 15:06:33 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	init_exp(t_pars *exp)
 
 void	add_expanded(t_pars *exp, char *line)
 {
+	char *tmp;
+
+	tmp = ft_strjoin("\"", exp->expanded);
+	free(exp->expanded);
+	exp->expanded = ft_strjoin(tmp, "\"");
 	if (exp->stop != -1 && exp->remember - exp->stop > 0)
 		get_median_buffer(exp, line);
 	exp->stop = exp->i;
