@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/08/25 20:15:36 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 18:52:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_bracket_stuff(char *substr, struct stat *buf)
 	free(buf);
 }
 
-int	bracket_out_in(const char *line, int j, t_cmd *cmd)
+int	bracket_out_in(const char *line, int j, t_cmd *cmd, t_env_l *env)
 {
 	char		*file;
 	struct stat	*buf;
@@ -36,7 +36,7 @@ int	bracket_out_in(const char *line, int j, t_cmd *cmd)
 	if (buf == NULL)
 	{
 		free_bracket_stuff(file, buf);
-		error_errno(cmd, errno, true);
+		error_errno(cmd, errno, true, env);
 	}
 	if (stat((const char *)file, buf) == -1)
 		open(file, O_RDWR | O_CREAT, 0664);
@@ -95,7 +95,7 @@ static void	double_bracket_in(const char *file, t_cmd *cmd)
 	free(join);
 }
 
-int	bracket_in(const char *line, int j, t_cmd *cmd)
+int	bracket_in(const char *line, int j, t_cmd *cmd, t_env_l *env)
 {
 	char		*file;
 	int			start;
@@ -108,7 +108,7 @@ int	bracket_in(const char *line, int j, t_cmd *cmd)
 	file = ft_substr(line, start, j - start);
 	buf = malloc(sizeof(struct stat) * 1);
 	if (buf == NULL)
-		error_errno(cmd, errno, true);
+		error_errno(cmd, errno, true, env);
 	if (doublebracket == 1)
 		double_bracket_in(file, cmd);
 	else if (stat((const char *)file, buf) == -1 && doublebracket == 0)

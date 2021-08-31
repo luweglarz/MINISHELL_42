@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:45:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:02:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ int	single_pipe(int i, t_cmd *cmd, t_env_l *env)
 	pid_t		pid2;
 
 	if (pipe(fds) == -1)
-		error_errno(cmd, errno, true);
+		error_errno(cmd, errno, true, env);
 	pid1 = fork();
 	if (pid1 == -1)
-		error_errno(cmd, errno, true);
+		error_errno(cmd, errno, true, env);
 	if (pid1 == 0)
 		pipe_stdin(i, cmd, fds, env);
 	pid2 = fork();
 	if (pid2 == -1)
-		error_errno(cmd, errno, true);
+		error_errno(cmd, errno, true, env);
 	if (pid2 == 0)
 		pipe_stdout(i, cmd, fds, env);
 	close(fds[0]);

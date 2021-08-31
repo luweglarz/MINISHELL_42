@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/08/26 13:55:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:06:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static const char	*fill_builtin(const char *line, t_cmd *cmd)
+static const char	*fill_builtin(const char *line, t_cmd *cmd, t_env_l *env)
 {
 	int		i;
 	int		j;
@@ -20,8 +20,7 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 
 	i = 0;
 	j = 0;
-	start = 0;
-	do_beginning_bracket(&i, &start, line, cmd);
+	start = do_beginning_bracket(&i, line, cmd, env);
 	while (ft_isascii(line[i]) == 1)
 	{
 		if (line[i] == '|' || line[i] == '<' || line[i] == '>')
@@ -34,7 +33,7 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-static char	*formate_args(const char *line, t_cmd *cmd, int i)
+static char	*formate_args(const char *line, t_cmd *cmd, int i, t_env_l *env)
 {
 	int		j;
 	int		k;
@@ -46,11 +45,11 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	while (j < i)
 	{	
 		if (line[j] == '<' && line[j + 1] == '>')
-			j = bracket_out_in(line, j, cmd);
+			j = bracket_out_in(line, j, cmd, env);
 		if (line[j] == '>')
 			j = bracket_out(line, j, cmd);
 		else if (line[j] == '<')
-			j = bracket_in(line, j, cmd);
+			j = bracket_in(line, j, cmd, env);
 		if (line[j] != '<' && line[j] != '>')
 		{
 			newarg[k] = line[j];
@@ -62,7 +61,7 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i)
 	return (newarg);
 }
 
-static const char	*fill_arg(const char *line, t_cmd *cmd)
+static const char	*fill_arg(const char *line, t_cmd *cmd, t_env_l *env)
 {
 	int		i;
 	int		j;
@@ -70,7 +69,7 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 
 	i = 0;
 	i = pass_ascii(line, i);
-	args = formate_args(line, cmd, i);
+	args = formate_args(line, cmd, i, env);
 	if (!args || ft_strlen(args) == 0)
 	{
 		cmd->arg = malloc(sizeof(char *) * 2);
@@ -86,7 +85,7 @@ static const char	*fill_arg(const char *line, t_cmd *cmd)
 	return (line);
 }
 
-void	fill_cmd_array(const char *line, t_cmd *cmd)
+void	fill_cmd_array(const char *line, t_cmd *cmd, t_env_l *env)
 {
 	int		index;
 
@@ -96,10 +95,10 @@ void	fill_cmd_array(const char *line, t_cmd *cmd)
 		cmd_init(&cmd[index]);
 		while (*line == ' ')
 			line++;
-		line = fill_builtin(line, &cmd[index]);
+		line = fill_builtin(line, &cmd[index], env);
 		while (*line == ' ')
 			line++;
-		line = fill_arg(line, &cmd[index]);
+		line = fill_arg(line, &cmd[index], env);
 		if (*line == '|')
 		{
 			cmd[index].pipe = true;

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:54:32 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/08/10 16:59:16 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:13:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ void	envdup_without(char **env_list, char **tmp, int without)
 		i++;
 	}
 	tmp[i] = NULL;
+}
+
+void	swap_env(char **content1, char **content2, char **name1, char **name2)
+{
+	char	*save;
+
+	save = *content1;
+	*content1 = *content2;
+	*content2 = save;
+	save = *name1;
+	*name1 = *name2;
+	*name2 = save;
 }

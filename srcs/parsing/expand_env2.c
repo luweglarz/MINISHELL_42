@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 15:58:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/30 23:52:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:11:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	ft_getenv_index(char *var_name, char **env_list)
 
 char	*join_tokens(t_env_l *env, int index)
 {
-	int i;
-	int len;
-	char *joined;
-	char *tmp;
+	int		i;
+	int		len;
+	char	*joined;
+	char	*tmp;
 
 	joined = ft_strdup(env->token[index][0]);
 	len = 0;
@@ -66,7 +66,6 @@ char	*join_tokens(t_env_l *env, int index)
 	i = 1;
 	while (i < len)
 	{
-		printf("DEBUG token[%d]=%s\n", i, env->token[index][i]);
 		tmp = ft_strjoin(joined, " ");
 		free(joined);
 		joined = ft_strjoin(tmp, env->token[index][i]);
@@ -111,24 +110,4 @@ void	get_front_buffer(t_pars *exp, char *line)
 		exp->newline = ft_strdup("");
 	exp->remember = exp->i;
 	exp->i++;
-}
-
-void	get_median_buffer(t_pars *exp, char *line)
-{
-	exp->tmp = ft_strdup(exp->newline);
-	free(exp->newline);
-	exp->save = ft_substr(line, exp->stop, exp->remember - exp->stop);
-	exp->newline = ft_strjoin(exp->tmp, exp->save);
-	free(exp->save);
-	free(exp->tmp);
-}
-
-void	get_back_buffer(t_pars *exp, char *line)
-{
-	exp->tmp = ft_strdup(exp->newline);
-	free(exp->newline);
-	exp->save = ft_substr(line, exp->stop, exp->i - exp->stop);
-	exp->newline = ft_strjoin(exp->tmp, exp->save);
-	free(exp->tmp);
-	free(exp->save);
 }

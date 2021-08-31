@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 21:07:03 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:43:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 18:58:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	pass_brackets(const char *line,
 		int j, int *start, int *doublebracket);
 int	size_with_redirection(const char *line, int i);
 
-int	bracket_out_in(const char *line, int j, t_cmd *cmd);
+int	bracket_out_in(const char *line, int j, t_cmd *cmd, t_env_l *env);
 int	bracket_out(const char *line, int j, t_cmd *cmd);
-int	bracket_in(const char *line, int j, t_cmd *cmd);
+int	bracket_in(const char *line, int j, t_cmd *cmd, t_env_l *env);
 
 int	single_pipe(int i, t_cmd *cmd, t_env_l *env);
 int	multi_pipe(int i, t_cmd *cmd, t_env_l *env, int nb_pipe);

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/30 18:14:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:08:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ void	builtin_env(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 			write(cmd[i].fdout, env->list[env_index],
 				ft_strlen(env->list[env_index]));
 			write(cmd[i].fdout, "\n", 1);
-		}
-		int j = 0;
-		while (env->token[env_index][j])
-		{
-			printf("	token[%d]=%s\n", j, env->token[env_index][j]);
-			j++;
 		}
 		env_index++;
 	}

@@ -23,7 +23,7 @@ SRCS  =  srcs/builtins/cd.c srcs/builtins/echo.c srcs/builtins/env.c srcs/builti
 		 srcs/cmd/error.c srcs/cmd/parse_cmd_array.c srcs/env/env_utils1.c srcs/env/env_utils2.c srcs/env/env_utils3.c\
 		 srcs/filling/fill_cmd_array_utils.c srcs/filling/fill_cmd_array.c srcs/filling/split_args_utils.c srcs/filling/split_args.c\
 		 srcs/lib/ft_split_slash.c srcs/lib/ft_itoa.c srcs/lib/ft_split.c srcs/lib/lib_utils1.c srcs/lib/lib_utils2.c srcs/lib/lib_utils3.c\
-		 srcs/parsing/expand_env1.c srcs/parsing/expand_env2.c srcs/parsing/del_quotes1.c srcs/parsing/del_quotes2.c srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing_utils3.c srcs/parsing/parse_command.c\
+		 srcs/parsing/expand_env1.c srcs/parsing/expand_env2.c srcs/parsing/expand_env3.c srcs/parsing/remove_quotes1.c srcs/parsing/remove_quotes2.c srcs/parsing/parsing_utils1.c srcs/parsing/parsing_utils2.c srcs/parsing/parsing_utils3.c srcs/parsing/parse_command.c\
 		 srcs/redirections/brackets.c srcs/redirections/pipe.c srcs/redirections/redirections_utils.c
 OBJS = $(SRCS:.c=.o)
 

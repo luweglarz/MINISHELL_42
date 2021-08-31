@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 15:58:17 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 15:06:33 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 19:12:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@ void	init_exp(t_pars *exp)
 
 void	add_expanded(t_pars *exp, char *line)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = ft_strjoin("\"", exp->expanded);
-	free(exp->expanded);
-	exp->expanded = ft_strjoin(tmp, "\"");
+	if (exp->inquote == 0)
+	{
+		tmp = ft_strjoin("\"", exp->expanded);
+		free(exp->expanded);
+		exp->expanded = ft_strjoin(tmp, "\"");
+	}
 	if (exp->stop != -1 && exp->remember - exp->stop > 0)
 		get_median_buffer(exp, line);
 	exp->stop = exp->i;
@@ -70,7 +73,8 @@ char	*expand_env_value(t_pars *exp, char *line, t_env_l *env)
 			exp->inquote = check_solo_quote(&line[exp->i], exp->inquote);
 		if (line[exp->i] == '$' && (exp->inquote == 0 || exp->inquote == 2))
 			treat_dollar(exp, line, env);
-		else if (line[exp->i] != '$' || (line[exp->i] == '$' && exp->inquote == 1))
+		else if (line[exp->i] != '$'
+			|| (line[exp->i] == '$' && exp->inquote == 1))
 			exp->i++;
 	}
 	if (exp->stop == -1)

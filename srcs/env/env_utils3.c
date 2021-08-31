@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 21:33:43 by user42            #+#    #+#             */
-/*   Updated: 2021/08/30 14:36:30 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 19:13:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	free_token(t_env_l *env)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (env->token[i])
@@ -123,16 +123,4 @@ void	display_env(t_cmd cmd, char **var_names
 		write(cmd.fdout, "\n", 1);
 		i++;
 	}
-}
-
-void	swap_env(char **content1, char **content2, char **name1, char **name2)
-{
-	char	*save;
-
-	save = *content1;
-	*content1 = *content2;
-	*content2 = save;
-	save = *name1;
-	*name1 = *name2;
-	*name2 = save;
 }

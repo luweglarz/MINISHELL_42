@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 21:47:42 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 14:26:53 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/31 18:41:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,35 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
+void	exit_free_env(t_env_l *env, int nb)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (env->list[i])
+	{
+		free(env->list[i]);
+		i++;
+	}
+	free(env->list);
+	i = 0;
+	while (env->token[i])
+	{
+		j = 0;
+		while (env->token[i][j])
+		{
+			free(env->token[i][j]);
+			j++;
+		}
+		free(env->token[i]);
+		i++;
+	}
+	free(env->token);
+	exit(nb);
+}
+
+void	error_errno(t_cmd *cmd, int error_code, bool exit_bool, t_env_l *env)
 {
 	char	*error_msg;
 
@@ -49,5 +77,5 @@ void	error_errno(t_cmd *cmd, int error_code, bool exit_bool)
 	if (cmd)
 		free_cmd(cmd);
 	if (exit_bool == true)
-		exit(error_code);
+		exit_free_env(env, error_code);
 }

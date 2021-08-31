@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 13:20:47 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 19:03:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ int		count_command(const char *line, int i, int len, int	inquote);
 int		parse_command(const char *line);
 int		count_arg(t_cmd cmd);
 
-int		quote_inside(t_cmd *cmd, int i, int j);
-void	get_quote_content(char *tmp, int *i, int *res_index, char *res);
-void	del_quotes(t_cmd *cmd, int nb_cmd);
+char	*remove_quotes(char *expanded);
+void	content_without_quote(char *expanded,
+			int *i, int *res_index, char *res);
+
+int		nb_quote(char *expanded);
+int		increment_nbquote(char *expanded, int *i);
+void	update_inquote(char *tmp, int *inquote, int *i, char c);
+void	fill_other_char(char *res, int *res_index, char *tmp, int *i);
 
 int		check_inquote(int c, int inquote);
 int		check_solo_quote(char *arg, int inquote);

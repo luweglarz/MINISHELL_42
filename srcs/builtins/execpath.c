@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execpath.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/30 13:37:39 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/31 18:55:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 	free_splitnjoin(split);
 }
 
-static void	execpath_no_pipe(int i, t_cmd *cmd, char **env_list)
+static void	execpath_no_pipe(int i, t_cmd *cmd, t_env_l *env)
 {
 	if (cmd[i].fdout != 1)
 		dup2(cmd[i].fdout, 1);
 	if (cmd[i].fdin != 0)
 		dup2(cmd[i].fdin, 0);
 	if (check_is_path(cmd[i].builtin) == 1)
-		execve(cmd[i].builtin, cmd[i].arg, env_list);
+		execve(cmd[i].builtin, cmd[i].arg, env->list);
 	else
-		execve_with_path(i, cmd, env_list);
-	error_errno(cmd, errno, true);
+		execve_with_path(i, cmd, env->list);
+	error_errno(cmd, errno, true, env);
 }
 
 void	execpath_pipe(t_cmd *cmd, int i, char **env_list)
@@ -76,7 +76,7 @@ void	execpath_pipe(t_cmd *cmd, int i, char **env_list)
 	exit(1);
 }
 
-void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
+void	execpath(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 {
 	pid_t		pid;
 	int			status;
@@ -87,11 +87,11 @@ void	execpath(int i, t_cmd *cmd, char **env_list, bool pipe)
 		if (pid < 0)
 			return ;
 		if (pid == 0)
-			execpath_no_pipe(i, cmd, env_list);
+			execpath_no_pipe(i, cmd, env);
 		waitpid(pid, &status, 0);
 		if (ft_strlen(cmd[i].arg[0]) != 0)
 			g_err = WEXITSTATUS(status);
 	}
 	else if (pipe == true)
-		execpath_pipe(cmd, i, env_list);
+		execpath_pipe(cmd, i, env->list);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 20:57:56 by user42            #+#    #+#             */
-/*   Updated: 2021/07/30 21:07:02 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 19:08:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,27 @@ void	cmd_init(t_cmd *cmd)
 	cmd->fdin = 0;
 }
 
-void	do_beginning_bracket(int *i, int *start, const char *line, t_cmd *cmd)
+int	do_beginning_bracket(int *i, const char *line, t_cmd *cmd, t_env_l *env)
 {	
+	int	start;
+
+	start = 0;
 	if (line[*i] == '<' && line[*i + 1] == '>')
 	{
-		*i = bracket_out_in(line, *i, cmd);
-		*start = *i;
+		*i = bracket_out_in(line, *i, cmd, env);
+		start = *i;
 	}
 	if (line[*i] == '>')
 	{
 		*i = bracket_out(line, *i, cmd);
-		*start = *i;
+		start = *i;
 	}
 	else if (line[*i] == '<')
 	{
-		*i = bracket_in(line, *i, cmd);
-		*start = *i;
+		*i = bracket_in(line, *i, cmd, env);
+		start = *i;
 	}
+	return (start);
 }
 
 static int	check_inquote_args(const char *line, int i, int *inquote)

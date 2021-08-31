@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:13:53 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/23 18:36:53 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 18:41:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ extern int	g_err;
 
 char	*get_line(const char *prompt);
 void	free_cmd(t_cmd *cmd);
-void	error_errno(t_cmd *cmd, int error_code, bool exit_bool);
+void	error_errno(t_cmd *cmd, int error_code, bool exit_bool, t_env_l *env);
 
 #endif

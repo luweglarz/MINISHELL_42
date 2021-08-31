@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 13:20:17 by ugtheven         ###   ########.fr       */
+/*   Updated: 2021/08/31 18:56:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_builtin(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 	else if (ft_strncmp(cmd[i].builtin, "exit", len + 1) == 0)
 		builtin_exit(i, cmd, pipe, env);
 	else
-		execpath(i, cmd, env->list, pipe);
+		execpath(i, cmd, env, pipe);
 }
 
 void	parse_cmd_array(t_cmd *cmd, t_env_l *env, int nb_cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/08/30 13:38:05 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/08/31 19:04:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int			ft_str_isdigit(char *str);
 int			ft_atoi(const char *nptr);
 
 char		*ft_itoa(int n);
-//static void	itoasign(int *n, unsigned int *sign);
-//static int	lennb(int n);
 
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
@@ -34,6 +32,6 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split_slash(char const *s, char c);
 char		**ft_split(const char *s, char c);
 
-void	    free_splitnjoin(char **split);
+void		free_splitnjoin(char **split);
 
 #endif
