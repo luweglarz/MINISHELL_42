@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/30 23:27:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 14:39:27 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	sig_handler(int signum)
 	}
 }
 
-void	free_after_line(t_cmd *cmd, char *line)
+void	free_after_line(char *line)
 {
 	struct stat	*buf;
 	char		*join;
@@ -40,7 +40,6 @@ void	free_after_line(t_cmd *cmd, char *line)
 		unlink(join);
 	free(buf);
 	free(join);
-	free_cmd(cmd);
 	if (line)
 	{
 		free(line);
@@ -48,11 +47,12 @@ void	free_after_line(t_cmd *cmd, char *line)
 	}
 }
 
-void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
+void	treat_cmd(int nb_cmd, t_pars *exp, t_env_l *env, char *line)
 {
+	t_cmd *cmd;
 	char	*expanded;
 
-	expanded = expand_env_value(line, env);
+	expanded = expand_env_value(exp, line, env);
 	nb_cmd = parse_command(expanded);
 	printf("EXPANDED =%s\n", expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
@@ -66,7 +66,8 @@ void	treat_cmd(t_cmd *cmd, int nb_cmd, t_env_l *env, char *line)
 	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
 	free(expanded);
-	free_after_line(cmd, line);
+	free_cmd(cmd);
+	free_after_line(line);
 }
 
 void	init_token(t_env_l *env)
@@ -86,14 +87,41 @@ void	init_token(t_env_l *env)
 	env->token[i] = NULL;
 }
 
+void	exit_free_env(t_env_l *env, int nb)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (env->list[i])
+	{
+		free(env->list[i]);
+		i++;
+	}
+	free(env->list);
+	i = 0;
+	while (env->token[i])
+	{
+		j = 0;
+		while (env->token[i][j])
+		{
+			free(env->token[i][j]);
+			j++;
+		}
+		free(env->token[i]);
+		i++;
+	}
+	free(env->token);
+	exit(nb);
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	t_cmd	*cmd;
+	t_pars exp;
 	char	*line;
 	t_env_l	env;
 	int		nb_cmd;
 
-	cmd = NULL;
 	env.list = init_env(envp, ac, av);
 	init_token(&env);
 	signal(SIGQUIT, sig_handler);
@@ -106,12 +134,12 @@ int	main(int ac, char **av, char **envp)
 		if (line)
 			add_history(line);
 		if (line == NULL)
-			exit(0);
+			exit_free_env(&env, 0);
 		nb_cmd = parse_command(line);
 		if (nb_cmd >= 0)
-			treat_cmd(cmd, nb_cmd, &env, line);
+			treat_cmd(nb_cmd, &exp, &env, line);
 		else
-			free_after_line(cmd, line);
+			free_after_line(line);
 	}
 	return (1);
 }

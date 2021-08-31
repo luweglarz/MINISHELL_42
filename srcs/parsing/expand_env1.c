@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 15:58:17 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 00:02:05 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 14:53:49 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,8 @@ void	init_exp(t_pars *exp)
 	exp->remember = -1;
 }
 
-/*void	save_quotes(t_pars *exp)
-{
-
-}*/
-
 void	add_expanded(t_pars *exp, char *line)
 {
-	//Ici jentoure de double quote les quotes simple
-	//save_quotes(exp);
 	if (exp->stop != -1 && exp->remember - exp->stop > 0)
 		get_median_buffer(exp, line);
 	exp->stop = exp->i;
@@ -62,24 +55,22 @@ void	treat_dollar(t_pars *exp, char *line, t_env_l *env)
 	}
 }
 
-char	*expand_env_value(char *line, t_env_l *env)
+char	*expand_env_value(t_pars *exp, char *line, t_env_l *env)
 {
-	t_pars	exp;
-
-	init_exp(&exp);
-	while (line[exp.i])
+	init_exp(exp);
+	while (line[exp->i])
 	{
-		exp.inquote = check_inquote(line[exp.i], exp.inquote);
-		if (exp.inquote == 1 || exp.inquote == 2)
-			exp.inquote = check_solo_quote(&line[exp.i], exp.inquote);
-		if (line[exp.i] == '$' && (exp.inquote == 0 || exp.inquote == 2))
-			treat_dollar(&exp, line, env);
-		else if (line[exp.i] != '$' || (line[exp.i] == '$' && exp.inquote == 1))
-			exp.i++;
+		exp->inquote = check_inquote(line[exp->i], exp->inquote);
+		if (exp->inquote == 1 || exp->inquote == 2)
+			exp->inquote = check_solo_quote(&line[exp->i], exp->inquote);
+		if (line[exp->i] == '$' && (exp->inquote == 0 || exp->inquote == 2))
+			treat_dollar(exp, line, env);
+		else if (line[exp->i] != '$' || (line[exp->i] == '$' && exp->inquote == 1))
+			exp->i++;
 	}
-	if (exp.stop == -1)
-		exp.newline = ft_strdup(line);
-	else if (exp.stop != exp.i)
-		get_back_buffer(&exp, line);
-	return (exp.newline);
+	if (exp->stop == -1)
+		exp->newline = ft_strdup(line);
+	else if (exp->stop != exp->i)
+		get_back_buffer(exp, line);
+	return (exp->newline);
 }

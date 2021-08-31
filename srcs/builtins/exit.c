@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ugtheven <ugtheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/08/23 18:07:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/08/31 14:27:22 by ugtheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_exit(int i, t_cmd *cmd, bool pipe, char **env_list)
+void	builtin_exit(int i, t_cmd *cmd, bool pipe, t_env_l *env)
 {
 	int	size;
 
 	size = 0;
-	(void)env_list;
 	while (cmd[i].arg[size])
 		size++;
 	if (size == 1)
-		exit(0);
+		exit_free_env(env, 0);
 	if (size > 2)
 	{
 		error_errno(cmd, E2BIG, false);
@@ -35,7 +34,7 @@ void	builtin_exit(int i, t_cmd *cmd, bool pipe, char **env_list)
 	if (pipe == false)
 		printf("%s\n", cmd[i].builtin);
 	if (cmd[i].arg[1][0] == '-')
-		exit(255 - (ft_atoi(cmd[i].arg[1]) * -1) + 1);
+		exit_free_env(env, 255 - (ft_atoi(cmd[i].arg[1]) * -1) + 1);
 	else
-		exit(ft_atoi(cmd[i].arg[1]));
+		exit_free_env(env, ft_atoi(cmd[i].arg[1]));
 }
