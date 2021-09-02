@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/08/31 18:52:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/02 19:01:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,14 @@ void	free_after_line(char *line)
 
 void	treat_cmd(int nb_cmd, t_pars *exp, t_env_l *env, char *line)
 {
-	char	*tmp;
 	t_cmd	*cmd;
 	char	*expanded;
 
-	tmp = expand_env_value(exp, line, env);
-	expanded = remove_quotes(tmp);
-	free(tmp);
+	expanded = expand_env_value(exp, line, env);
 	nb_cmd = parse_command(expanded);
 	cmd = malloc(sizeof(t_cmd) * (nb_cmd + 1));
 	fill_cmd_array(expanded, cmd, env);
+	del_quotes(cmd, nb_cmd);
 	parse_cmd_array(cmd, env, nb_cmd);
 	free(expanded);
 	free_cmd(cmd);
@@ -80,6 +78,13 @@ void	init_token(t_env_l *env)
 		i++;
 	}
 	env->token[i] = NULL;
+	i = 0;
+	while (var_contents[i])
+	{
+		free(var_contents[i]);
+		i++;
+	}
+	free(var_contents);
 }
 
 int	main(int ac, char **av, char **envp)

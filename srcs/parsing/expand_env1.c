@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/27 15:58:17 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 19:12:06 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/02 19:25:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ void	add_expanded(t_pars *exp, char *line)
 {
 	char	*tmp;
 
-	if (exp->inquote == 0)
+	if (is_quote_in(exp->expanded) > 0 && exp->inquote == 0)
 	{
-		tmp = ft_strjoin("\"", exp->expanded);
+		tmp = save_quotes(exp->expanded);
 		free(exp->expanded);
-		exp->expanded = ft_strjoin(tmp, "\"");
+		exp->expanded = ft_strdup(tmp);
+		free(tmp);
 	}
 	if (exp->stop != -1 && exp->remember - exp->stop > 0)
 		get_median_buffer(exp, line);
