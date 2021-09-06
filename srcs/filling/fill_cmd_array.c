@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 19:06:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 22:03:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,50 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd, t_env_l *env)
 	return (line);
 }
 
+static int	fill_newarg(const char *line, char *newarg, int *j, int inquote)
+{
+	static int	k;
+
+	if (!k)
+		k = 0;
+	if (newarg == NULL)
+	{
+		k = 0;
+		return (0);
+	}
+	if ((line[*j] != '<' && line[*j] != '>' && inquote == 0) || (inquote == 1))
+	{
+		newarg[k] = line[*j];
+		k++;
+		*j = *j + 1;
+	}
+	return (k);
+}
+
 static char	*formate_args(const char *line, t_cmd *cmd, int i, t_env_l *env)
 {
 	int		j;
 	int		k;
+	int		inquote;
 	char	*newarg;
 
 	j = 0;
 	k = 0;
+	inquote = 0;
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
-		if (line[j] == '<' && line[j + 1] == '>')
+		check_inquote_args(line, j, &inquote);
+		if (line[j] == '<' && line[j + 1] == '>' && inquote == 0)
 			j = bracket_out_in(line, j, cmd, env);
-		if (line[j] == '>')
+		if (line[j] == '>' && inquote == 0)
 			j = bracket_out(line, j, cmd);
-		else if (line[j] == '<')
+		else if (line[j] == '<' && inquote == 0)
 			j = bracket_in(line, j, cmd, env);
-		if (line[j] != '<' && line[j] != '>')
-		{
-			newarg[k] = line[j];
-			k++;
-			j++;
-		}
+		k = fill_newarg(line, newarg, &j, inquote);
 	}
 	newarg[k] = '\0';
+	fill_newarg(line, NULL, &j, inquote);
 	return (newarg);
 }
 

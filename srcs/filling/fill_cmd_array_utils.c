@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 20:57:56 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 19:08:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 20:36:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,24 @@ int	do_beginning_bracket(int *i, const char *line, t_cmd *cmd, t_env_l *env)
 	return (start);
 }
 
-static int	check_inquote_args(const char *line, int i, int *inquote)
+int	check_inquote_args(const char *line, int i, int *inquote)
 {
 	if (line[i] == '"' && check_end_quote(line + i) == 1)
 	{
 		i++;
 		*inquote = 1;
 	}
-	else if (line [i] == '\'' && check_end_quote(line + i) == 1)
+	else if (line[i] == '\'' && check_end_quote(line + i) == 1)
 	{
 		i++;
 		*inquote = 2;
 	}
-	if (line [i] == '"' && *inquote == 1)
+	if (line[i] == '"' && *inquote == 1)
 	{
 		i++;
 		*inquote = 0;
 	}
-	else if (line [i] == '\'' && *inquote == 2)
+	else if (line[i] == '\'' && *inquote == 2)
 	{
 		i++;
 		*inquote = 0;

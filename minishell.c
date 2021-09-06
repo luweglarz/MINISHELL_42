@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/09/02 19:01:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 21:44:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 void	sig_handler(int signum)
 {
 	if (signum == SIGQUIT)
-	{
 		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
@@ -96,12 +92,12 @@ int	main(int ac, char **av, char **envp)
 
 	env.list = init_env(envp, ac, av);
 	init_token(&env);
-	signal(SIGQUIT, sig_handler);
-	signal(SIGINT, sig_handler);
 	nb_cmd = 0;
 	line = NULL;
 	while (1)
 	{
+		signal(SIGQUIT, sig_handler);
+		signal(SIGINT, sig_handler);
 		line = readline("Minishell>");
 		if (line)
 			add_history(line);

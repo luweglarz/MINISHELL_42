@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:52:15 by user42            #+#    #+#             */
-/*   Updated: 2021/08/24 14:26:44 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/09/06 20:42:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	cd_error(int error_code)
 	write(2, "\n", 1);
 }
 
-void	builtin_cd(int i, t_cmd *cmd, bool pipe)
+void	builtin_cd(int i, t_cmd *cmd, bool pipe, t_env_l *env)
 {
 	char	*pwd;
 	char	*path;
@@ -60,7 +60,7 @@ void	builtin_cd(int i, t_cmd *cmd, bool pipe)
 	path = NULL;
 	res = check_file(cmd[i].arg[1]);
 	if (cmd[i].arg[1] == NULL)
-		chdir(getenv("HOME"));
+		chdir(ft_getenv("HOME", env->list));
 	else if (ft_strncmp(cmd[i].arg[1], "/", ft_strlen(cmd[i].arg[1]) + 1) == 0)
 		chdir("/");
 	else if (ft_strncmp(cmd[i].arg[1], "..", 2)

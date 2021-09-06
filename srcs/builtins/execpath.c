@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 18:55:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 22:04:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_is_path(const char *str)
 	return (0);
 }
 
-static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
+static void	execve_with_path(int index, t_cmd *cmd, t_env_l *env)
 {
 	int			i;
 	char		**split;
@@ -37,17 +37,23 @@ static void	execve_with_path(int index, t_cmd *cmd, char **env_list)
 
 	i = 0;
 	buf = malloc(sizeof(struct stat));
-	split = ft_split_slash(getenv("PATH"), ':');
+	split = ft_split_slash(ft_getenv("PATH", env->list), ':');
+	if (split == NULL)
+	{
+		execve(join, cmd[index].arg, env->list);
+		error_errno(cmd, errno, true, env);
+	}
 	while (split[i])
 	{
 		join = ft_strjoin(split[i], cmd[index].builtin);
 		if (stat(join, buf) == 0)
-			execve(join, cmd[index].arg, env_list);
+			execve(join, cmd[index].arg, env->list);
 		free(join);
 		i++;
 	}
 	free(buf);
-	free_splitnjoin(split);
+	if (split)
+		free_split(split);
 }
 
 static void	execpath_no_pipe(int i, t_cmd *cmd, t_env_l *env)
@@ -59,21 +65,21 @@ static void	execpath_no_pipe(int i, t_cmd *cmd, t_env_l *env)
 	if (check_is_path(cmd[i].builtin) == 1)
 		execve(cmd[i].builtin, cmd[i].arg, env->list);
 	else
-		execve_with_path(i, cmd, env->list);
+		execve_with_path(i, cmd, env);
 	error_errno(cmd, errno, true, env);
 }
 
-void	execpath_pipe(t_cmd *cmd, int i, char **env_list)
+void	execpath_pipe(t_cmd *cmd, int i, t_env_l *env)
 {
 	if (cmd[i].fdout != 1)
 		dup2(cmd[i].fdout, 1);
 	if (cmd[i].fdin != 0)
 		dup2(cmd[i].fdin, 0);
 	if (check_is_path(cmd[i].builtin) == 1)
-		execve(cmd[i].builtin, cmd[i].arg, env_list);
+		execve(cmd[i].builtin, cmd[i].arg, env->list);
 	else
-		execve_with_path(i, cmd, env_list);
-	exit(1);
+		execve_with_path(i, cmd, env);
+	error_errno(cmd, errno, true, env);
 }
 
 void	execpath(int i, t_cmd *cmd, t_env_l *env, bool pipe)
@@ -84,6 +90,8 @@ void	execpath(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 	if (pipe == false)
 	{
 		pid = fork();
+		signal(SIGQUIT, sig_handler_disable);
+		signal(SIGINT, sig_handler_disable);
 		if (pid < 0)
 			return ;
 		if (pid == 0)
@@ -93,5 +101,5 @@ void	execpath(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 			g_err = WEXITSTATUS(status);
 	}
 	else if (pipe == true)
-		execpath_pipe(cmd, i, env->list);
+		execpath_pipe(cmd, i, env);
 }

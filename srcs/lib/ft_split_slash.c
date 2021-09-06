@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:26:40 by user42            #+#    #+#             */
-/*   Updated: 2021/08/10 16:46:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 22:03:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	int	ft_word_len(const char *s, char c)
 	return (size);
 }
 
-static char	**ft_cut_words(const char *s, char c, char **tab, int words)
+static char	**ft_cut_words(char *s, char c, char **tab, int words)
 {
 	int	i;
 	int	j;
@@ -88,14 +88,18 @@ static char	**ft_cut_words(const char *s, char c, char **tab, int words)
 	return (tab);
 }
 
-char	**ft_split_slash(char const *s, char c)
+char	**ft_split_slash(char *s, char c)
 {
 	char	**tab;
 	int		count_words;
 
+	if (s == NULL)
+		return (NULL);
 	count_words = ft_is_word(s, c);
 	tab = malloc(sizeof(char *) * (count_words + 1));
 	if (tab == NULL)
 		return (NULL);
-	return (ft_cut_words(s, c, tab, count_words));
+	tab = ft_cut_words(s, c, tab, count_words);
+	free(s);
+	return (tab);
 }

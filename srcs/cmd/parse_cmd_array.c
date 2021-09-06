@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 18:56:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 20:42:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_builtin(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 	if (ft_strncmp(cmd[i].builtin, "echo", len + 1) == 0)
 		builtin_echo(i, cmd, pipe);
 	else if (ft_strncmp(cmd[i].builtin, "cd", len + 1) == 0)
-		builtin_cd(i, cmd, pipe);
+		builtin_cd(i, cmd, pipe, env);
 	else if (ft_strncmp(cmd[i].builtin, "pwd", len + 1) == 0)
 		builtin_pwd(i, cmd, pipe);
 	else if (ft_strncmp(cmd[i].builtin, "export", len + 1) == 0)

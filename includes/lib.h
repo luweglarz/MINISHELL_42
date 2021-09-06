@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 19:04:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/06 22:04:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LIB_H
 
 # include "minishell.h"
+
+void		sig_handler_disable(int signum);
 
 size_t		ft_strlen(const char *str);
 int			ft_strclen(const char *str, char c);
@@ -29,9 +31,9 @@ char		*ft_itoa(int n);
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
-char		**ft_split_slash(char const *s, char c);
+char		**ft_split_slash(char *s, char c);
 char		**ft_split(const char *s, char c);
 
-void		free_splitnjoin(char **split);
+void		free_split(char **split);
 
 #endif
