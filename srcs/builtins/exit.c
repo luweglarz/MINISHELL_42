@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/08/31 18:41:17 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/07 19:17:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	builtin_exit(int i, t_cmd *cmd, bool pipe, t_env_l *env)
 	}
 	if (ft_str_isdigit(cmd[i].arg[1]) == 0)
 	{
-		error_errno(cmd, ENOEXEC, false, env);
+		error_errno(cmd, ENOEXEC, true, env);
 		return ;
 	}
 	if (pipe == false)

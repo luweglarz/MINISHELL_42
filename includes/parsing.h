@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:04:02 by user42            #+#    #+#             */
-/*   Updated: 2021/09/02 19:26:00 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/07 19:56:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_pars
 void	exit_free_env(t_env_l *env, int nb);
 
 void	close_command(int *cmd_started, int *nb_cmd);
-int		count_command(const char *line, int i, int len, int	inquote);
+int		count_command(const char *line, int i, int len, int inquote);
 int		parse_command(const char *line);
 int		count_arg(t_cmd cmd);
 

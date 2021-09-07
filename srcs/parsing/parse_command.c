@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 15:06:34 by ugtheven          #+#    #+#             */
-/*   Updated: 2021/07/14 13:39:47 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/07 19:56:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	close_command(int *cmd_started, int *nb_cmd)
 	}
 }
 
-int	count_command(const char *line, int i, int len, int	inquote)
+int	count_command(const char *line, int i, int len, int inquote)
 {
 	int	nb_cmd;
 	int	cmd_started;
