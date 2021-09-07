@@ -42,7 +42,7 @@ ifeq ($(UNAME), Darwin)
 	@echo "$(GREEN)$(EXEC) compiled with success.$(CLEAR)"
 endif
 ifeq ($(UNAME), Linux)
-	@$(CC) -g -fsanitize=address minishell.c -o $(EXEC) -lreadline $(NAME)
+	@$(CC) minishell.c -o $(EXEC) -lreadline $(NAME)
 	@echo "$(GREEN)$(EXEC) compiled with success.$(CLEAR)"
 endif
 
