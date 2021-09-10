@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/09/06 21:44:31 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/10 22:46:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sig_handler(int signum)
 {
 	if (signum == SIGQUIT)
-		rl_on_new_line();
+		write(1, "", 1);
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
