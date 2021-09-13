@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/09/06 22:03:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/13 16:42:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	fill_newarg(const char *line, char *newarg, int *j, int inquote)
 		k = 0;
 		return (0);
 	}
-	if ((line[*j] != '<' && line[*j] != '>' && inquote == 0) || (inquote == 1))
+	if ((line[*j] != '<' && line[*j] != '>' && inquote == 0) || (inquote == 1)
+		|| (inquote == 2))
 	{
 		newarg[k] = line[*j];
 		k++;
@@ -66,6 +67,7 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i, t_env_l *env)
 	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
 	while (j < i)
 	{	
+		printf("test\n");
 		check_inquote_args(line, j, &inquote);
 		if (line[j] == '<' && line[j + 1] == '>' && inquote == 0)
 			j = bracket_out_in(line, j, cmd, env);
