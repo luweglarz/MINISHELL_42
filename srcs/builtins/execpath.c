@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/09/06 22:04:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/16 00:44:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void	execpath(int i, t_cmd *cmd, t_env_l *env, bool pipe)
 	if (pipe == false)
 	{
 		pid = fork();
-		signal(SIGQUIT, sig_handler_disable);
-		signal(SIGINT, sig_handler_disable);
 		if (pid < 0)
 			return ;
 		if (pid == 0)

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 22:31:04 by user42            #+#    #+#             */
-/*   Updated: 2021/08/09 14:51:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/15 23:56:01 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**split_args(char const *s, const char *builtin)
 	int		nb_words;
 
 	nb_words = count_word(s);
-	tab = malloc(sizeof(char *) * (nb_words + 1 + 1));
+	tab = malloc(sizeof(char *) * (nb_words + (1 + 1)));
 	if (tab == NULL)
 		return (NULL);
 	return (ft_cut_words(s, builtin, tab, nb_words));

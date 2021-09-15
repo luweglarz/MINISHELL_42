@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:29:59 by user42            #+#    #+#             */
-/*   Updated: 2021/09/06 20:42:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/15 17:05:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	parse_cmd_array(t_cmd *cmd, t_env_l *env, int nb_cmd)
 	int		nb_pipe;
 
 	i = 0;
+	signal(SIGQUIT, sig_handler_disable);
+	signal(SIGINT, sig_handler_disable);
 	while (i < nb_cmd)
 	{
 		nb_pipe = 0;

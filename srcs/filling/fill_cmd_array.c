@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/09/13 22:04:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/16 00:34:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*formate_args(const char *line, t_cmd *cmd, int i, t_env_l *env)
 	j = 0;
 	k = 0;
 	inquote = 0;
-	newarg = malloc(sizeof(char) * (size_with_redirection(line, i) + 1));
+	newarg = malloc(sizeof(char) * (formate_args_size(line, i)));
 	while (j < i)
 	{	
 		check_inquote_args(line, j, &inquote);
