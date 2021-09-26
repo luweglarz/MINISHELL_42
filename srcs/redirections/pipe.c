@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/09/16 00:44:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/25 17:46:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	pipe_stdout(int i, t_cmd *cmd, int *fds, t_env_l *env)
 {
+	dprintf(2,"le buil stdout %s\n", cmd[i].builtin);
 	close (fds[0]);
 	dup2(fds[1], 1);
 	close (fds[1]);
@@ -22,6 +23,7 @@ static void	pipe_stdout(int i, t_cmd *cmd, int *fds, t_env_l *env)
 
 static void	pipe_stdin(int i, t_cmd *cmd, int *fds, t_env_l *env)
 {
+	dprintf(2,"le buil stdin %s\n", cmd[i].builtin);
 	close (fds[1]);
 	dup2(fds[0], 0);
 	close (fds[0]);
@@ -53,39 +55,48 @@ int	single_pipe(int i, t_cmd *cmd, t_env_l *env)
 	return (i + 2);
 }
 
-static void	set_pipe(int i, t_cmd *cmd, int fd, int fds[2])
+static void	set_pipe(int i, t_cmd *cmd, int fds[2])
 {
-	dup2(fd, 0);
+	if (i != 0)
+		dup2(fds[0], 0);
+	close(fds[0]);
 	if (cmd[i + 1].builtin != NULL)
+	{
 		dup2(fds[1], 1);
+		close(fds[1]);
+	}
 	else
 		close(fds[1]);
-	close(fds[0]);
 }
+
 
 int	multi_pipe(int i, t_cmd *cmd, t_env_l *env, int nb_pipe)
 {
 	int		fds[2];
-	int		fd;
-	pid_t	pid;
+	pid_t	*pid;
 
-	fd = 0;
 	nb_pipe++;
+	pid = malloc(sizeof(pid_t) * nb_pipe);
 	while (nb_pipe-- != 0)
 	{
-		pipe (fds);
-		pid = fork();
-		if (pid == -1)
+		pipe(fds);
+		pid[i] = fork();
+		if (pid[i] == -1)
 			return (-1);
-		if (pid == 0)
+		if (pid[i] == 0)
 		{
-			set_pipe(i, cmd, fd, fds);
+			set_pipe(i, cmd, fds);
 			exec_builtin(i, cmd, env, true);
 		}
-		waitpid(pid, NULL, 0);
 		close(fds[1]);
-		fd = fds[0];
+		close(fds[0]);
 		i++;
 	}
+	close(fds[0]);
+	close(fds[1]);
+	nb_pipe = i;
+	i = 0;
+	while (i++ < nb_pipe)
+	waitpid(pid[i], NULL, 0);
 	return (i);
 }

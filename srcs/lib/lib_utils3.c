@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 21:26:24 by user42            #+#    #+#             */
-/*   Updated: 2021/09/06 22:04:30 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/17 15:06:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_split(char **split)
 void	sig_handler_disable(int signum)
 {
 	if (signum == SIGQUIT)
-		write(1, "\n", 1);
+		write(1, "Quit\n", 6);
 	if (signum == SIGINT)
 		write(1, "\n", 1);
 }

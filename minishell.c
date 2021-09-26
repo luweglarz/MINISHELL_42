@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 12:15:48 by lweglarz          #+#    #+#             */
-/*   Updated: 2021/09/10 22:46:37 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/17 15:19:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 	line = NULL;
 	while (1)
 	{
-		signal(SIGQUIT, sig_handler);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, sig_handler);
 		line = readline("Minishell>");
 		if (line)
