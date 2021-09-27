@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/09/25 17:46:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:05:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	pipe_stdout(int i, t_cmd *cmd, int *fds, t_env_l *env)
 {
-	dprintf(2,"le buil stdout %s\n", cmd[i].builtin);
 	close (fds[0]);
 	dup2(fds[1], 1);
 	close (fds[1]);
@@ -23,7 +22,6 @@ static void	pipe_stdout(int i, t_cmd *cmd, int *fds, t_env_l *env)
 
 static void	pipe_stdin(int i, t_cmd *cmd, int *fds, t_env_l *env)
 {
-	dprintf(2,"le buil stdin %s\n", cmd[i].builtin);
 	close (fds[1]);
 	dup2(fds[0], 0);
 	close (fds[0]);
@@ -33,33 +31,30 @@ static void	pipe_stdin(int i, t_cmd *cmd, int *fds, t_env_l *env)
 int	single_pipe(int i, t_cmd *cmd, t_env_l *env)
 {
 	int			fds[2];
-	pid_t		pid1;
-	pid_t		pid2;
+	pid_t		pid[2];
 
 	if (pipe(fds) == -1)
 		error_errno(cmd, errno, true, env);
-	pid1 = fork();
-	if (pid1 == -1)
+	pid[0] = fork();
+	if (pid[0] == -1)
 		error_errno(cmd, errno, true, env);
-	if (pid1 == 0)
+	if (pid[0] == 0)
 		pipe_stdin(i, cmd, fds, env);
-	pid2 = fork();
-	if (pid2 == -1)
+	pid[1] = fork();
+	if (pid[1] == -1)
 		error_errno(cmd, errno, true, env);
-	if (pid2 == 0)
+	if (pid[1] == 0)
 		pipe_stdout(i, cmd, fds, env);
 	close(fds[0]);
 	close(fds[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pid[0], NULL, 0);
+	waitpid(pid[1], NULL, 0);
 	return (i + 2);
 }
 
-static void	set_pipe(int i, t_cmd *cmd, int fds[2])
+static void	set_pipe(int i, t_cmd *cmd, t_env_l *env, int fds[3])
 {
-	if (i != 0)
-		dup2(fds[0], 0);
-	close(fds[0]);
+	dup2(fds[2], 0);
 	if (cmd[i + 1].builtin != NULL)
 	{
 		dup2(fds[1], 1);
@@ -67,36 +62,32 @@ static void	set_pipe(int i, t_cmd *cmd, int fds[2])
 	}
 	else
 		close(fds[1]);
+	close(fds[0]);
+	exec_builtin(i, cmd, env, true);
 }
-
 
 int	multi_pipe(int i, t_cmd *cmd, t_env_l *env, int nb_pipe)
 {
-	int		fds[2];
+	int		fds[3];
 	pid_t	*pid;
 
 	nb_pipe++;
 	pid = malloc(sizeof(pid_t) * nb_pipe);
-	while (nb_pipe-- != 0)
+	while (i < nb_pipe)
 	{
-		pipe(fds);
+		if (pipe(fds) == -1)
+			error_errno(cmd, errno, true, env);
 		pid[i] = fork();
 		if (pid[i] == -1)
-			return (-1);
+			error_errno(cmd, errno, true, env);
 		if (pid[i] == 0)
-		{
-			set_pipe(i, cmd, fds);
-			exec_builtin(i, cmd, env, true);
-		}
+			set_pipe(i, cmd, env, fds);
+		if (fds[2] != 0)
+			close(fds[2]);
+		fds[2] = fds[0];
 		close(fds[1]);
-		close(fds[0]);
 		i++;
 	}
-	close(fds[0]);
-	close(fds[1]);
-	nb_pipe = i;
-	i = 0;
-	while (i++ < nb_pipe)
-	waitpid(pid[i], NULL, 0);
-	return (i);
+	wait_forks(pid, nb_pipe);
+	return (nb_pipe);
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 21:10:37 by user42            #+#    #+#             */
-/*   Updated: 2021/09/16 00:24:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:06:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,15 @@ int	size_with_redirection(const char *line, int i)
 		j++;
 	}
 	return (k);
+}
+
+int	wait_forks(pid_t *pid, int nb_pipe)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < nb_pipe)
+		waitpid(pid[i], NULL, 0);
+	free(pid);
+	return (i);
 }

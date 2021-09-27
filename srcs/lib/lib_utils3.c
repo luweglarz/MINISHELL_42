@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 21:26:24 by user42            #+#    #+#             */
-/*   Updated: 2021/09/17 15:06:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:57:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isalnum(int c)
 	return (0);
 }
 
-void	free_split(char **split)
+void	free_split_join(char **split, char *join)
 {	
 	int	i;
 
@@ -31,6 +31,7 @@ void	free_split(char **split)
 		i++;
 	}
 	free(split);
+	free(join);
 }
 
 void	sig_handler_disable(int signum)

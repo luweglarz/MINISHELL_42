@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:00:24 by user42            #+#    #+#             */
-/*   Updated: 2021/09/17 15:19:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:59:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	execve_with_path(int index, t_cmd *cmd, t_env_l *env)
 	split = ft_split_slash(ft_getenv("PATH", env->list), ':');
 	if (split == NULL)
 	{
+		join = ft_strdup("");
 		execve(join, cmd[index].arg, env->list);
 		error_errno(cmd, errno, true, env);
 	}
@@ -48,12 +49,11 @@ static void	execve_with_path(int index, t_cmd *cmd, t_env_l *env)
 		join = ft_strjoin(split[i], cmd[index].builtin);
 		if (stat(join, buf) == 0)
 			execve(join, cmd[index].arg, env->list);
-		free(join);
 		i++;
 	}
 	free(buf);
 	if (split)
-		free_split(split);
+		free_split_join(split, join);
 }
 
 static void	execpath_no_pipe(int i, t_cmd *cmd, t_env_l *env)

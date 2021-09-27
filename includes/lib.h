@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 22:08:08 by user42            #+#    #+#             */
-/*   Updated: 2021/09/06 22:04:14 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 19:58:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		**ft_split_slash(char *s, char c);
 char		**ft_split(const char *s, char c);
 
-void		free_split(char **split);
+void		free_split_join(char **split, char *join);
 
 #endif
