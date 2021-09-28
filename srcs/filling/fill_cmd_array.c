@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/09/16 00:34:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 15:14:14 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd, t_env_l *env)
 	int		j;
 	int		start;
 
-	i = 0;
 	j = 0;
+	i = 0;
 	start = do_beginning_bracket(&i, line, cmd, env);
+	if (start != 0)
+		i = start + 1;
 	while (ft_isascii(line[i]) == 1)
 	{
-		if (line[i] == '|' || line[i] == '<' || line[i] == '>')
+		if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (start == 0))
 			break ;
 		i++;
 	}
+	if (start != 0)
+		start++;
 	cmd->builtin = ft_substr(line, start, i - start);
 	while (j++ < i)
 		line++;
@@ -124,6 +128,7 @@ void	fill_cmd_array(const char *line, t_cmd *cmd, t_env_l *env)
 			cmd[index].pipe = true;
 			line++;
 		}
+		printf("le build %s\n", cmd[index].builtin);
 		index++;
 	}
 	cmd_init(&cmd[index]);

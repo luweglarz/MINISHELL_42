@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 21:38:29 by user42            #+#    #+#             */
-/*   Updated: 2021/07/29 22:19:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 13:45:47 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	ft_str_isdigit(char *str)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_strcmp(char *s1, char *s2)

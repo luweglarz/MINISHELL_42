@@ -3,33 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/09/07 19:17:29 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:53:47 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_exit(int i, t_cmd *cmd, bool pipe, t_env_l *env)
+static int	get_arg_size(int i, t_cmd *cmd)
 {
 	int	size;
 
 	size = 0;
 	while (cmd[i].arg[size])
 		size++;
+	return (size);
+}
+
+void	builtin_exit(int i, t_cmd *cmd, bool pipe, t_env_l *env)
+{
+	int		size;
+
+	size = get_arg_size(i, cmd);
 	if (size == 1)
+	{
+		printf("%s\n", cmd[i].builtin);
 		exit_free_env(env, 0);
+	}
 	if (size > 2)
 	{
-		error_errno(cmd, E2BIG, false, env);
+		write (2, "exit\n", 6);
+		write (2, "too many arguments\n", 20);
+		g_err = 1;
 		return ;
 	}
-	if (ft_str_isdigit(cmd[i].arg[1]) == 0)
+	if (ft_str_isdigit(cmd[i].arg[1]) == 1)
 	{
+		printf("%s\n", cmd[i].builtin);
 		error_errno(cmd, ENOEXEC, true, env);
-		return ;
 	}
 	if (pipe == false)
 		printf("%s\n", cmd[i].builtin);

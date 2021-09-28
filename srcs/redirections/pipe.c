@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 21:40:40 by user42            #+#    #+#             */
-/*   Updated: 2021/09/27 19:05:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 12:58:36 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	multi_pipe(int i, t_cmd *cmd, t_env_l *env, int nb_pipe)
 
 	nb_pipe++;
 	pid = malloc(sizeof(pid_t) * nb_pipe);
+	fds[2] = 0;
 	while (i < nb_pipe)
 	{
 		if (pipe(fds) == -1)
