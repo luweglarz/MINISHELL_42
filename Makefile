@@ -38,7 +38,7 @@ $(NAME): $(OBJS)
 	@ranlib $(NAME)
 	@echo "$(GREEN)$(NAME) compiled with success.$(CLEAR)"
 ifeq ($(UNAME), Darwin)
-	@$(CC) -fsanitize=address minishell.c -o $(EXEC) $(RLFLAGS) $(NAME)
+	@$(CC) minishell.c -o $(EXEC) $(RLFLAGS) $(NAME)
 	@echo "$(GREEN)$(EXEC) compiled with success.$(CLEAR)"
 endif
 ifeq ($(UNAME), Linux)

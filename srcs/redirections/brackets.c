@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:40:13 by user42            #+#    #+#             */
-/*   Updated: 2021/09/28 13:28:23 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:03:46 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	bracket_out(const char *line, int j, t_cmd *cmd)
 	if (doublebracket == 1)
 		cmd->fdout = open(file, O_RDWR | O_APPEND | O_CREAT, 0664);
 	else
-		cmd->fdout = open(file, O_RDWR | O_CREAT, 0664);
+		cmd->fdout = open(file, O_RDWR | O_TRUNC | O_CREAT, 0664);
 	free(file);
 	return (j);
 }
