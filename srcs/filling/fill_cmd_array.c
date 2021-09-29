@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 21:02:14 by user42            #+#    #+#             */
-/*   Updated: 2021/09/28 15:14:14 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/09/29 12:08:46 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static const char	*fill_builtin(const char *line, t_cmd *cmd, t_env_l *env)
 		i = start + 1;
 	while (ft_isascii(line[i]) == 1)
 	{
-		if ((line[i] == '|' || line[i] == '<' || line[i] == '>') && (start == 0))
+		if ((line[i] == '|' || line[i] == '<'
+				|| line[i] == '>') && (start == 0))
 			break ;
 		i++;
 	}
@@ -128,7 +129,6 @@ void	fill_cmd_array(const char *line, t_cmd *cmd, t_env_l *env)
 			cmd[index].pipe = true;
 			line++;
 		}
-		printf("le build %s\n", cmd[index].builtin);
 		index++;
 	}
 	cmd_init(&cmd[index]);

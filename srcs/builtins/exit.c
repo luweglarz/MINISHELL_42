@@ -6,7 +6,7 @@
 /*   By: lweglarz <lweglarz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 21:57:48 by user42            #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:47 by lweglarz         ###   ########.fr       */
+/*   Updated: 2021/09/29 12:08:32 by lweglarz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	builtin_exit(int i, t_cmd *cmd, bool pipe, t_env_l *env)
 	}
 	if (size > 2)
 	{
-		write (2, "exit\n", 6);
-		write (2, "too many arguments\n", 20);
+		write (2, "exit\nToo many arguments\n", 25);
 		g_err = 1;
 		return ;
 	}
